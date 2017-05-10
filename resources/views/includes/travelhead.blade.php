@@ -26,6 +26,12 @@
     <script src="{{url('/assets/js/bootstrap.min.js')}}"></script>
     <script src="{{url('/assets/js/price_format.js')}}"></script>
     <script src="{{url('/assets/js/validator.js')}}"></script>
+
+    <script type="text/javascript">
+        $('body').on('hidden.bs.modal', '.modal', function () {
+        $(this).removeData('bs.modal');
+      });
+    </script>
     
 
     <style type="text/css">
@@ -122,6 +128,19 @@ body{
                     </li>
                     @endif
 
+
+                    @if(Auth::user()->type == 'Events')
+                    @if(collect(request()->segments())->last() == 'events')
+                    <li class="active">
+                        <a href="{{url('events')}}"><i class="fa fa-calendar"></i> <span class="nav-label">Events</span></a>
+                    </li>
+                    @else
+                    <li>
+                        <a href="{{url('events')}}"><i class="fa fa-calendar"></i> <span class="nav-label">Events</span></a>
+                    </li>
+                    @endif
+                    @endif
+
                     @if(collect(request()->segments())->last() == 'vehiclenames' || collect(request()->segments())->last() == 'vehicles' || collect(request()->segments())->last() == 'activate' || collect(request()->segments())->last() == 'destinations' || collect(request()->segments())->last() == 'paymentoptions' || collect(request()->segments())->last() == 'schedules')
 
                     <li class="active">
@@ -157,11 +176,13 @@ body{
                             @elseif(Auth::user()->type == 'Airline')
                             <li ><a href="{{url('vehicles/activate')}}">Activate Airplane</a></li>
                             @endif
-
+                            
+                            @if(Auth::user()->type != 'Events')
                             <li ><a href="{{url('destinations')}}">Destinations</a></li>
                             <li ><a href="{{url('paymentoptions')}}">Payment Options</a></li>
                             @if(Auth::user()->type != 'Taxi')
                             <li ><a href="{{url('schedules')}}">Schedules</a></li>
+                            @endif
                             @endif
                         </ul>
                     </li>
@@ -200,11 +221,13 @@ body{
                             @elseif(Auth::user()->type == 'Airline')
                             <li ><a href="{{url('vehicles/activate')}}">Activate Airplane</a></li>
                             @endif
-
+                            
+                            @if(Auth::user()->type != 'Events')
                             <li ><a href="{{url('destinations')}}">Destinations</a></li>
                             <li ><a href="{{url('paymentoptions')}}">Payment Options</a></li>
                             @if(Auth::user()->type != 'Taxi')
                             <li ><a href="{{url('schedules')}}">Schedules</a></li>
+                            @endif
                             @endif
                         </ul>
                     </li>

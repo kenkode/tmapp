@@ -2838,14 +2838,14 @@ video {
 }
 #page-wrapper {
   padding: 0 15px;
-  min-height: 568px;
+  min-height: 1200px;
   position: relative !important;
 }
 @media (min-width: 768px) {
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 240px;
-    min-height: 1000px;
+    min-height: 1200px;
   }
 }
 .title-action {
@@ -4938,7 +4938,7 @@ body.skin-3 {
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 220px;
-    min-height: 650px !important;
+    min-height: 1000px !important;
   }
   .navbar-static-side {
     z-index: 101;

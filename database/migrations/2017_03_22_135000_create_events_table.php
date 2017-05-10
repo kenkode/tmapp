@@ -17,8 +17,9 @@ class CreateEventsTable extends Migration
             $table->increments('id');
             $table->string("name");
             $table->string("image")->nullable();
-            $table->string("address")->nullable();
-            $table->string("contact")->nullable();
+            $table->text("description")->nullable();
+            $table->text("address")->nullable();
+            $table->text("contact")->nullable();
             $table->string("google_map_cordinates")->nullable();
             $table->float("vip",15,2)->nullable();
             $table->float("normal",15,2)->nullable();

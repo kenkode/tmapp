@@ -86,6 +86,21 @@ Route::get('/', function () {
                      ->sum('amount');
 
     return view('airlines.dashboard',compact('bookings','schedules','organization','vehicles','destinations','customers','payments'));
+    }else if(Auth::user()->type == 'Events'){
+    $bookings = App\Booking::where('organization_id',Auth::user()->organization_id)->where('status','approved')->count();
+    $organization = App\Organization::find(Auth::user()->organization_id);
+    $events = App\Event::where('organization_id',Auth::user()->organization_id)->count();
+    $schedules = App\Schedule::where('organization_id',Auth::user()->organization_id)->count();
+    $customers = DB::table('bookings')
+                     ->select(DB::raw('DISTINCT(CONCAT(firstname, id_number))'))
+                     ->where('organization_id',Auth::user()->organization_id)
+                     ->count();
+    $payments = DB::table('bookings')
+                     ->where('organization_id',Auth::user()->organization_id)
+                     ->where('status','approved')
+                     ->sum('amount');
+
+    return view('events.dashboard',compact('bookings','schedules','organization','events','destinations','customers','payments'));
     }
     }else{
     return view('auth.login');
@@ -159,6 +174,21 @@ Route::get('/dashboard', function () {
                      ->sum('amount');
 
     return view('airlines.dashboard',compact('bookings','schedules','organization','vehicles','destinations','customers','payments'));
+    }else if(Auth::user()->type == 'Events'){
+    $bookings = App\Booking::where('organization_id',Auth::user()->organization_id)->where('status','approved')->count();
+    $organization = App\Organization::find(Auth::user()->organization_id);
+    $events = App\Event::where('organization_id',Auth::user()->organization_id)->count();
+    $schedules = App\Schedule::where('organization_id',Auth::user()->organization_id)->count();
+    $customers = DB::table('bookings')
+                     ->select(DB::raw('DISTINCT(CONCAT(firstname, id_number))'))
+                     ->where('organization_id',Auth::user()->organization_id)
+                     ->count();
+    $payments = DB::table('bookings')
+                     ->where('organization_id',Auth::user()->organization_id)
+                     ->where('status','approved')
+                     ->sum('amount');
+
+    return view('events.dashboard',compact('bookings','schedules','organization','events','destinations','customers','payments'));
     }    
 });
 
@@ -201,6 +231,13 @@ Route::post('paymentoptions/store', 'PaymentsController@store');
 Route::post('paymentoptions/update', 'PaymentsController@update');
 Route::post('paymentoptions/delete', 'PaymentsController@delete');
 Route::post('report/paymentoptions', 'ReportsController@paymentoptions');
+
+Route::get('events', 'EventsController@index');
+Route::get('events/showrecord', 'EventsController@showrecord');
+Route::post('events/store', 'EventsController@store');
+Route::post('events/update', 'EventsController@update');
+Route::post('events/delete', 'EventsController@delete');
+Route::post('report/events', 'ReportsController@events');
 
 Route::get('currencies', 'CurrenciesController@index');
 Route::get('currencies/showrecord', 'CurrenciesController@showrecord');

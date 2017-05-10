@@ -205,7 +205,7 @@
                             </div>
 
 
-        <div class="table-responsive" style="border: none; min-height: 420px !important">
+        <div class="table-responsive" style="border: none; min-height: 1000px !important">
            
         <table id="users" class="table table-condensed table-responsive table-hover">
 
@@ -381,9 +381,7 @@
      $(".modal-body .tdeconomicchild").html( '{{$currency}} '+ ( numeral(parseFloat(economic.replace(/,/g, '')) * children/100)).format('0,0.00'));
    });
 
-   $('.sub-form').on("click", function() {
 
-    if(this.id == 'submit'){
        $('#submit').on("click", function() {
     
      if($('#economic').val() == ""){
@@ -505,12 +503,16 @@
                        console.log(xhr.statusText);
                        console.log(xhr.responseText);
                        console.log(xhr.thrownError);
+                       setTimeout(function(){ 
+                       alert("An error occured....Please reload page and try again!!!"); 
+                       $('#loading').hide();
+                       location.reload();
+                       }, 10000);
                         //return false;
                      } 
                      });
      }
    });
-    }else if(this.id == 'update'){
 
        $('#update').on("click",function() {
     //alert($('#name').val());
@@ -627,11 +629,14 @@
                        console.log(xhr.statusText);
                        console.log(xhr.responseText);
                        console.log(xhr.thrownError);
+                       setTimeout(function(){ 
+                       alert("An error occured....Please reload page and try again!!!"); 
+                       $('#loading').hide();
+                       location.reload();
+                       }, 10000);
                      }
                      });
      }
-   });
-    }
    });
 
   
@@ -749,6 +754,11 @@
                        console.log(xhr.statusText);
                        console.log(xhr.responseText);
                        console.log(xhr.thrownError);
+                       setTimeout(function(){ 
+                       alert("An error occured....Please reload page and try again!!!"); 
+                       $('#loading').hide();
+                       location.reload();
+                       }, 10000);
                         //return false;
                      } 
 

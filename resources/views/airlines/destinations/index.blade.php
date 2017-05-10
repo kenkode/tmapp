@@ -12,6 +12,8 @@
     display: inline-block;
     }
 
+    .modal { overflow: auto !important; }
+
           
    </style>
 
@@ -24,7 +26,7 @@
         </div>
 
       <div style="margin-bottom:20px;margin-left:10px;">
-      <a data-toggle="modal" id="add" class="btn btn-primary" href="#modal-form">Add Destination</a>&emsp;<a href="#modal-report" data-toggle="modal" id="report" class="btn btn-warning">Destination Report</a>
+      <a data-toggle="modal" data-refresh="true" id="add" class="btn btn-primary" href="#modal-form">Add Destination</a>&emsp;<a href="#modal-report" data-toggle="modal" id="report" class="btn btn-warning">Destination Report</a>
       </div>
 
       
@@ -40,6 +42,7 @@
                                          <img src="{{url('/assets/images/ellipsis.svg')}}" alt="...." />
                                          </div>
                                          </div>
+
                                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                         <h3 id="title" class="m-t-none m-b">Create Destination</h3>
                                              <input type="hidden" id="id" placeholder="Enter name" class="form-control" required data-error="Please insert vehicle name">
@@ -117,7 +120,7 @@
          
         <div class="check-error alert alert-danger"></div>
 
-        <div class="table-responsive" style="border: none; min-height: 420px !important">
+        <div class="table-responsive" style="border: none; min-height: 1000px !important">
            
         <table id="users" class="table table-condensed table-responsive table-hover">
 
@@ -210,6 +213,7 @@
      $('#name').val('');
      $('#id').val('');
      $('#errors').html("");
+    // $('#add').attr("disabled", "true");
      $("#form").attr("action", "destinations/store");
    });
 
@@ -244,11 +248,9 @@
       $("#form").attr("action", "currencies/update");*/
    });
 
-   $('.sub-form').on("click", function(e) {
     
-    if(this.id == 'submit'){
        $('#submit').on("click", function() {
-    
+       
      if($('#name').val() == ""){
         $('#errors').html("Please insert name!");
         return false;
@@ -264,8 +266,9 @@
         var id = $('#id').val();
         var token = $("#form input[name=_token]").val();
         var urL = $('#form').attr('action');
-
+        
         data.append("name",name);
+        data.append("id",id);
         data.append("type",type);
         data.append("_token",token);
 
@@ -280,16 +283,12 @@
                       beforeSend: function() { $('#loading').show(); },
                       success: function(response) {
                       //alert(response);return;
+                     
                       
                       if(response != 1){
-                      $('#errors').html(response);
+                      $('#name').html(response);
                       }else if(response == 1){
-                      setTimeout(function() {
-                      window.location.reload();
-                      }, 1000);
-                      
-                      $('#modal-form').data('modal', null);
-                      $('#submit').removeAttr('disabled');
+
                       $('#name').val('');
                       displaydata(); 
                       /*$.alert("Registration Successfully! <br/>A confirmation link has been sent to your email!", {autoClose: true,closeTime: 5000,withTime: false,type: 'success',position: ['center', [-0.25, 0]], title: false,icon:'glyphicon glyphicon-ok',close: '',speed: 'normal',isOnly: true,minTop: 10,animation: false,animShow: 'fadeIn',animHide: 'fadeOut'});*/
@@ -340,20 +339,30 @@
         '<a href="{3}" target="{4}" data-notify="url"></a>' +
     '</div>' 
 });
+                      //$('.sub-form').unbind('click')
+                      $('body').removeClass('modal-open');
                       $('#modal-form').fadeOut();
+                      $('#modal-form').on('hidden', function () {
+                       $(this).removeData('modal');
+                      });
+
                       $('#loading').hide();
                       }
                      },
-                        error: function(xhr,thrownError) {
+                      error: function(xhr,thrownError) {
                        console.log(xhr.statusText);
                        console.log(xhr.responseText);
                        console.log(xhr.thrownError);
+                       setTimeout(function(){ 
+                       alert("An error occured....Please reload page and try again!!!"); 
+                       $('#loading').hide();
+                       location.reload();
+                       }, 10000);
                         //return false;
                      } 
                      });
      }
    });
-    }else if(this.id == 'update'){
 
        $('#update').on("click",function() {
     //alert($('#name').val());
@@ -449,11 +458,15 @@
                        console.log(xhr.statusText);
                        console.log(xhr.responseText);
                        console.log(xhr.thrownError);
+
+                       setTimeout(function(){ 
+                       alert("An error has occured....Please reload page and try again!!!"); 
+                       $('#loading').hide();
+                       location.reload();
+                       }, 10000);
                      }
                      });
      }
-   });
-    }
    });
 
   
@@ -547,6 +560,11 @@
                        console.log(xhr.statusText);
                        console.log(xhr.responseText);
                        console.log(xhr.thrownError);
+                       setTimeout(function(){ 
+                       alert("An error occured....Please reload page and try again!!!"); 
+                       $('#loading').hide();
+                       location.reload();
+                       }, 10000);
                         //return false;
                      } 
 

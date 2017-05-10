@@ -26,6 +26,12 @@
     <script src="<?php echo e(url('/assets/js/bootstrap.min.js')); ?>"></script>
     <script src="<?php echo e(url('/assets/js/price_format.js')); ?>"></script>
     <script src="<?php echo e(url('/assets/js/validator.js')); ?>"></script>
+
+    <script type="text/javascript">
+        $('body').on('hidden.bs.modal', '.modal', function () {
+        $(this).removeData('bs.modal');
+      });
+    </script>
     
 
     <style type="text/css">
@@ -123,6 +129,19 @@ body{
                     </li>
                     <?php endif; ?>
 
+
+                    <?php if(Auth::user()->type == 'Events'): ?>
+                    <?php if(collect(request()->segments())->last() == 'events'): ?>
+                    <li class="active">
+                        <a href="<?php echo e(url('events')); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">Events</span></a>
+                    </li>
+                    <?php else: ?>
+                    <li>
+                        <a href="<?php echo e(url('events')); ?>"><i class="fa fa-calendar"></i> <span class="nav-label">Events</span></a>
+                    </li>
+                    <?php endif; ?>
+                    <?php endif; ?>
+
                     <?php if(collect(request()->segments())->last() == 'vehiclenames' || collect(request()->segments())->last() == 'vehicles' || collect(request()->segments())->last() == 'activate' || collect(request()->segments())->last() == 'destinations' || collect(request()->segments())->last() == 'paymentoptions' || collect(request()->segments())->last() == 'schedules'): ?>
 
                     <li class="active">
@@ -158,11 +177,13 @@ body{
                             <?php elseif(Auth::user()->type == 'Airline'): ?>
                             <li ><a href="<?php echo e(url('vehicles/activate')); ?>">Activate Airplane</a></li>
                             <?php endif; ?>
-
+                            
+                            <?php if(Auth::user()->type != 'Events'): ?>
                             <li ><a href="<?php echo e(url('destinations')); ?>">Destinations</a></li>
                             <li ><a href="<?php echo e(url('paymentoptions')); ?>">Payment Options</a></li>
                             <?php if(Auth::user()->type != 'Taxi'): ?>
                             <li ><a href="<?php echo e(url('schedules')); ?>">Schedules</a></li>
+                            <?php endif; ?>
                             <?php endif; ?>
                         </ul>
                     </li>
@@ -201,11 +222,13 @@ body{
                             <?php elseif(Auth::user()->type == 'Airline'): ?>
                             <li ><a href="<?php echo e(url('vehicles/activate')); ?>">Activate Airplane</a></li>
                             <?php endif; ?>
-
+                            
+                            <?php if(Auth::user()->type != 'Events'): ?>
                             <li ><a href="<?php echo e(url('destinations')); ?>">Destinations</a></li>
                             <li ><a href="<?php echo e(url('paymentoptions')); ?>">Payment Options</a></li>
                             <?php if(Auth::user()->type != 'Taxi'): ?>
                             <li ><a href="<?php echo e(url('schedules')); ?>">Schedules</a></li>
+                            <?php endif; ?>
                             <?php endif; ?>
                         </ul>
                     </li>

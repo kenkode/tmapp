@@ -9,6 +9,7 @@ use App\Route;
 use App\Currency;
 use App\Payment;
 use App\Schedule;
+use App\Event;
 use App\Booking;
 use App\Organization;
 use Illuminate\Support\Facades\Auth;
@@ -627,6 +628,103 @@ class ReportsController extends Controller
              ));
              $row++;
              }             
+             
+    });
+
+  })->download('xls');
+    }
+    }
+
+
+    public function events(Request $request){
+        if($request->type == 'pdf'){
+        $events = Event::where('organization_id',Auth::user()->organization_id)->get();
+        $organization = Organization::find(Auth::user()->organization_id);
+        $pdf = PDF::loadView('reports.events',compact('events','organization'));
+        return $pdf->download('events.pdf');
+    }else{
+        $data = Event::where('organization_id',Auth::user()->organization_id)->get();
+
+        $organization = Organization::find(Auth::user()->organization_id);
+        
+
+    
+  Excel::create('Events Report', function($excel) use($data,$organization) {
+
+    
+    $excel->sheet('Events Report', function($sheet) use($data,$organization){
+
+
+               $sheet->row(1, array(
+               'Organization: ',$organization->name
+               ));
+              
+              $sheet->cell('A1', function($cell) {
+
+               // manipulate the cell
+                $cell->setFontWeight('bold');
+
+              });
+
+              $sheet->mergeCells('A3:H3');
+              $sheet->row(3, array(
+              'Events Report'
+              ));
+
+              $sheet->row(3, function($cell) {
+
+               // manipulate the cell
+                $cell->setAlignment('center');
+                $cell->setFontWeight('bold');
+
+              });
+              
+              $currency = '';
+
+              if($organization->currency_shortname == null || $organization->currency_shortname == ''){
+              $currency = 'KES';
+              }else{
+              $currency = $organization->currency_shortname;
+              }
+
+              $name = '';
+
+              $sheet->row(5, array(
+              '#', 'Name','Description','Contact','Address','VIP Entrance Fee ('.$currency.')','Normal Entrance Fee ('.$currency.')','Children Entrance Fee ('.$currency.')'
+              ));
+
+              $sheet->row(5, function ($r) {
+
+             // call cell manipulation methods
+              $r->setFontWeight('bold');
+ 
+              });
+               
+            $row = 6;
+            $viptotal = 0;
+            $normaltotal = 0;
+            $childrentotal = 0;
+             
+             for($i = 0; $i<count($data); $i++){
+             $sheet->row($row, array(
+             $i+1,$data[$i]->name,$data[$i]->description,$data[$i]->contact,$data[$i]->address,$data[$i]->vip,$data[$i]->normal,$data[$i]->children
+             ));
+             $viptotal = $viptotal + $data[$i]->vip;
+             $normaltotal = $normaltotal + $data[$i]->normal;
+             $childrentotal = $childrentotal + $data[$i]->children;
+             $row++;
+             }  
+
+             $sheet->row($row, array(
+             '','','','','Total',$viptotal,$normaltotal,$childrentotal
+             ));
+             $sheet->row($row, function ($r) {
+
+             // call cell manipulation methods
+              $r->setFontWeight('bold');
+ 
+              });
+                      
              
     });
 

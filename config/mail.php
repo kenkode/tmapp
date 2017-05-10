@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'info@lixnet.net'),
-        'name' => env('MAIL_FROM_NAME', 'Lixnet Tech'),
+        'address' => env('MAIL_FROM_ADDRESS', 'wangoken2@gmail.com'),
+        'name' => env('MAIL_FROM_NAME', 'TMAPP'),
     ],
 
     /*

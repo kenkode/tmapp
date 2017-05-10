@@ -107,7 +107,7 @@
          
         <div class="check-error alert alert-danger"></div>
 
-        <div class="table-responsive" style="border: none">
+        <div class="table-responsive" style="border: none; min-height: 1000px !important">
            
         <table id="users" class="table table-condensed table-responsive table-hover">
 
@@ -240,9 +240,7 @@
       $("#form").attr("action", "currencies/update");
    });
 
-   $('.sub-form').on("click", function() {
 
-    if(this.id == 'submit'){
        $('#submit').on("click", function() {
     
      if($('#name').val() == ""){
@@ -347,7 +345,6 @@
                      });
      }
    });
-    }else if(this.id == 'update'){
 
        $('#update').on("click",function() {
     //alert($('#name').val());
@@ -451,8 +448,6 @@
                      }
                      });
      }
-   });
-    }
    });
 
   

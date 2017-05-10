@@ -311,7 +311,18 @@
                       }else{
                       window.location.href = "http://localhost/tma/index.php";
                       }
-                     }
+                     },
+                     error: function(xhr,thrownError) {
+                       console.log(xhr.statusText);
+                       console.log(xhr.responseText);
+                       console.log(xhr.thrownError);
+                       setTimeout(function(){ 
+                       alert("An error occured....Please check your internet connection and reload page and try again!!!"); 
+                       $('#loading').hide();
+                       location.reload();
+                       }, 30000);
+                        //return false;
+                     } 
                      });
                      //return false;
 
