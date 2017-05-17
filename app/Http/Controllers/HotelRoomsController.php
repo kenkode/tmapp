@@ -37,7 +37,8 @@ class HotelRoomsController extends Controller
         $room->type = $request->room_type;
         $room->adults = $request->adult_number;
         $room->children = $request->children_number;
-        $room->room_count = $request->adult_number+ $request->children_number;
+        $room->room_count = $request->room_count;
+        $room->price = str_replace(",", "", $request->price);
         $room->organization_id = Auth::user()->organization_id;
         $room->roomno= $request->room_number;
         $room->save();        
@@ -68,8 +69,13 @@ class HotelRoomsController extends Controller
                     	<span class='caret'></span>
                   	</button>          
                   	<ul class='dropdown-menu' role='menu'>
+                        <li>
+                            <a data-toggle='modal' href='#modal-form' data-name='$room->roomno' data-id='$room->id' data-roomtype='$room->type' data-adultno='$room->adults' data-childrenno='$room->children' data-image='$room->image' data-branch='$room->branch_id' data-count='$room->room_count' data-price=".number_format($room->price,2)." enabled class='edit'>
+                            View
+                            </a>
+
 	                    <li>
-	                    	<a data-toggle='modal' href='#modal-form' data-name='$room->roomno' data-id='$room->id' data-roomtype='$room->type' data-adultno='$room->adults' data-childrenno='$room->children' data-image='$room->image' data-branch='$room->branch_id' enabled class='edit'>
+	                    	<a data-toggle='modal' href='#modal-form' data-name='$room->roomno' data-id='$room->id' data-roomtype='$room->type' data-adultno='$room->adults' data-childrenno='$room->children' data-image='$room->image' data-branch='$room->branch_id' data-count='$room->room_count' data-price=".number_format($room->price,2)." enabled class='edit'>
 	                    	Update
 	                    	</a>
 	                    </li>
@@ -105,7 +111,8 @@ class HotelRoomsController extends Controller
         $room->type = $request->room_type;
         $room->adults = $request->adult_number;
         $room->children = $request->children_number;
-        $room->room_count = $request->adult_number+ $request->children_number;
+        $room->room_count = $request->room_count;
+        $room->price = str_replace(",", "", $request->price);
         $room->organization_id = Auth::user()->organization_id;
         $room->roomno= $request->room_number;
         $room->update();        
