@@ -11,6 +11,7 @@
     -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
     display: inline-block;
     }
+    .modal { overflow: auto !important; }
           
    </style>
 
@@ -220,7 +221,11 @@
      $('#title').html('Update Destination');
      $('#submit').html('Update changes');
      $('#sucessmessage').html('Updating data');
-     $("#submit").attr("id", "update");
+     //$("#submit").attr("id", "update");
+     $('#errors').html("");
+     $('.sub-form').remove();
+     var r= $('<button type="button" id="update" class="btn btn-primary sub-form">Update changes</button>');
+        $("#modal-form .modal-footer").append(r);
       $("#form").attr("action", "destinations/update");
    });
 
@@ -240,9 +245,7 @@
       $("#form").attr("action", "currencies/update");*/
    });
 
-   $('.sub-form').on("click", function() {
-
-    if(this.id == 'submit'){
+ 
        $('#submit').on("click", function() {
     
      if($('#name').val() == ""){
@@ -331,6 +334,7 @@
     '</div>' 
 });
                       $('#modal-form').fadeOut();
+                      $('body').removeClass('modal-open');
                       $('#loading').hide();
                       }
                      },
@@ -343,9 +347,8 @@
                      });
      }
    });
-    }else if(this.id == 'update'){
 
-       $('#update').on("click",function() {
+       $('body').on("click","#update",function() {
     //alert($('#name').val());
      if($('#name').val() == ""){
         $('#errors').html("Please insert name!");
@@ -432,6 +435,7 @@
     '</div>' 
 });
                       $('#modal-form').fadeOut();
+                      $('body').removeClass('modal-open');
                       $('#loading').hide();
                       }
                      },
@@ -442,8 +446,6 @@
                      }
                      });
      }
-   });
-    }
    });
 
   

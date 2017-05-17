@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Vehiclename;
 use App\Vehicle;
 use App\Route;
+use App\Branch;
+use App\Room;
 use App\Currency;
 use App\Payment;
 use App\Schedule;
@@ -1072,6 +1074,142 @@ class ReportsController extends Controller
  
               });
                       
+             
+    });
+
+  })->download('xls');
+    }
+    }
+
+    public function branches(Request $request){
+        if($request->type == 'pdf'){
+        $branches = Branch::where('organization_id',Auth::user()->organization_id)->get();
+        $organization = Organization::find(Auth::user()->organization_id);
+        $pdf = PDF::loadView('reports.branches',compact('branches','organization'));
+        return $pdf->download('hotel branches.pdf');
+    }else{
+        $data = Branch::where('organization_id',Auth::user()->organization_id)->get();
+
+        $organization = Organization::find(Auth::user()->organization_id);
+
+    
+  Excel::create('Hotel Branches Report', function($excel) use($data,$organization) {
+
+    
+    $excel->sheet('Hotel Branches Report', function($sheet) use($data,$organization){
+
+
+               $sheet->row(1, array(
+              'Organization: ',$organization->name
+              ));
+              
+              $sheet->cell('A1', function($cell) {
+
+               // manipulate the cell
+                $cell->setFontWeight('bold');
+
+              });
+
+              $sheet->mergeCells('A3:B3');
+              $sheet->row(3, array(
+              'Hotel Branches Report'
+              ));
+
+              $sheet->row(3, function($cell) {
+
+               // manipulate the cell
+                $cell->setAlignment('center');
+                $cell->setFontWeight('bold');
+
+              });
+
+              $sheet->row(5, array(
+              '#', 'Name'
+              ));
+
+              $sheet->row(5, function ($r) {
+
+             // call cell manipulation methods
+              $r->setFontWeight('bold');
+ 
+              });
+               
+            $row = 6;
+             
+             for($i = 0; $i<count($data); $i++){
+             $sheet->row($row, array(
+             $i+1,$data[$i]->name
+             ));
+             $row++;
+             }             
+             
+    });
+
+  })->download('xls');
+    }
+    }
+
+    public function rooms(Request $request){
+        if($request->type == 'pdf'){
+        $rooms = Room::where('organization_id',Auth::user()->organization_id)->get();
+        $organization = Organization::find(Auth::user()->organization_id);
+        $pdf = PDF::loadView('reports.rooms',compact('rooms','organization'));
+        return $pdf->download('hotel rooms.pdf');
+    }else{
+        $data = Room::where('organization_id',Auth::user()->organization_id)->get();
+
+        $organization = Organization::find(Auth::user()->organization_id);
+
+    
+  Excel::create('Hotel Rooms Report', function($excel) use($data,$organization) {
+
+    
+    $excel->sheet('Hotel Rooms Report', function($sheet) use($data,$organization){
+
+
+               $sheet->row(1, array(
+              'Organization: ',$organization->name
+              ));
+              
+              $sheet->cell('A1', function($cell) {
+
+               // manipulate the cell
+                $cell->setFontWeight('bold');
+
+              });
+
+              $sheet->mergeCells('A3:G3');
+              $sheet->row(3, array(
+              'Hotel Rooms Report'
+              ));
+
+              $sheet->row(3, function($cell) {
+
+               // manipulate the cell
+                $cell->setAlignment('center');
+                $cell->setFontWeight('bold');
+
+              });
+
+              $sheet->row(5, array(
+              '#', 'Branch','Room Number','Room Type', 'Adult Number', 'Children Number', 'Room Count'
+              ));
+
+              $sheet->row(5, function ($r) {
+
+             // call cell manipulation methods
+              $r->setFontWeight('bold');
+ 
+              });
+               
+            $row = 6;
+             
+             for($i = 0; $i<count($data); $i++){
+             $sheet->row($row, array(
+             $i+1,Room::getBranch($data[$i]->branch_id),$data[$i]->roomno,$data[$i]->type,$data[$i]->adults,$data[$i]->children,($data[$i]->adults+$data[$i]->children)
+             ));
+             $row++;
+             }             
              
     });
 

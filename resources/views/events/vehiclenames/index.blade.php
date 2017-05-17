@@ -11,7 +11,8 @@
     -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
     display: inline-block;
     }
-          
+         
+    .modal { overflow: auto !important; } 
    </style>
 
 @section('content')
@@ -250,7 +251,11 @@ $(document).ready(function() {
      $('#title').html('Update Vehicle Name');
      $('#submit').html('Update changes');
      $('#sucessmessage').html('Updating data');
-     $("#submit").attr("id", "update");
+     //$("#submit").attr("id", "update");
+     $('#errors').html("");
+     $('.sub-form').remove();
+     var r= $('<button type="button" id="update" class="btn btn-primary sub-form">Update changes</button>');
+        $("#modal-form .modal-footer").append(r);
       $("#form").attr("action", "vehiclenames/update");
    });
 
@@ -356,6 +361,7 @@ $(document).ready(function() {
     '</div>' 
 });
                       $('#modal-form').fadeOut();
+                      $('body').removeClass('modal-open');
                       $('#loading').hide();
                       }
                      },
@@ -374,7 +380,7 @@ $(document).ready(function() {
      }
    });
 
-       $('#update').on("click",function() {
+       $('body').on("click","#update",function() {
     //alert($('#name').val());
      if($('#name').val() == ""){
         $('#errors').html("Please insert name!");
@@ -463,6 +469,7 @@ $(document).ready(function() {
     '</div>' 
 });
                       $('#modal-form').fadeOut();
+                      $('body').removeClass('modal-open');
                       $('#loading').hide();
                       }
                      },

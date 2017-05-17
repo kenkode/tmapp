@@ -14,7 +14,9 @@
      .modal-body {
     max-height: calc(100vh - 100px);
     overflow-y: auto;
-    }     
+    }   
+
+    .modal { overflow: auto !important; }  
    </style>
 
 @section('content')
@@ -353,7 +355,11 @@ $(document).ready(function() {
      $('#title').html('Update Vehicle Name');
      $('#submit').html('Update changes');
      $('#sucessmessage').html('Updating data');
-     $("#submit").attr("id", "update");
+     //$("#submit").attr("id", "update");
+     $('#errors').html("");
+     $('.sub-form').remove();
+     var r= $('<button type="button" id="update" class="btn btn-primary sub-form">Update changes</button>');
+        $("#modal-form .modal-footer").append(r);
       $("#form").attr("action", "events/update");
    });
 
@@ -488,6 +494,7 @@ $(document).ready(function() {
     '</div>' 
 });
                       $('#modal-form').fadeOut();
+                      $('body').removeClass('modal-open');
                       $('#loading').hide();
                       }
                      },
@@ -506,7 +513,7 @@ $(document).ready(function() {
      }
    });
 
-       $('#update').on("click",function() {
+       $('body').on("click","#update",function() {
     //alert($('#name').val());
      if($('#name').val() == ""){
         $('#errors').html("Please insert event name!");
@@ -607,6 +614,7 @@ $(document).ready(function() {
     '</div>' 
 });
                       $('#modal-form').fadeOut();
+                      $('body').removeClass('modal-open');
                       $('#loading').hide();
                       }
                      },

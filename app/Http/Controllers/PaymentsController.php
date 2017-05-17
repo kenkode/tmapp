@@ -104,7 +104,11 @@ class PaymentsController extends Controller
         $payment->origin_id = $request->origin;
         $payment->destination_id = $request->destination;
         if(Auth::user()->type != 'Taxi'){
+        if($request->vip == null || $request->vip == ''){
+        $payment->firstclass = 0.00;
+        }else{
         $payment->firstclass = str_replace(',', '', $request->vip);
+        }
         }
 
         if(Auth::user()->type == 'Airline'){

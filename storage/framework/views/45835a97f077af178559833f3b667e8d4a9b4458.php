@@ -18,6 +18,8 @@
     vertical-align: middle !important;
     margin-bottom: -50px !important;
     }
+
+    .modal { overflow: auto !important; }
    </style>
 
 <?php $__env->startSection('content'); ?>
@@ -86,7 +88,7 @@
         <?php $currency = $organization->currency_shortname; ?>
         <?php endif; ?>
 
-        <div class="table-responsive" style="border: none; min-height: 420px !important">
+        <div class="table-responsive" style="border: none; min-height: 1000px !important">
        
         <table id="users" class="table table-condensed table-responsive table-hover">
 
@@ -221,6 +223,11 @@
                        console.log(xhr.statusText);
                        console.log(xhr.responseText);
                        console.log(xhr.thrownError);
+                       setTimeout(function(){ 
+                       alert("An error occured....Please reload page and try again!!!"); 
+                       $('#loading').hide();
+                       location.reload();
+                       }, 10000);
                         //return false;
                      } 
 
@@ -296,6 +303,11 @@
                        console.log(xhr.statusText);
                        console.log(xhr.responseText);
                        console.log(xhr.thrownError);
+                       setTimeout(function(){ 
+                       alert("An error occured....Please reload page and try again!!!"); 
+                       $('#loading').hide();
+                       location.reload();
+                       }, 10000);
                         //return false;
                      } 
 

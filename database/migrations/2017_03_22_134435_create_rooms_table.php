@@ -21,6 +21,9 @@ class CreateRoomsTable extends Migration
             $table->integer("children");
             $table->integer("room_count");
             $table->integer('organization_id');
+            $table->integer('branch_id');
+            $table->string("roomno");
+            $table->float("price",15,2);
             $table->timestamps();
         });
     }

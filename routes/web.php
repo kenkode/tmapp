@@ -101,6 +101,23 @@ Route::get('/', function () {
                      ->sum('amount');
 
     return view('events.dashboard',compact('bookings','schedules','organization','events','destinations','customers','payments'));
+    }else if(Auth::user()->type == 'Hotel'){
+    $bookings = App\Booking::where('organization_id',Auth::user()->organization_id)->where('status','approved')->count();
+    $organization = App\Organization::find(Auth::user()->organization_id);
+    $rooms = App\Room::where('organization_id',Auth::user()->organization_id)->count();
+    $foods = App\Food::where('organization_id',Auth::user()->organization_id)->count();
+    $branches = App\Branch::where('organization_id',Auth::user()->organization_id)->count();
+    $schedules = App\Schedule::where('organization_id',Auth::user()->organization_id)->count();
+    $customers = DB::table('bookings')
+                     ->select(DB::raw('DISTINCT(CONCAT(firstname, id_number))'))
+                     ->where('organization_id',Auth::user()->organization_id)
+                     ->count();
+    $payments = DB::table('bookings')
+                     ->where('organization_id',Auth::user()->organization_id)
+                     ->where('status','approved')
+                     ->sum('amount');
+
+    return view('hotels.dashboard',compact('bookings','schedules','organization','rooms','foods','branches','destinations','customers','payments'));
     }
     }else{
     return view('auth.login');
@@ -189,6 +206,23 @@ Route::get('/dashboard', function () {
                      ->sum('amount');
 
     return view('events.dashboard',compact('bookings','schedules','organization','events','destinations','customers','payments'));
+    }else if(Auth::user()->type == 'Hotel'){
+    $bookings = App\Booking::where('organization_id',Auth::user()->organization_id)->where('status','approved')->count();
+    $organization = App\Organization::find(Auth::user()->organization_id);
+    $rooms = App\Room::where('organization_id',Auth::user()->organization_id)->count();
+    $branches = App\Branch::where('organization_id',Auth::user()->organization_id)->count();
+    $foods = App\Food::where('organization_id',Auth::user()->organization_id)->count();
+    $schedules = App\Schedule::where('organization_id',Auth::user()->organization_id)->count();
+    $customers = DB::table('bookings')
+                     ->select(DB::raw('DISTINCT(CONCAT(firstname, id_number))'))
+                     ->where('organization_id',Auth::user()->organization_id)
+                     ->count();
+    $payments = DB::table('bookings')
+                     ->where('organization_id',Auth::user()->organization_id)
+                     ->where('status','approved')
+                     ->sum('amount');
+
+    return view('hotels.dashboard',compact('bookings','schedules','organization','rooms','foods','branches','destinations','customers','payments'));
     }    
 });
 
@@ -267,11 +301,36 @@ Route::post('report/customers', 'ReportsController@customers');
 Route::get('payments', 'BookingsController@payments');
 Route::post('report/payments', 'ReportsController@payments');
 
+Route::get('hotelbranches','HotelBranchesController@index');
+Route::get('hotelbranches/showrecord', 'HotelBranchesController@showrecord');
+Route::post('hotelbranches/store', 'HotelBranchesController@store');
+Route::post('hotelbranches/update', 'HotelBranchesController@update');
+Route::post('hotelbranches/delete', 'HotelBranchesController@delete');
+Route::post('report/branches', 'ReportsController@branches');
+//Hotel Calendar Routes
+Route::get('hotelcalendar','HotelCalendarController@index');
+Route::post('hotelcalendar/store', 'HotelCalendarController@store');
+Route::post('hotelcalendar/update', 'HotelCalendarController@update');
+Route::post('hotelcalendar/delete', 'HotelCalendarController@delete');
+//Hotel Rooms Routes
+Route::get('hotelrooms','HotelRoomsController@index');
+Route::post('hotelrooms/store', 'HotelRoomsController@store');
+Route::get('hotelrooms/showrecord', 'HotelRoomsController@showrecord');
+Route::post('hotelrooms/update', 'HotelRoomsController@update');
+Route::post('hotelrooms/delete', 'HotelRoomsController@delete');
+Route::post('report/rooms', 'ReportsController@rooms');
+//Hotel Reservations Routes
+Route::get('hotelreservations','HotelReservationsController@index');
+Route::post('hotelreservations/store', 'HotelReservationsController@store');
+Route::post('hotelreservations/update', 'HotelReservationsController@update');
+Route::post('hotelreservations/delete', 'HotelReservationsController@delete');
+
+
 Route::get('graphdata', function () {
    $arr = array();
     for ($i=1; $i <= 12; $i++) {   
     $amount = App\Booking::where('organization_id',Auth::user()->organization_id)->where('status','approved')->whereMonth('date', '=', $i)->whereYear('date', '=', date('Y'))->sum('amount');
-    array_push($arr, number_format($amount,2));
+    array_push($arr, $amount);
     }
 
     echo json_encode($arr);

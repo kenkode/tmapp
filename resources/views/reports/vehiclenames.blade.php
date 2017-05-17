@@ -106,7 +106,7 @@ body {
 
 
        <td valign="top">{{$i}}</td>
-            @if($organization->logo == null || $organization->logo == '')
+            @if($vehiclename->logo == null || $vehiclename->logo == '')
             <td></td>
             @else
             <td><img src="{{url('/public/uploads/logo/'.$vehiclename->logo)}}" width="100" height="100" alt="no logo" /></td>

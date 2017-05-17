@@ -427,7 +427,16 @@
      $('#title').html('Update Schedule');
      $('#submit').html('Update changes');
      $('#sucessmessage').html('Updating data');
-     $("#submit").attr("id", "update");
+     $('#selname').html("");
+     $('#origin').html("");
+     $('#destination').html("");
+     $('#arrerror').html("");
+     $('#deperror').html("");
+     $('#paymenterror').html("");
+     //$("#submit").attr("id", "update");
+     $('.sub-form').remove();
+     var r= $('<button type="button" id="update" class="btn btn-primary sub-form">Update changes</button>');
+        $("#modal-form .modal-footer").append(r);
       $("#form").attr("action", "schedules/update");
    });
 
@@ -574,6 +583,7 @@
     '</div>' 
 });
                       $('#modal-form').fadeOut();
+                      $('body').removeClass('modal-open');
                       $('#loading').hide();
                       }
                      },
@@ -592,7 +602,7 @@
      }
    });
 
-       $('#update').on("click",function() {
+       $('body').on("click","#update",function() {
     //alert($('#name').val());
      if($('#vid').val() == ""){
         $('#selname').html("Please select vehicle!");
@@ -730,6 +740,7 @@
     '</div>' 
 });
                       $('#modal-form').fadeOut();
+                      $('body').removeClass('modal-open');
                       $('#loading').hide();
                       }
                      },

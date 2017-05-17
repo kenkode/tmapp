@@ -1,5 +1,9 @@
 @extends('layouts.travel')
 
+<style type="text/css">
+  .modal { overflow: auto !important; }
+</style>
+
 @section('content')
 <div class="row  border-bottom white-bg dashboard-header">
 <div class="pro-head">
@@ -236,7 +240,12 @@
      $('#title').html('Update Currency');
      $('#submit').html('Update changes');
      $('#sucessmessage').html('Updating data');
-     $("#submit").attr("id", "update");
+     $('#errors').html("");
+     $('#shortnameerrors').html("");
+     //$("#submit").attr("id", "update");
+     $('.sub-form').remove();
+     var r= $('<button type="button" id="update" class="btn btn-primary sub-form">Update changes</button>');
+        $("#modal-form .modal-footer").append(r);
       $("#form").attr("action", "currencies/update");
    });
 
@@ -333,6 +342,7 @@
     '</div>' 
 });
                       $('#modal-form').fadeOut();
+                      $('body').removeClass('modal-open');
                       $('#loading').hide();
                       }
                      },
@@ -346,7 +356,7 @@
      }
    });
 
-       $('#update').on("click",function() {
+       $('body').on("click","#update",function() {
     //alert($('#name').val());
      if($('#name').val() == ""){
         $('#errors').html("Please insert name!");
@@ -438,6 +448,7 @@
     '</div>' 
 });
                       $('#modal-form').fadeOut();
+                      $('body').removeClass('modal-open');
                       $('#loading').hide();
                       }
                      },

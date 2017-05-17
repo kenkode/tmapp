@@ -142,6 +142,30 @@ body{
                     <?php endif; ?>
                     <?php endif; ?>
 
+                    <?php if(Auth::user()->type == 'Hotel'): ?>
+                    <?php if(collect(request()->segments())->last() == 'hotelbranches' || collect(request()->segments())->last() == 'hotelcalendar' || collect(request()->segments())->last() == 'hotelrooms' || collect(request()->segments())->last() == 'hotelreservations'): ?>
+                    <li class="active">
+                        <a href="index.html"><i class="fa fa-building nav_icon"></i> <span class="nav-label">Hotel Management</span> <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li ><a href="<?php echo e(url('hotelbranches')); ?>">Branches</a></li>
+                            <li ><a href="<?php echo e(url('hotelcalendar')); ?>">Calendar</a></li>
+                            <li ><a href="<?php echo e(url('hotelrooms')); ?>">Rooms</a></li>
+                            <li ><a href="<?php echo e(url('hotelreservations')); ?>">Reservations</a></li>
+                        </ul>
+                    </li>          
+                    <?php else: ?>
+                    <li >
+                        <a href="index.html"><i class="fa fa-building nav_icon"></i> <span class="nav-label">Hotel Management</span> <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li ><a href="<?php echo e(url('hotelbranches')); ?>">Branches</a></li>
+                            <li ><a href="<?php echo e(url('hotelcalendar')); ?>">Calendar</a></li>
+                            <li ><a href="<?php echo e(url('hotelrooms')); ?>">Rooms</a></li>
+                            <li ><a href="<?php echo e(url('hotelreservations')); ?>">Reservations</a></li>
+                        </ul>
+                    </li>          
+                    <?php endif; ?>
+                    <?php endif; ?>
+
                     <?php if(collect(request()->segments())->last() == 'vehiclenames' || collect(request()->segments())->last() == 'vehicles' || collect(request()->segments())->last() == 'activate' || collect(request()->segments())->last() == 'destinations' || collect(request()->segments())->last() == 'paymentoptions' || collect(request()->segments())->last() == 'schedules'): ?>
 
                     <li class="active">
@@ -261,7 +285,7 @@ body{
                         <a href="mailbox.html"><i class="fa fa-cog nav_icon"></i> <span class="nav-label">Settings </span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="<?php echo e(url('organizations')); ?>">Organization</a></li>
-                            <li><a href="<?php echo e(url('currencies')); ?>">Currency</a></li>
+                            <!-- <li><a href="<?php echo e(url('currencies')); ?>">Currency</a></li> -->
                             <li><a href="<?php echo e(url('mails')); ?>">Mail Settings</a></li>
                             <li><a href="<?php echo e(url('profile')); ?>">Profile</a></li>
                         </ul>

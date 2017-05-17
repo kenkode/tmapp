@@ -8,6 +8,10 @@
         <?php $currency = $organization->currency_shortname; ?>
         @endif
 
+        <style type="text/css">
+            .modal { overflow: auto !important; }
+        </style>
+
 <div class="row  border-bottom white-bg dashboard-header">
 <div class="pro-head">
             <h2>Payment Options</h2>
@@ -300,8 +304,15 @@
      $('#title').html('Update Payment Option');
      $('#submit').html('Update changes');
      $('#sucessmessage').html('Updating data');
-     $("#submit").attr("id", "update");
-      $("#form").attr("action", "paymentoptions/update");
+     //$("#submit").attr("id", "update");
+     $('#errors').html("");
+     $('#selname').html("");
+     $('#origin').html("");
+     $('#destination').html("");
+     $('.sub-form').remove();
+     var r= $('<button type="button" id="update" class="btn btn-primary sub-form">Update changes</button>');
+        $("#modal-form .modal-footer").append(r);
+     $("#form").attr("action", "paymentoptions/update");
    });
 
     $("#users").on("click",".view", function(){
@@ -431,6 +442,7 @@
     '</div>' 
 });
                       $('#modal-form').fadeOut();
+                      $('body').removeClass('modal-open');
                       $('#loading').hide();
                       }
                      },
@@ -449,7 +461,7 @@
      }
    });
 
-       $('#update').on("click",function() {
+       $('body').on("click","#update",function() {
     //alert($('#name').val());
      if($('#economic').val() == ""){
         $('#errors').html("Please insert Economic Fare!");
@@ -553,6 +565,7 @@
     '</div>' 
 });
                       $('#modal-form').fadeOut();
+                      $('body').removeClass('modal-open');
                       $('#loading').hide();
                       }
                      },

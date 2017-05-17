@@ -27,12 +27,13 @@ class CreateBookingsTable extends Migration
             $table->string("origin")->nullable();
             $table->string("destination")->nullable();
             $table->datetime("travel_date")->nullable();
-            $table->date("arrival_time")->nullable();
-            $table->date("departure_date")->nullable();
+            $table->datetime("arrival")->nullable();
+            $table->datetime("departure")->nullable();
             $table->string("seatno")->nullable();
             $table->string("roomnumber_id")->nullable();
             $table->integer("event_id")->nullable();
             $table->float("amount",15,2);
+            $table->string("mode_of_payment")->nullable();
             $table->string("status");
             $table->integer("is_refunded")->nullable();
             $table->date("date");

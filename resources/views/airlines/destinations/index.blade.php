@@ -228,7 +228,11 @@
      $('#title').html('Update Destination');
      $('#submit').html('Update changes');
      $('#sucessmessage').html('Updating data');
-     $("#submit").attr("id", "update");
+     //$("#submit").attr("id", "update");
+     $('#errors').html("");
+     $('.sub-form').remove();
+     var r= $('<button type="button" id="update" class="btn btn-primary sub-form">Update changes</button>');
+        $("#modal-form .modal-footer").append(r);
       $("#form").attr("action", "destinations/update");
    });
 
@@ -342,8 +346,10 @@
                       //$('.sub-form').unbind('click')
                       $('body').removeClass('modal-open');
                       $('#modal-form').fadeOut();
-                      $('#modal-form').on('hidden', function () {
+                      $('#modal-form').on('hide.bs.modal', function () {
                        $(this).removeData('modal');
+                       $('#errors').html("");
+
                       });
 
                       $('#loading').hide();
@@ -364,8 +370,9 @@
      }
    });
 
-       $('#update').on("click",function() {
+       $('body').on("click","#update",function() {
     //alert($('#name').val());
+
      if($('#name').val() == ""){
         $('#errors').html("Please insert name!");
         return false;
@@ -451,6 +458,7 @@
     '</div>' 
 });
                       $('#modal-form').fadeOut();
+                      $('body').removeClass('modal-open');
                       $('#loading').hide();
                       }
                      },

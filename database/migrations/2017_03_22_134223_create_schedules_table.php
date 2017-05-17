@@ -20,10 +20,10 @@ class CreateSchedulesTable extends Migration
             $table->integer("destination_id");
             $table->datetime("departure");
             $table->datetime("arrival");
-            $table->text("pickup_address");
-            $table->integer("firstclass_apply");
-            $table->integer("business_apply");
-            $table->integer("children_apply");
+            $table->text("pickup_address")->nullable();
+            $table->integer("firstclass_apply")->nullable();
+            $table->integer("business_apply")->nullable();
+            $table->integer("children_apply")->nullable();
             $table->integer("economic_apply");
             $table->integer("organization_id");
             $table->timestamps();

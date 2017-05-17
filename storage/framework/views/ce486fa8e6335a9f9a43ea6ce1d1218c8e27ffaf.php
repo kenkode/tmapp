@@ -10,6 +10,7 @@
     display: inline-block;
     }
           
+    .modal { overflow: auto !important; }
    </style>
 
 <?php $__env->startSection('content'); ?>
@@ -122,7 +123,7 @@
                         
         <div class="check-error alert alert-danger"></div>
 
-        <div class="table-responsive" style="border: none; min-height: 420px !important">
+        <div class="table-responsive" style="border: none; min-height: 1000px !important">
            
         <table id="users" class="table table-condensed table-responsive table-hover">
 
@@ -251,7 +252,11 @@ $(document).ready(function() {
      $('#title').html('Update Vehicle Name');
      $('#submit').html('Update changes');
      $('#sucessmessage').html('Updating data');
-     $("#submit").attr("id", "update");
+     //$("#submit").attr("id", "update");
+     $('#errors').html("");
+      $('.sub-form').remove();
+     var r= $('<button type="button" id="update" class="btn btn-primary sub-form">Update changes</button>');
+        $("#modal-form .modal-footer").append(r);
       $("#form").attr("action", "vehiclenames/update");
    });
 
@@ -357,6 +362,7 @@ $(document).ready(function() {
     '</div>' 
 });
                       $('#modal-form').fadeOut();
+                      $('body').removeClass('modal-open');
                       $('#loading').hide();
                       }
                      },
@@ -364,6 +370,11 @@ $(document).ready(function() {
                        console.log(xhr.statusText);
                        console.log(xhr.responseText);
                        console.log(xhr.thrownError);
+                       setTimeout(function(){ 
+                       alert("An error occured....Please reload page and try again!!!"); 
+                       $('#loading').hide();
+                       location.reload();
+                       }, 10000);
                         //return false;
                      } 
                      });
@@ -459,6 +470,7 @@ $(document).ready(function() {
     '</div>' 
 });
                       $('#modal-form').fadeOut();
+                      $('body').removeClass('modal-open');
                       $('#loading').hide();
                       }
                      },
@@ -466,6 +478,11 @@ $(document).ready(function() {
                        console.log(xhr.statusText);
                        console.log(xhr.responseText);
                        console.log(xhr.thrownError);
+                       setTimeout(function(){ 
+                       alert("An error occured....Please reload page and try again!!!"); 
+                       $('#loading').hide();
+                       location.reload();
+                       }, 10000);
                      }
                      });
      }
@@ -561,6 +578,11 @@ $(document).ready(function() {
                        console.log(xhr.statusText);
                        console.log(xhr.responseText);
                        console.log(xhr.thrownError);
+                       setTimeout(function(){ 
+                       alert("An error occured....Please reload page and try again!!!"); 
+                       $('#loading').hide();
+                       location.reload();
+                       }, 10000);
                         //return false;
                      } 
 

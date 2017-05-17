@@ -141,6 +141,30 @@ body{
                     @endif
                     @endif
 
+                    @if(Auth::user()->type == 'Hotel')
+                    @if(collect(request()->segments())->last() == 'hotelbranches' || collect(request()->segments())->last() == 'hotelcalendar' || collect(request()->segments())->last() == 'hotelrooms' || collect(request()->segments())->last() == 'hotelreservations')
+                    <li class="active">
+                        <a href="index.html"><i class="fa fa-building nav_icon"></i> <span class="nav-label">Hotel Management</span> <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li ><a href="{{url('hotelbranches')}}">Branches</a></li>
+                            <li ><a href="{{url('hotelcalendar')}}">Calendar</a></li>
+                            <li ><a href="{{url('hotelrooms')}}">Rooms</a></li>
+                            <li ><a href="{{url('hotelreservations')}}">Reservations</a></li>
+                        </ul>
+                    </li>          
+                    @else
+                    <li >
+                        <a href="index.html"><i class="fa fa-building nav_icon"></i> <span class="nav-label">Hotel Management</span> <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li ><a href="{{url('hotelbranches')}}">Branches</a></li>
+                            <li ><a href="{{url('hotelcalendar')}}">Calendar</a></li>
+                            <li ><a href="{{url('hotelrooms')}}">Rooms</a></li>
+                            <li ><a href="{{url('hotelreservations')}}">Reservations</a></li>
+                        </ul>
+                    </li>          
+                    @endif
+                    @endif
+
                     @if(collect(request()->segments())->last() == 'vehiclenames' || collect(request()->segments())->last() == 'vehicles' || collect(request()->segments())->last() == 'activate' || collect(request()->segments())->last() == 'destinations' || collect(request()->segments())->last() == 'paymentoptions' || collect(request()->segments())->last() == 'schedules')
 
                     <li class="active">
@@ -260,7 +284,7 @@ body{
                         <a href="mailbox.html"><i class="fa fa-cog nav_icon"></i> <span class="nav-label">Settings </span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="{{url('organizations')}}">Organization</a></li>
-                            <li><a href="{{url('currencies')}}">Currency</a></li>
+                            <!-- <li><a href="{{url('currencies')}}">Currency</a></li> -->
                             <li><a href="{{url('mails')}}">Mail Settings</a></li>
                             <li><a href="{{url('profile')}}">Profile</a></li>
                         </ul>

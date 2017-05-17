@@ -64,7 +64,7 @@
                                 <canvas id="barChart" height="140"></canvas>
                                 <h4 align="center">Months</h4>
                             </div>
-                        <div class="row text-left">
+                       <!--  <div class="row text-left">
                             <div class="col-xs-4">
                                 <div class=" m-l-md">
                                 <span class="h4 font-bold m-t block">$ 406,100</span>
@@ -80,7 +80,7 @@
                                 <small class="text-muted m-b block">Half-year revenue margin</small>
                             </div>
 
-                        </div>
+                        </div> -->
                     </div>
                     <!-- <div class="col-sm-3">
                         <div class="statistic-box">
@@ -467,6 +467,7 @@
                         success: function(data){
                            results = JSON.parse(data);
                            //alert(results);
+                           //console.log(results.replace(/['"]+/g, ''));
                            console.log(results);                   
                         },
                         error: function(xhr,thrownError) {
@@ -478,7 +479,7 @@
                  });
 
         var barData = {
-        labels: ["January", "February", "March", "April", "May", "June", "July","August","September","      October","November","December"],
+        labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"],
         datasets: [
             {
                 label: "My First dataset",
@@ -500,7 +501,9 @@
         barStrokeWidth: 2,
         barValueSpacing: 5,
         barDatasetSpacing: 1,
-        responsive: true
+        responsive: true,
+        scaleLabel:
+        function(label){return parseFloat(label.value.toString()).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");}
     }
 
 
@@ -553,7 +556,7 @@
                     }
             );
 
-            var doughnutData = [
+            /*var doughnutData = [
                 {
                     value: 300,
                     color: "#a3e1d4",
@@ -587,8 +590,8 @@
 
             var ctx = document.getElementById("doughnutChart").getContext("2d");
             var DoughnutChart = new Chart(ctx).Doughnut(doughnutData, doughnutOptions);
-
-            var polarData = [
+*/
+            /*var polarData = [
                 {
                     value: 300,
                     color: "#a3e1d4",
@@ -626,7 +629,7 @@
             };
             var ctx = document.getElementById("polarChart").getContext("2d");
             var Polarchart = new Chart(ctx).PolarArea(polarData, polarOptions);
-
+*/
         });
     </script>
 @endsection

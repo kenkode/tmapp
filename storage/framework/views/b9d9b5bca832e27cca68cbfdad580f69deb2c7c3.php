@@ -18,6 +18,8 @@
     vertical-align: middle !important;
     margin-bottom: -50px !important;
     }
+
+    .modal { overflow: auto !important; }
    </style>
 
 <?php $__env->startSection('content'); ?>
@@ -46,7 +48,7 @@
                                          </div>
                                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                         <h3 id="title" class="m-t-none m-b">Create Schedule</h3>
-                                             <input type="hidden" id="id" placeholder="Enter name" class="form-control">
+                                             <input type="text" id="id" placeholder="Enter name" class="form-control">
                                              
                                              <div class="form-group"><label>Name <span style="color:red">*</span></label> 
                                              <select id="vid" class="form-control">
@@ -193,7 +195,7 @@
                             </div>
 
         <div class="check-error alert alert-danger"></div>
-        <div class="table-responsive" style="border: none; min-height: 420px !important">
+        <div class="table-responsive" style="border: none; min-height: 1000px !important">
         <table id="users" class="table table-condensed table-responsive table-hover">
 
 
@@ -342,8 +344,18 @@
      $('#title').html('Update Schedule');
      $('#submit').html('Update changes');
      $('#sucessmessage').html('Updating data');
-     $("#submit").attr("id", "update");
-      $("#form").attr("action", "schedules/update");
+    // $("#submit").attr("id", "update");
+     $('#selname').html("");
+     $('#origin').html("");
+     $('#destination').html("");
+     $('#arrerror').html("");
+     $('#deperror').html("");
+     $('#paymenterror').html("");
+     $('.sub-form').remove();
+     var r= $('<button type="button" id="update" class="btn btn-primary sub-form">Update changes</button>');
+        $("#modal-form .modal-footer").append(r);
+     $("#form").attr("action", "schedules/update");
+
    });
 
     $("#users").on("click",".view", function(){
@@ -391,11 +403,8 @@
       $("#form").attr("action", "schedules/update");
    });
 
-   $('.sub-form').on("click", function() {
-
-    if(this.id == 'submit'){
+   
        $('#submit').on("click", function() {
-    
      if($('#vid').val() == ""){
         $('#selname').html("Please select vehicle!");
         return false;
@@ -518,6 +527,7 @@
     '</div>' 
 });
                       $('#modal-form').fadeOut();
+                      $('body').removeClass('modal-open');
                       $('#loading').hide();
                       }
                      },
@@ -525,15 +535,19 @@
                        console.log(xhr.statusText);
                        console.log(xhr.responseText);
                        console.log(xhr.thrownError);
+                       setTimeout(function(){ 
+                       alert("An error occured....Please reload page and try again!!!"); 
+                       $('#loading').hide();
+                       location.reload();
+                       }, 10000);
                         //return false;
                      } 
                      });
      }
    });
-    }else if(this.id == 'update'){
 
-       $('#update').on("click",function() {
-    //alert($('#name').val());
+    $('#modal-form').on("click","#update",function() {
+       //alert($('#vid').val());
      if($('#vid').val() == ""){
         $('#selname').html("Please select vehicle!");
         return false;
@@ -577,6 +591,8 @@
 
         //alert(chair);
 
+        //alert(id);
+
         data.append("vid", vid);
         data.append("id", id);
         data.append("origin",origin);
@@ -598,7 +614,7 @@
                       contentType: false,
                       beforeSend: function() { $('#loading').show(); },
                       success: function(response) {
-                      //alert(response);return;
+                      //alert(response);
                       
                       if(response != 1){
                       $('#errors').html(response);
@@ -654,6 +670,7 @@
     '</div>' 
 });
                       $('#modal-form').fadeOut();
+                      $('body').removeClass('modal-open');
                       $('#loading').hide();
                       }
                      },
@@ -661,11 +678,14 @@
                        console.log(xhr.statusText);
                        console.log(xhr.responseText);
                        console.log(xhr.thrownError);
+                       setTimeout(function(){ 
+                       alert("An error occured....Please reload page and try again!!!"); 
+                       $('#loading').hide();
+                       location.reload();
+                       }, 10000);
                      }
                      });
      }
-   });
-    }
    });
 
    $('#vid').on('change', function() {
@@ -794,6 +814,11 @@
                        console.log(xhr.statusText);
                        console.log(xhr.responseText);
                        console.log(xhr.thrownError);
+                       setTimeout(function(){ 
+                       alert("An error occured....Please reload page and try again!!!"); 
+                       $('#loading').hide();
+                       location.reload();
+                       }, 10000);
                         //return false;
                      } 
 

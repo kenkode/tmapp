@@ -20,6 +20,8 @@
     vertical-align: middle !important;
     margin-bottom: -50px !important;
     }
+
+    .modal { overflow: auto !important; }
    </style>
 
 @section('content')
@@ -72,10 +74,10 @@
                                              <div class="form-group"><label>Type <span style="color:red">*</span></label> 
                                              <select id="type" class="form-control">
                                              <option value="">Select Vehicle Type</option>
-                                             <option value="Large Bus">Large Bus</option>
-                                             <option value="Minibus">Minibus</option>
-                                             <option value="Shuttle">Shuttle</option>
-                                             <option value="Matatu">Matatu</option>
+                                             <option value="Large Bus">Bus (2 - 3 Seater)</option>
+                                             <option value="Minibus">Bus (2 - 2 Seater)</option>
+                                             <option value="Shuttle">Matatu (11 Seater) </option>
+                                             <option value="Matatu">Matatu (14 Seater)</option>
                                              </select>
                                              <p id="seltype" style="color:red"></p>
                                              </div>
@@ -365,7 +367,16 @@
      $('#title').html('Update Vehicle');
      $('#submit').html('Update changes');
      $('#sucessmessage').html('Updating data');
-     $("#submit").attr("id", "update");
+     //$("#submit").attr("id", "update");
+     $('#selname').html("");
+     $('#seltype').html("");
+     $('#inschair').html("");
+     $('#insregno').html("");
+     $('#inscapacity').html("");
+     $('#insconductor').html("");
+      $('.sub-form').remove();
+     var r= $('<button type="button" id="update" class="btn btn-primary sub-form">Update changes</button>');
+        $("#modal-form .modal-footer").append(r);
       $("#form").attr("action", "vehicles/update");
    });
 
@@ -524,6 +535,9 @@
         '<a href="{3}" target="{4}" data-notify="url"></a>' +
     '</div>' 
 });
+                      $('#modal-form').fadeOut();
+                      $('body').removeClass('modal-open');
+                      $('#loading').hide();
                       
                       }
                      },
@@ -651,6 +665,9 @@
         '<a href="{3}" target="{4}" data-notify="url"></a>' +
     '</div>' 
 });
+                      $('#modal-form').fadeOut();
+                      $('body').removeClass('modal-open');
+                      $('#loading').hide();
                       
                       }
                      },

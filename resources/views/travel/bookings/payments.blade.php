@@ -20,6 +20,8 @@
     vertical-align: middle !important;
     margin-bottom: -50px !important;
     }
+
+    .modal { overflow: auto !important; }
    </style>
 
 @section('content')
@@ -105,13 +107,13 @@
       <tbody class="displayrecord">
       <?php $i=1;?>
       @foreach($payments as $payment)
-        <tr class="{{'del'.$customer->id}}">
+        <tr class="{{'del'.$payment->id}}">
           <td>{{$i}}</td>
-          <td>{{$booking->ticketno}}</td>
-          <td>{{App\Booking::getVehicle($booking->vehicle_id)->regno.' '.App\Booking::getVehicle($booking->vehicle_id)->vehiclename->name}}</td>
-          <td>{{$booking->firstname.' '.$booking->lastname}}</td>
-          <td>{{$booking->date}}</td>
-          <td>{{number_format($booking->amount,2)}}</td>
+          <td>{{$payment->ticketno}}</td>
+          <td>{{App\Booking::getVehicle($payment->vehicle_id)->regno.' '.App\Booking::getVehicle($payment->vehicle_id)->vehiclename->name}}</td>
+          <td>{{$payment->firstname.' '.$payment->lastname}}</td>
+          <td>{{$payment->date}}</td>
+          <td>{{number_format($payment->amount,2)}}</td>
           <td>
 
                   <div class="btn-group">

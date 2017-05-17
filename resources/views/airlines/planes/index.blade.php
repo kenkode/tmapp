@@ -20,6 +20,8 @@
     vertical-align: middle !important;
     margin-bottom: -50px !important;
     }
+
+    .modal { overflow: auto !important; }
    </style>
 
 @section('content')
@@ -293,7 +295,13 @@
      $('#title').html('Update Airplane');
      $('#submit').html('Update changes');
      $('#sucessmessage').html('Updating data');
-     $("#submit").attr("id", "update");
+     $('#selname').html("");
+     $('#insregno').html("");
+     $('#inscapacity').html("");
+     //$("#submit").attr("id", "update");
+     $('.sub-form').remove();
+     var r= $('<button type="button" id="update" class="btn btn-primary sub-form">Update changes</button>');
+        $("#modal-form .modal-footer").append(r);
       $("#form").attr("action", "vehicles/update");
    });
 
@@ -421,6 +429,9 @@
         '<a href="{3}" target="{4}" data-notify="url"></a>' +
     '</div>' 
 });
+                       $('#modal-form').fadeOut();
+                      $('body').removeClass('modal-open');
+                      $('#loading').hide();
                       
                       }
                      },
@@ -439,7 +450,7 @@
      }
    });
 
-       $('#update').on("click",function() {
+       $('body').on("click","#update",function() {
     //alert($('#name').val());
      if($('#vid').val() == ""){
         $('#selname').html("Please select airplane name!");
@@ -539,7 +550,9 @@
         '<a href="{3}" target="{4}" data-notify="url"></a>' +
     '</div>' 
 });
-                      
+                      $('#modal-form').fadeOut();
+                      $('body').removeClass('modal-open');
+                      $('#loading').hide();
                       }
                      },
                      error: function(xhr,thrownError) {

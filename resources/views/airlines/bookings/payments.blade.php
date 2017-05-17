@@ -20,6 +20,7 @@
     vertical-align: middle !important;
     margin-bottom: -50px !important;
     }
+    .modal { overflow: auto !important; }
    </style>
 
 @section('content')
