@@ -17,7 +17,7 @@
     
     $flag = array();
 
-	$query = mysqli_query($con, "select vehiclenames.name, vehiclenames.logo, schedules.vehicle_id, schedules.organization_id, firstclass_apply, economic_apply, origin.oname, origin.oid, des.did, des.dname, arrival, departure from schedules 
+	$query = mysqli_query($con, "select vehiclenames.name, vehiclenames.logo, vehicles.type, vehicles.capacity, schedules.vehicle_id, schedules.organization_id, firstclass_apply, economic_apply, origin.oname, origin.oid, des.did, des.dname, arrival, departure from schedules 
 	 left join vehicles on schedules.vehicle_id=vehicles.id 
 	 left join vehiclenames on vehicles.vehiclename_id=vehiclenames.id 
 	 left join (select routes.name as oname,routes.id as oid from schedules left join routes on schedules.origin_id=routes.id where routes.name='".$origin."') as origin on schedules.origin_id=origin.oid

@@ -78,6 +78,7 @@
                                              <option value="Minibus">Bus (2 - 2 Seater)</option>
                                              <option value="Shuttle">Matatu (11 Seater) </option>
                                              <option value="Matatu">Matatu (14 Seater)</option>
+                                             <option value="Large Matatu">Matatu (18 Seater)</option>
                                              </select>
                                              <p id="seltype" style="color:red"></p>
                                              </div>
@@ -557,7 +558,7 @@
    });
 
        $('#update').on("click",function() {
-    //alert($('#name').val());
+     alert($('#name').val());
      if($('#vid').val() == ""){
         $('#selname').html("Please select vehicle name!");
         return false;
