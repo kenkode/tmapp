@@ -66,7 +66,40 @@
 
         if(type == 'bar'){
 
-        var barData = {
+
+            var barCanvas = document.getElementById("barChart");
+
+Chart.defaults.global.defaultFontFamily = "Lato";
+Chart.defaults.global.defaultFontSize = 18;
+
+var barData = {
+  labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"],
+  datasets: [{
+    fill: true,
+    borderColor: 'rgba(26,179,148,0.5)',
+    backgroundColor: 'rgba(26,179,148,0.5)',
+    label: 'Monthly Revenues (KES)',
+    data: results,
+  }]
+};
+
+var chartOptions = {
+  legend: {
+    display: true,
+    position: 'top',
+    labels: {
+      fontColor: 'black'
+    }
+  }
+};
+
+var barChart = new Chart(barCanvas, {
+  type: 'bar',
+  data: barData,
+  options: chartOptions
+});
+
+        /*var barData = {
         labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"],
         datasets: [
             {
@@ -143,9 +176,9 @@
                         tooltip: false
                     }
             );
-
+*/
         }else if(type == 'line'){
-            var lineData = {
+            /*var lineData = {
         labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"],
         datasets: [
             {
@@ -179,38 +212,71 @@
 
 
     var ctx = document.getElementById("barChart").getContext("2d");
-    var myNewChart = new Chart(ctx).Line(lineData, lineOptions);
+    var myNewChart = new Chart(ctx).Line(lineData, lineOptions);*/
 
-        }else if(type == 'pie'){
-       var oilCanvas = document.getElementById("barChart");
+    var lineCanvas = document.getElementById("barChart");
 
 Chart.defaults.global.defaultFontFamily = "Lato";
 Chart.defaults.global.defaultFontSize = 18;
 
-var oilData = {
-    labels: [
-        "Saudi Arabia",
-        "Russia",
-        "Iraq",
-        "United Arab Emirates",
-        "Canada"
-    ],
+var lineData = {
+  labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"],
+  datasets: [{
+    fill: true,
+    borderColor: 'rgba(26,179,148,0.5)',
+    backgroundColor: 'rgba(26,179,148,0.5)',
+    label: 'Monthly Revenues (KES)',
+    data: results,
+  }]
+};
+
+var chartOptions = {
+  legend: {
+    display: true,
+    position: 'top',
+    labels: {
+      fontColor: 'black'
+    }
+  }
+};
+
+var lineChart = new Chart(lineCanvas, {
+  type: 'line',
+  data: lineData,
+  options: chartOptions
+});
+
+        }else if(type == 'pie'){
+       var pieCanvas = document.getElementById("barChart");
+
+Chart.defaults.global.defaultFontFamily = "Lato";
+Chart.defaults.global.defaultFontSize = 18;
+
+var pieData = {
+    labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"],
     datasets: [
         {
-            data: [133.3, 86.2, 52.2, 51.2, 50.2],
+            data: results,
             backgroundColor: [
-                "#FF6384",
-                "#63FF84",
-                "#84FF63",
-                "#8463FF",
-                "#6384FF"
+                "#3282ba",
+                "#c1d3ec",
+                "#f9a153",
+                "#66d868",
+                "#dd6366",
+                "#9467bd",
+                "#8c564b",
+                "#c49c9b",
+                "#bcbd22",
+                "#40c8d6",
+                "#e377c2",
+                "#ff7f0e"
             ]
         }]
 };
 
-var pieChart = new Chart(oilCanvas, {
+var pieChart = new Chart(pieCanvas, {
   type: 'pie',
-  data: oilData
+  data: pieData
 });
 
 

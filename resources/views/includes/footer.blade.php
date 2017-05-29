@@ -48,7 +48,8 @@
     <script src="{{url('/assets/js/demo/sparkline-demo.js')}}"></script>
 
     <!-- ChartJS-->
-    <script src="{{url('/assets/js/plugins/chartJs/Chart.min.js')}}"></script>
+    <!-- <script src="{{url('/assets/js/plugins/chartJs/Chart.min.js')}}"></script> -->
+    <script src="{{url('/js/Chart.min.js')}}"></script>
 
     <!-- Toastr -->
     <script src="{{url('/assets/js/plugins/toastr/toastr.min.js')}}"></script>

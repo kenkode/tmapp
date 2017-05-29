@@ -48,7 +48,8 @@
     <script src="<?php echo e(url('/assets/js/demo/sparkline-demo.js')); ?>"></script>
 
     <!-- ChartJS-->
-    <script src="<?php echo e(url('/assets/js/plugins/chartJs/Chart.min.js')); ?>"></script>
+    <!-- <script src="<?php echo e(url('/assets/js/plugins/chartJs/Chart.min.js')); ?>"></script> -->
+    <script src="<?php echo e(url('/js/Chart.min.js')); ?>"></script>
 
     <!-- Toastr -->
     <script src="<?php echo e(url('/assets/js/plugins/toastr/toastr.min.js')); ?>"></script>

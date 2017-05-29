@@ -92,7 +92,7 @@
                             <div class="modal fade" id="modal-graph" tabindex="-1" role="dialog" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content animated fadeIn">
-                                        <form target="_blank" action="{{url('report/graph/booking')}}" method="post">     
+                                        <form action="{{url('report/graph/booking')}}" method="post">     
                                         <div class="modal-body">
                                         
                                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>

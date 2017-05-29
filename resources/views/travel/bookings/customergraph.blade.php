@@ -66,7 +66,7 @@
 
         if(type == 'bar'){
 
-        var barData = {
+        /*var barData = {
         labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"],
         datasets: [
             {
@@ -141,10 +141,43 @@
                         },
                         tooltip: false
                     }
-            );
+            );*/
+
+            var barCanvas = document.getElementById("barChart");
+
+Chart.defaults.global.defaultFontFamily = "Lato";
+Chart.defaults.global.defaultFontSize = 18;
+
+var barData = {
+  labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"],
+  datasets: [{
+    fill: true,
+    borderColor: 'rgba(26,179,148,0.5)',
+    backgroundColor: 'rgba(26,179,148,0.5)',
+    label: 'Total customers per month',
+    data: results,
+  }]
+};
+
+var chartOptions = {
+  legend: {
+    display: true,
+    position: 'top',
+    labels: {
+      fontColor: 'black'
+    }
+  }
+};
+
+var barChart = new Chart(barCanvas, {
+  type: 'bar',
+  data: barData,
+  options: chartOptions
+});
+
 
         }else if(type == 'line'){
-            var lineData = {
+           /* var lineData = {
         labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"],
         datasets: [
             {
@@ -177,80 +210,73 @@
 
     var ctx = document.getElementById("barChart").getContext("2d");
     var myNewChart = new Chart(ctx).Line(lineData, lineOptions);
+*/
 
+var lineCanvas = document.getElementById("barChart");
+
+Chart.defaults.global.defaultFontFamily = "Lato";
+Chart.defaults.global.defaultFontSize = 18;
+
+var lineData = {
+  labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"],
+  datasets: [{
+    fill: true,
+    borderColor: 'rgba(26,179,148,0.5)',
+    backgroundColor: 'rgba(26,179,148,0.5)',
+    label: 'Monthly Revenues (KES)',
+    data: results,
+  }]
+};
+
+var chartOptions = {
+  legend: {
+    display: true,
+    position: 'top',
+    labels: {
+      fontColor: 'black'
+    }
+  }
+};
+
+var lineChart = new Chart(lineCanvas, {
+  type: 'line',
+  data: lineData,
+  options: chartOptions
+});
         }else if(type == 'pie'){
         
+var pieCanvas = document.getElementById("barChart");
 
-    var data = [{
-        label: "Jan",
-        data: 0,
-        color: "#d3d3d3",
-    }, {
-        label: "Feb",
-        data: 0,
-        color: "#bababa",
-    }, {
-        label: "Mar",
-        data: 0,
-        color: "#79d2c0",
-    }, {
-        label: "Apr",
-        data: 0,
-        color: "#1ab394",
-    },{
-        label: "May",
-        data: 4500,
-        color: "#1ab394",
-    },{
-        label: "Jun",
-        data: 0,
-        color: "#1ab394",
-    },{
-        label: "Jul",
-        data: 0,
-        color: "#1ab394",
-    },{
-        label: "Aug",
-        data: 0,
-        color: "#1ab394",
-    },{
-        label: "Sep",
-        data: 0,
-        color: "#1ab394",
-    },{
-        label: "Oct",
-        data: 0,
-        color: "#1ab394",
-    },{
-        label: "Nov",
-        data: 0,
-        color: "#1ab394",
-    },{
-        label: "Dec",
-        data: 0,
-        color: "#1ab394",
-    }];
+Chart.defaults.global.defaultFontFamily = "Lato";
+Chart.defaults.global.defaultFontSize = 18;
 
-    var plotObj = $.plot($("#flot-pie-chart"), data, {
-        series: {
-            pie: {
-                show: true
-            }
-        },
-        grid: {
-            hoverable: true
-        },
-        tooltip: true,
-        tooltipOpts: {
-            content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
-            shifts: {
-                x: 20,
-                y: 0
-            },
-            defaultTheme: false
-        }
-    });
+var pieData = {
+    labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"],
+    datasets: [
+        {
+            data: results,
+            backgroundColor: [
+                "#3282ba",
+                "#c1d3ec",
+                "#f9a153",
+                "#66d868",
+                "#dd6366",
+                "#9467bd",
+                "#8c564b",
+                "#c49c9b",
+                "#bcbd22",
+                "#40c8d6",
+                "#e377c2",
+                "#ff7f0e"
+            ]
+        }]
+};
 
+var pieChart = new Chart(pieCanvas, {
+  type: 'pie',
+  data: pieData
+});
+    
 
         }
 
