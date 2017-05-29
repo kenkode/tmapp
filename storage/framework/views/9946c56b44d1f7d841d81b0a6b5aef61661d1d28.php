@@ -224,6 +224,16 @@ $('.datepicker').datepicker({
 });
 });
 
+$(function(){
+$('.year').datepicker({
+    format: 'yyyy',
+    startView: "years", 
+    minViewMode: "years",
+    autoclose: true,
+    orientation: "bottom"
+});
+});
+
 </script>
 
 

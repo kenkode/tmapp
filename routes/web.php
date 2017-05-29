@@ -296,10 +296,16 @@ Route::post('user/checkpassword', 'UsersController@checkpassword');
 
 Route::get('bookings', 'BookingsController@index');
 Route::post('report/bookings', 'ReportsController@bookings');
+Route::post('report/single/booking', 'ReportsController@singlebooking');
+Route::post('report/graph/booking', 'ReportsController@graphbooking');
 Route::get('customers', 'BookingsController@customers');
 Route::post('report/customers', 'ReportsController@customers');
+Route::post('report/single/customer', 'ReportsController@singlecustomer');
+Route::post('report/graph/customer', 'ReportsController@graphcustomer');
 Route::get('payments', 'BookingsController@payments');
 Route::post('report/payments', 'ReportsController@payments');
+Route::post('report/single/payment', 'ReportsController@singlepayment');
+Route::post('report/graph/payment', 'ReportsController@graphbooking');
 
 Route::get('hotelbranches','HotelBranchesController@index');
 Route::get('hotelbranches/showrecord', 'HotelBranchesController@showrecord');
@@ -331,6 +337,28 @@ Route::get('graphdata', function () {
     for ($i=1; $i <= 12; $i++) {   
     $amount = App\Booking::where('organization_id',Auth::user()->organization_id)->where('status','approved')->whereMonth('date', '=', $i)->whereYear('date', '=', date('Y'))->sum('amount');
     array_push($arr, $amount);
+    }
+
+    echo json_encode($arr);
+});
+
+Route::get('bookgraph', function (Illuminate\Http\Request $request) {
+   $arr = array();
+   $year = $request->year;
+    for ($i=1; $i <= 12; $i++) {   
+    $amount = App\Booking::where('organization_id',Auth::user()->organization_id)->where('status','approved')->whereMonth('date', '=', $i)->whereYear('date', '=', $year)->sum('amount');
+    array_push($arr, $amount);
+    }
+
+    echo json_encode($arr);
+});
+
+Route::get('custgraph', function (Illuminate\Http\Request $request) {
+   $arr = array();
+   $year = $request->year;
+    for ($i=1; $i <= 12; $i++) {   
+    $customers = App\Booking::where('organization_id',Auth::user()->organization_id)->where('status','approved')->whereMonth('date', '=', $i)->whereYear('date', '=', $year)->count();
+    array_push($arr, $customers);
     }
 
     echo json_encode($arr);

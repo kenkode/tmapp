@@ -80,6 +80,120 @@
                                     </div>
                                 </div>
                             </div>
+                             
+                             <div class="modal fade" id="modal-graph" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content animated fadeIn">
+                                        <form target="_blank" action="<?php echo e(url('report/graph/customer')); ?>" method="post">     
+                                        <div class="modal-body">
+                                        
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h3 id="title" class="m-t-none m-b">Select Report Type</h3>
+                                            
+                                             <?php echo e(csrf_field()); ?>
+
+                                             <div class="form-group">
+                                                <label for="username">Year <span style="color:red">*</span></label>
+                                                <div class="right-inner-addon ">
+                                                <i class="glyphicon glyphicon-calendar"></i>
+                                                <input class="form-control year" readonly="readonly" placeholder="" type="text" required="" name="year" id="year">
+                                                </div>
+                                              </div>
+
+                                             <div class="form-group"><label>Graph Type <span style="color:red">*</span></label> 
+                                            <select required="" id="type" name="type" class="form-control">
+                                             <option value="">Select Graph Type</option>
+                                             <option value="bar"> Bar Chart</option>
+                                             <option value="line"> Line Chart</option>
+                                             </select>
+                                             <p id="destination" style="color:red"></p>
+                                             </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+
+                                            <input type="submit" class="btn btn-primary sub-form" value="Select" />
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="modal-singlereport" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content animated fadeIn">
+                                        <form target="_blank" action="<?php echo e(url('report/single/customer')); ?>" method="post">     
+                                        <div class="modal-body">
+                                        
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h3 id="title" class="m-t-none m-b">Select Report Type</h3>
+                                            
+                                             <?php echo e(csrf_field()); ?>
+
+                                            <input type="hidden" name="id" id="id">
+                                            <div class="form-group"><label>Report Type <span style="color:red">*</span></label> 
+                                            <select required="" id="type" name="type" class="form-control">
+                                             <option value="">Select Report Type</option>
+                                             <option value="pdf"> PDF</option>
+                                             <option value="excel"> Excel</option>
+                                             </select>
+                                             <p id="destination" style="color:red"></p>
+                                             </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+
+                                            <input type="submit" class="btn btn-primary sub-form" value="Select" />
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="modal-view" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content animated fadeIn">
+                                            
+                                        <div class="modal-body">
+                                        
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h3 id="title" class="m-t-none m-b">Customer</h3>
+                                        <table class="table table-bordered table-hover">
+
+                                            <tr>
+                                               <td><strong>Ticket No : </strong></td><td class="tdticket"></td>
+                                            </tr>
+
+                                            <tr>
+                                               <td><strong>First name : </strong></td><td class="tdfname"></td>
+                                            </tr>
+
+                                            <tr>
+                                               <td><strong>Last name : </strong></td><td class="tdlname"></td>
+                                            </tr>
+
+                                            <tr>
+                                               <td><strong>Email : </strong></td><td class="tdemail"></td>
+                                            </tr>
+
+                                            <tr>
+                                               <td><strong>ID / Passport No. : </strong></td><td class="tdidno"></td>
+                                            </tr>
+
+                                            <tr>
+                                               <td><strong>Contact : </strong></td><td class="tdcontact"></td>
+                                            </tr>
+
+                                        </table>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
        <div class="table-responsive" style="border: none; min-height: 1000px !important">
         <table id="users" class="table table-condensed table-responsive table-hover">
@@ -88,12 +202,12 @@
       <thead style="background:#263949">
 
         <th style="color:#FFF">#</th>
+        <th style="color:#FFF">Ticket No.</th>
         <th style="color:#FFF">Firstname</th>
         <th style="color:#FFF">Lastname</th>
         <th style="color:#FFF">Email</th>
+        <th style="color:#FFF">ID / Passport No.</th>
         <th style="color:#FFF">Contact</th>
-        <th style="color:#FFF">Date Booked</th>
-        <th style="color:#FFF">Travel Date</th>
         <th style="color:#FFF">Action</th>
 
       </thead>
@@ -102,12 +216,12 @@
       <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
         <tr class="<?php echo e('del'.$customer->id); ?>">
           <td><?php echo e($i); ?></td>
+          <td><?php echo e($customer->ticketno); ?></td>
           <td><?php echo e($customer->firstname); ?></td>
           <td><?php echo e($customer->lastname); ?></td>
           <td><?php echo e($customer->email); ?></td>
+          <td><?php echo e($customer->id_number); ?></td>
           <td><?php echo e($customer->phone); ?></td>
-          <td><?php echo e($customer->date); ?></td>
-          <td><?php echo e($customer->departure_date); ?></td>
           <td>
 
                   <div class="btn-group">
@@ -117,8 +231,8 @@
           
                   <ul class="dropdown-menu" role="menu">
                     
-                    <li><a href="<?php echo e($customer->id); ?>">View</a></li>
-                    <li><a href="<?php echo e($customer->id); ?>">Report</a></li>
+                    <li><a class="view" data-toggle="modal" data-ticket="<?php echo e($customer->ticketno); ?>" data-fname="<?php echo e($customer->firstname); ?>" data-lname="<?php echo e($customer->lastname); ?>" data-email="<?php echo e($customer->email); ?>" data-idno="<?php echo e($customer->id_number); ?>" data-contact="<?php echo e($customer->phone); ?>" data-id="<?php echo e($customer->id); ?>" href="#modal-view">View</a></li>
+                    <li><a class="sreport" data-toggle="modal" data-id="<?php echo e($customer->id); ?>" href="#modal-singlereport">Report</a></li>
                     
                   </ul>
               </div>
@@ -138,6 +252,40 @@
 
 <script type="text/javascript">
    $(document).ready(function() {
+
+   $("#users").on("click",".view", function(){
+     var id = $(this).data('id');
+     var fname = $(this).data('fname');
+     var lname = $(this).data('lname');
+     var email = $(this).data('email');
+     var idno = $(this).data('idno');
+     var contact = $(this).data('contact');
+     var ticket = $(this).data('ticket');
+     var l = window.location;
+     var base_url = l.protocol + "//" + l.host + "/" + l.pathname.split('/')[1];
+
+     //$('#update').removeAttr('disabled');
+     $(".modal-body .tdticket").html( ticket );
+     $(".modal-body .tdfname").html( fname );
+     $(".modal-body .tdlname").html( lname );
+     $(".modal-body .tdemail").html( email );
+     $(".modal-body .tdidno").html( idno );
+     $(".modal-body .tdcontact").html( contact );
+     /*$(".modal-body #id").val( id );
+     $('#title').html('Update Currency');
+     $('#submit').html('Update changes');
+     $('#sucessmessage').html('Updating data');
+     $("#submit").attr("id", "update");
+      $("#form").attr("action", "currencies/update");*/
+   });
+
+   $("#users").on("click",".sreport", function(){
+     var id = $(this).data('id');
+     
+     $(".modal-body #id").val( id );
+    
+   });
+
    $("#users").on("click",".delete", function(){
     
                 var id = $(this).attr("id");

@@ -91,14 +91,10 @@ body {
  
 	<div class="content" style='margin-top:170px;'>
  
-   <div align="center"><h3><strong>Booking report for period {{$from}} and {{$to}}</strong></h3></div>
+   <div align="center"><h3><strong>Booking report for {{$booking->ticketno}}</strong></h3></div>
     <table class="table table-bordered" border='1' cellspacing='0' cellpadding='0'>
 
-      <tr>
-     
-
-        <td><strong>#</strong></td>
-        <td><strong>Ticket No.</strong></td>
+      <tr><td><strong>Ticket No.</strong></td><td>{{$booking->ticketno}}</td></tr><tr>
         @if(Auth::user()->type == 'Travel' || Auth::user()->type == 'Taxi')
         <td><strong>Vehicle</strong></td>
         @elseif(Auth::user()->type == 'SGR')
@@ -106,33 +102,15 @@ body {
         @elseif(Auth::user()->type == 'Airline')
         <td><strong>Airplane</strong></td>
         @endif
-        <td><strong>Customer</strong></td>
-        <td><strong>Seat No.</strong></td>
-        <td><strong>Travel Date</strong></td>
-        <td><strong>Date Booked</strong></td>
-        <td><strong>Amount ({{$currency}})</strong></td>
+        <td>{{App\Booking::getVehicle($booking->vehicle_id)->regno.' '.App\Booking::getVehicle($booking->vehicle_id)->vehiclename->name}}</td>
+        </tr>
+        <tr><td><strong>Customer</strong></td><td>{{$booking->firstname.' '.$booking->lastname}}</td></tr>
+        <tr><td><strong>Seat No.</strong></td><td>{{$booking->seatno}}</td></tr>
+        <tr><td><strong>Travel Date</strong></td><td>{{$booking->travel_date}}</td></tr>
+        <tr><td><strong>Date Booked</strong></td><td>{{$booking->date}}</td></tr>
+        <tr><td><strong>Amount ({{$currency}})</strong></td><td align="right"><strong>{{number_format($booking->amount,2)}}</strong></td></tr>
       </tr>
-      <?php $i =1; 
-            $total = 0;
-      ?>
-      @foreach($bookings as $booking)
-      <tr>
-          <td valign="top">{{$i}}</td>
-          <td valign="top">{{$booking->ticketno}}</td>
-          <td valign="top">{{App\Booking::getVehicle($booking->vehicle_id)->regno.' '.App\Booking::getVehicle($booking->vehicle_id)->vehiclename->name}}</td>
-          <td valign="top">{{$booking->firstname.' '.$booking->lastname}}</td>
-          <td valign="top">{{$booking->seatno}}</td>
-          <td valign="top">{{$booking->travel_date}}</td>
-          <td valign="top">{{$booking->date}}</td>
-          <td valign="top" align="right">{{number_format($booking->amount,2)}}</td>
-      <?php
-       $total = $total + $booking->amount;
-       $i++; ?>
-   
-    @endforeach
-    <tr>
-      <td colspan="7" align="right"><strong>Total</strong></td><td align="right"><strong>{{number_format($total,2)}}</strong></td>
-    </tr>
+      
       
     </table>
 

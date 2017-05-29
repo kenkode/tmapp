@@ -92,14 +92,10 @@ body {
  
 	<div class="content" style='margin-top:170px;'>
  
-   <div align="center"><h3><strong>Booking report for period <?php echo e($from); ?> and <?php echo e($to); ?></strong></h3></div>
+   <div align="center"><h3><strong>Booking report for <?php echo e($booking->ticketno); ?></strong></h3></div>
     <table class="table table-bordered" border='1' cellspacing='0' cellpadding='0'>
 
-      <tr>
-     
-
-        <td><strong>#</strong></td>
-        <td><strong>Ticket No.</strong></td>
+      <tr><td><strong>Ticket No.</strong></td><td><?php echo e($booking->ticketno); ?></td></tr><tr>
         <?php if(Auth::user()->type == 'Travel' || Auth::user()->type == 'Taxi'): ?>
         <td><strong>Vehicle</strong></td>
         <?php elseif(Auth::user()->type == 'SGR'): ?>
@@ -107,33 +103,15 @@ body {
         <?php elseif(Auth::user()->type == 'Airline'): ?>
         <td><strong>Airplane</strong></td>
         <?php endif; ?>
-        <td><strong>Customer</strong></td>
-        <td><strong>Seat No.</strong></td>
-        <td><strong>Travel Date</strong></td>
-        <td><strong>Date Booked</strong></td>
-        <td><strong>Amount (<?php echo e($currency); ?>)</strong></td>
+        <td><?php echo e(App\Booking::getVehicle($booking->vehicle_id)->regno.' '.App\Booking::getVehicle($booking->vehicle_id)->vehiclename->name); ?></td>
+        </tr>
+        <tr><td><strong>Customer</strong></td><td><?php echo e($booking->firstname.' '.$booking->lastname); ?></td></tr>
+        <tr><td><strong>Seat No.</strong></td><td><?php echo e($booking->seatno); ?></td></tr>
+        <tr><td><strong>Travel Date</strong></td><td><?php echo e($booking->travel_date); ?></td></tr>
+        <tr><td><strong>Date Booked</strong></td><td><?php echo e($booking->date); ?></td></tr>
+        <tr><td><strong>Amount (<?php echo e($currency); ?>)</strong></td><td align="right"><?php echo e(number_format($booking->amount,2)); ?></td></tr>
       </tr>
-      <?php $i =1; 
-            $total = 0;
-      ?>
-      <?php $__currentLoopData = $bookings; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $booking): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
-      <tr>
-          <td valign="top"><?php echo e($i); ?></td>
-          <td valign="top"><?php echo e($booking->ticketno); ?></td>
-          <td valign="top"><?php echo e(App\Booking::getVehicle($booking->vehicle_id)->regno.' '.App\Booking::getVehicle($booking->vehicle_id)->vehiclename->name); ?></td>
-          <td valign="top"><?php echo e($booking->firstname.' '.$booking->lastname); ?></td>
-          <td valign="top"><?php echo e($booking->seatno); ?></td>
-          <td valign="top"><?php echo e($booking->travel_date); ?></td>
-          <td valign="top"><?php echo e($booking->date); ?></td>
-          <td valign="top" align="right"><?php echo e(number_format($booking->amount,2)); ?></td>
-      <?php
-       $total = $total + $booking->amount;
-       $i++; ?>
-   
-    <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
-    <tr>
-      <td colspan="7" align="right"><strong>Total</strong></td><td align="right"><strong><?php echo e(number_format($total,2)); ?></strong></td>
-    </tr>
+      
       
     </table>
 

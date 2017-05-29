@@ -108,7 +108,8 @@ body {
         <td><strong>Airplane</strong></td>
         @endif
         <td><strong>Customer</strong></td>
-        <td><strong>Date</strong></td>
+        <td><strong>Date Booked</strong></td>
+        <td><strong>Payment Option</strong></td>
         <td><strong>Amount ({{$currency}})</strong></td>
       </tr>
       <?php $i =1; 
@@ -121,6 +122,7 @@ body {
           <td valign="top">{{App\Booking::getVehicle($booking->vehicle_id)->regno.' '.App\Booking::getVehicle($booking->vehicle_id)->vehiclename->name}}</td>
           <td valign="top">{{$booking->firstname.' '.$booking->lastname}}</td>
           <td valign="top">{{$booking->date}}</td>
+          <td valign="top">{{$booking->mode_of_payment}}</td>
           <td valign="top" align="right">{{number_format($booking->amount,2)}}</td>
       <?php
        $total = $total + $booking->amount;
@@ -128,7 +130,7 @@ body {
    
     @endforeach
     <tr>
-      <td colspan="5" align="right"><strong>Total</strong></td><td align="right"><strong>{{number_format($total,2)}}</strong></td>
+      <td colspan="6" align="right"><strong>Total</strong></td><td align="right"><strong>{{number_format($total,2)}}</strong></td>
     </tr>
       
     </table>

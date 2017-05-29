@@ -14,7 +14,8 @@ class BookingsController extends Controller
     {
     	$bookings = Booking::where('organization_id',Auth::user()->organization_id)->get();
         $organization = Organization::find(Auth::user()->organization_id);
-        return view('travel.bookings.index',compact('bookings','organization'));
+        $total = Booking::where('organization_id',Auth::user()->organization_id)->sum('amount');
+        return view('travel.bookings.index',compact('bookings','organization','total'));
     }
 
     public function customers()
@@ -27,6 +28,7 @@ class BookingsController extends Controller
     {
     	$payments = Booking::where('organization_id',Auth::user()->organization_id)->get();
         $organization = Organization::find(Auth::user()->organization_id);
-        return view('travel.bookings.payments',compact('payments','organization'));
+        $total = Booking::where('organization_id',Auth::user()->organization_id)->sum('amount');
+        return view('travel.bookings.payments',compact('payments','organization','total'));
     }
 }

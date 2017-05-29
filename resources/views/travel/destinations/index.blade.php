@@ -246,7 +246,7 @@
    });
 
  
-       $('#submit').on("click", function() {
+     $('body').on("click","#submit", function() {
     
      if($('#name').val() == ""){
         $('#errors').html("Please insert name!");
@@ -353,7 +353,7 @@
      }
    });
 
-       $('#update').on("click",function() {
+     $('body').on("click","#update", function() {
     //alert($('#name').val());
      if($('#name').val() == ""){
         $('#errors').html("Please insert name!");

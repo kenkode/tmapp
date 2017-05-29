@@ -402,7 +402,7 @@
    });
 
    
-       $('#submit').on("click", function() {
+       $('body').on("click","#submit", function() {
     
      if($('#vid').val() == ""){
         $('#selname').html("Please select vehicle!");
@@ -545,7 +545,7 @@
      }
    });
 
-       $('#update').on("click",function() {
+       $('body').on("click","#update", function() {
     //alert($('#name').val());
      if($('#vid').val() == ""){
         $('#selname').html("Please select vehicle!");

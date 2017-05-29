@@ -334,7 +334,7 @@
    });
 
   
-       $('#submit').on("click", function() {
+     $('body').on("click","#submit", function() {
     
      if($('#economic').val() == ""){
         $('#errors').html("Please insert economic fare!");
@@ -461,7 +461,7 @@
      }
    });
 
-       $('body').on("click","#update",function() {
+       $('body').on("click","#update", function() {
     //alert($('#name').val());
      if($('#economic').val() == ""){
         $('#errors').html("Please insert Economic Fare!");

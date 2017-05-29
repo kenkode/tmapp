@@ -30,8 +30,15 @@
             <h2>Payments</h2>
         </div>
 
+        <?php $currency = ''; ?>
+       @if($organization->currency_shortname == null || $organization->currency_shortname == '')
+       <?php $currency = 'KES'; ?>
+       @else
+       <?php $currency = $organization->currency_shortname; ?>
+       @endif
+
       <div style="margin-bottom:20px;margin-left:10px;">
-      <a data-toggle="modal" id="report" href="#modal-report" class="btn btn-warning">Payment Report</a>&emsp;<a data-toggle="modal" id="graph" href="#modal-graph" class="btn btn-primary">Graph</a>
+      <a data-toggle="modal" id="report" href="#modal-report" class="btn btn-warning">Payment Report</a>&emsp;<a data-toggle="modal" id="graph" href="#modal-graph" class="btn btn-primary">Graph</a><span style="color: #18a689;float: right;font-size: 16px">Total Amount : {{$currency.' '.number_format($total,2)}}</span>
       </div>
 
       
@@ -82,12 +89,51 @@
                                 </div>
                             </div>
 
-       <?php $currency = ''; ?>
-       @if($organization->currency_shortname == null || $organization->currency_shortname == '')
-       <?php $currency = 'KES'; ?>
-       @else
-       <?php $currency = $organization->currency_shortname; ?>
-       @endif
+                        <div class="modal fade" id="modal-view" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content animated fadeIn">
+                                            
+                                        <div class="modal-body">
+                                        
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h3 id="title" class="m-t-none m-b">Payment</h3>
+                                        <table class="table table-bordered table-hover">
+
+                                            <tr>
+                                               <td><strong>Ticket No : </strong></td><td class="tdticket"></td>
+                                            </tr>
+
+                                            <tr>
+                                               <td><strong>Vehicle : </strong></td><td class="tdvehicle"></td>
+                                            </tr>
+
+                                            <tr>
+                                               <td><strong>Customer : </strong></td><td class="tdcustomer"></td>
+                                            </tr>
+
+                                            <tr>
+                                               <td><strong>Date Booked : </strong></td><td class="tddate"></td>
+                                            </tr>
+
+                                            <tr>
+                                               <td><strong>Payment Option : </strong></td><td class="tdmode"></td>
+                                            </tr>
+
+                                            <tr>
+                                               <td><strong>Amount : </strong></td><td class="tdamount"></td>
+                                            </tr>
+
+                                        </table>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+       
 
         <div class="table-responsive" style="border: none; min-height: 1000px !important">
         <table id="users" class="table table-condensed table-responsive table-hover">
@@ -97,9 +143,10 @@
 
         <th style="color:#FFF">#</th>
         <th style="color:#FFF">Ticket No.</th>
-        <th style="color:#FFF">Vehicle Name</th>
+        <th style="color:#FFF">Vehicle</th>
         <th style="color:#FFF">Customer</th>
-        <th style="color:#FFF">Date</th>
+        <th style="color:#FFF">Date Booked</th>
+        <th style="color:#FFF">Payment Option</th>
         <th style="color:#FFF">Amount ({{$currency}})</th>
         <th style="color:#FFF">Action</th>
 
@@ -107,13 +154,14 @@
       <tbody class="displayrecord">
       <?php $i=1;?>
       @foreach($payments as $payment)
-        <tr class="{{'del'.$customer->id}}">
+        <tr class="{{'del'.$payment->id}}">
           <td>{{$i}}</td>
-          <td>{{$booking->ticketno}}</td>
-          <td>{{App\Booking::getVehicle($booking->vehicle_id)->regno.' '.App\Booking::getVehicle($booking->vehicle_id)->vehiclename->name}}</td>
-          <td>{{$booking->firstname.' '.$booking->lastname}}</td>
-          <td>{{$booking->date}}</td>
-          <td>{{number_format($booking->amount,2)}}</td>
+          <td>{{$payment->ticketno}}</td>
+          <td>{{App\Booking::getVehicle($payment->vehicle_id)->regno.' '.App\Booking::getVehicle($payment->vehicle_id)->vehiclename->name}}</td>
+          <td>{{$payment->firstname.' '.$payment->lastname}}</td>
+          <td>{{$payment->date}}</td>
+          <td>{{$payment->mode_of_payment}}</td>
+          <td>{{number_format($payment->amount,2)}}</td>
           <td>
 
                   <div class="btn-group">
@@ -123,7 +171,7 @@
           
                   <ul class="dropdown-menu" role="menu">
                     
-                    <li><a href="{{$payment->id}}">View</a></li>
+                    <li><a class="view" data-toggle="modal" data-ticket="{{$payment->ticketno}}" data-vehicle="{{App\Booking::getVehicle($payment->vehicle_id)->regno.' '.App\Booking::getVehicle($payment->vehicle_id)->vehiclename->name}}" data-customer="{{$payment->firstname.' '.$payment->lastname}}" data-date="{{$payment->date}}" data-mode="{{$payment->mode_of_payment}}" data-amount="{{number_format($payment->amount,2)}}"  data-id="{{$payment->id}}" href="#modal-view">View</a></li>
                     <li><a href="{{$payment->id}}">Report</a></li>
                     
                   </ul>
@@ -144,6 +192,33 @@
 
 <script type="text/javascript">
    $(document).ready(function() {
+
+   $("#users").on("click",".view", function(){
+     var id = $(this).data('id');
+     var vehicle = $(this).data('vehicle');
+     var customer = $(this).data('customer');
+     var date = $(this).data('date');
+     var mode = $(this).data('mode');
+     var amount = $(this).data('amount');
+     var ticket = $(this).data('ticket');
+     var l = window.location;
+     var base_url = l.protocol + "//" + l.host + "/" + l.pathname.split('/')[1];
+
+     //$('#update').removeAttr('disabled');
+     $(".modal-body .tdticket").html( ticket );
+     $(".modal-body .tdvehicle").html( vehicle );
+     $(".modal-body .tdcustomer").html( customer );
+     $(".modal-body .tddate").html( date );
+     $(".modal-body .tdmode").html( mode );
+     $(".modal-body .tdamount").html( amount );
+     /*$(".modal-body #id").val( id );
+     $('#title').html('Update Currency');
+     $('#submit').html('Update changes');
+     $('#sucessmessage').html('Updating data');
+     $("#submit").attr("id", "update");
+      $("#form").attr("action", "currencies/update");*/
+   });
+
    $("#users").on("click",".delete", function(){
     
                 var id = $(this).attr("id");

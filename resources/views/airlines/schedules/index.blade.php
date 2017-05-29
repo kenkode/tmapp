@@ -441,7 +441,7 @@
    });
 
 
-       $('#submit').on("click", function() {
+       $('body').on("click","#submit", function() {
     
      if($('#vid').val() == ""){
         $('#selname').html("Please select vehicle!");

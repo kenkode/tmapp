@@ -86,36 +86,16 @@ body {
  
 	<div class="content" style='margin-top:170px;'>
  
-   <div align="center"><h3><strong>Booking report for period {{$from}} and {{$to}}</strong></h3></div>
+   <div align="center"><h3><strong>Booking report for {{$booking->id_number.' : '.$booking->firstname.' '.$booking->lastname}}</strong></h3></div>
     <table class="table table-bordered" border='1' cellspacing='0' cellpadding='0'>
 
-      <tr>
-     
-
-        <td><strong>#</strong></td>
-        <td><strong>Ticket No.</strong></td>
-        <td><strong>Firstname</strong></td>
-        <td><strong>Lastname</strong></td>
-        <td><strong>Email</strong></td>
-        <td><strong>ID / Passport No.</strong></td>
-        <td><strong>Contact</strong></td>
-      </tr>
-      <?php $i =1; 
-      ?>
-      @foreach($bookings as $booking)
-      <tr>
-          <td valign="top">{{$i}}</td>
-          <td valign="top">{{$booking->ticketno}}</td>
-          <td valign="top">{{$booking->firstname}}</td>
-          <td valign="top">{{$booking->lastname}}</td>
-          <td valign="top">{{$booking->email}}</td>
-          <td valign="top">{{$booking->id_number}}</td>
-          <td valign="top">{{$booking->phone}}</td>
-      <?php
-       $i++; ?>
-   
-    @endforeach
-   
+      <tr><td><strong>Ticket No.</strong></td><td>{{$booking->ticketno}}</td></tr>
+      <tr><td><strong>Firstname</strong></td><td>{{$booking->firstname}}</td></tr>
+      <tr><td><strong>Lastname</strong></td><td>{{$booking->lastname}}</td></tr>
+      <tr><td><strong>Email</strong></td><td>{{$booking->email}}</td></tr>
+      <tr><td><strong>ID / Passport No.</strong></td><td>{{$booking->id_number}}</td></tr>
+      <tr><td><strong>Contact</strong></td><td>{{$booking->phone}}</td></tr>
+      
       
     </table>
 

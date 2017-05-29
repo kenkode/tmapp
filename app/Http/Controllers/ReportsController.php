@@ -822,7 +822,7 @@ class ReportsController extends Controller
               }
 
               $sheet->row(7, array(
-              '#', 'Ticket No.',$name,'Customer','Email','Contact','Date','Amount ('.$currency.')'
+              '#', 'Ticket No.',$name,'Customer','Seat No.','Travel Date','Date Booked','Amount ('.$currency.')'
               ));
 
               $sheet->row(7, function ($r) {
@@ -837,7 +837,7 @@ class ReportsController extends Controller
              
              for($i = 0; $i<count($data); $i++){
              $sheet->row($row, array(
-             $i+1,$data[$i]->ticketno,Booking::getVehicle($data[$i]->vehicle_id)->regno.' '.Booking::getVehicle($data[$i]->vehicle_id)->vehiclename->name,$data[$i]->firstname.' '.$data[$i]->lastname,$data[$i]->email,$data[$i]->phone,$data[$i]->date,$data[$i]->amount
+             $i+1,$data[$i]->ticketno,Booking::getVehicle($data[$i]->vehicle_id)->regno.' '.Booking::getVehicle($data[$i]->vehicle_id)->vehiclename->name,$data[$i]->firstname.' '.$data[$i]->lastname,$data[$i]->seatno,$data[$i]->travel_date,$data[$i]->date,$data[$i]->amount
              ));
              $total = $total + $data[$i]->amount;
              $row++;
@@ -854,6 +854,117 @@ class ReportsController extends Controller
               });
                       
              
+    });
+
+  })->download('xls');
+    }
+    }
+
+
+    public function singlebooking(Request $request){
+        if($request->type == 'pdf'){
+        $booking = Booking::where('organization_id',Auth::user()->organization_id)->where('id',$request->id)->first();
+        $organization = Organization::find(Auth::user()->organization_id);
+        $pdf = PDF::loadView('reports.singlebooking',compact('booking','organization'));
+        return $pdf->download($booking->ticketno.'_booking.pdf');
+    }else{
+        $data = Booking::where('organization_id',Auth::user()->organization_id)->where('id',$request->id)->first();
+
+        $organization = Organization::find(Auth::user()->organization_id);
+        
+
+    
+  Excel::create($data->ticketno.'_Booking_Report', function($excel) use($data,$organization) {
+
+    
+    $excel->sheet($data->ticketno.' Booking Report', function($sheet) use($data,$organization){
+
+
+               $sheet->row(1, array(
+               'Organization: ',$organization->name
+               ));
+              
+              $sheet->cell('A1', function($cell) {
+
+               // manipulate the cell
+                $cell->setFontWeight('bold');
+
+              });
+
+              
+              
+              
+              $sheet->mergeCells('A3:B3');
+              $sheet->row(3, array(
+              $data->ticketno.' Booking Report'
+              ));
+
+              $sheet->row(3, function($cell) {
+
+               // manipulate the cell
+                $cell->setFontWeight('bold');
+
+              });
+              
+              $currency = '';
+
+              if($organization->currency_shortname == null || $organization->currency_shortname == ''){
+              $currency = 'KES';
+              }else{
+              $currency = $organization->currency_shortname;
+              }
+
+              $name = '';
+
+              if(Auth::user()->type == 'Travel' || Auth::user()->type == 'Taxi'){
+              $name = 'Vehicle';
+              }else if (Auth::user()->type == 'SGR') {
+              $name = 'Train';
+              }elseif (Auth::user()->type == 'Airline') {
+              $name = 'Airplane';
+              }
+
+              $sheet->row(5, array(
+               'Ticket No : ',$data->ticketno
+               ));
+
+              $sheet->row(6, array(
+               $name.' : ',Booking::getVehicle($data->vehicle_id)->regno.' '.Booking::getVehicle($data->vehicle_id)->vehiclename->name
+               ));
+
+              $sheet->row(7, array(
+               'Customer : ',$data->firstname.' '.$data->lastname
+               ));
+
+              $sheet->row(8, array(
+               'Seat No : ',$data->seatno
+               ));
+
+              $sheet->row(9, array(
+               'Travel Date : ',$data->travel_date
+               ));
+
+              $sheet->row(10, array(
+               'Date Booked : ',$data->date
+               ));
+
+              $sheet->row(11, array(
+               'Amount ('.$currency.') : ',$data->amount
+               ));
+
+              $sheet->cell('A11', function($cell) {
+
+               // manipulate the cell
+                $cell->setFontWeight('bold');
+
+              });
+                      
+             $sheet->cell('B11', function($cell) {
+
+               // manipulate the cell
+                $cell->setFontWeight('bold');
+
+              });
     });
 
   })->download('xls');
@@ -930,7 +1041,7 @@ class ReportsController extends Controller
               });
 
               $sheet->row(7, array(
-              '#','Firstname','Lastname','Email','Contact','Date Booked','Travel Date'
+              '#','Ticket No.','Firstname','Lastname','Email','ID / Passport No.','Contact'
               ));
 
               $sheet->row(7, function ($r) {
@@ -944,10 +1055,86 @@ class ReportsController extends Controller
              
              for($i = 0; $i<count($data); $i++){
              $sheet->row($row, array(
-             $i+1,$data[$i]->firstname,$data[$i]->lastname,$data[$i]->email,$data[$i]->phone,$data[$i]->date,$data[$i]->departure_date
+             $i+1,$data[$i]->ticketno,$data[$i]->firstname,$data[$i]->lastname,$data[$i]->email,$data[$i]->id_number,$data[$i]->phone
              ));
              $row++;
              }        
+             
+    });
+
+  })->download('xls');
+    }
+    }
+
+    public function singlecustomer(Request $request){
+        if($request->type == 'pdf'){
+        $booking = Booking::where('organization_id',Auth::user()->organization_id)->where('id',$request->id)->first();
+        $organization = Organization::find(Auth::user()->organization_id);
+        $pdf = PDF::loadView('reports.singlecustomer',compact('booking','organization'));
+        return $pdf->download($booking->ticketno.'_'.$booking->firstname.'_'.$booking->lastname.'_'.$booking->id_number.'.pdf');
+    }else{
+        $data = Booking::where('organization_id',Auth::user()->organization_id)->where('id',$request->id)->first();
+
+        $organization = Organization::find(Auth::user()->organization_id);
+        
+
+    
+  Excel::create($data->ticketno.'_'.$data->firstname.'_'.$data->lastname.'_'.$data->id_number, function($excel) use($data,$organization) {
+
+    
+    $excel->sheet('Customer Report', function($sheet) use($data,$organization){
+
+
+               $sheet->row(1, array(
+               'Organization: ',$organization->name
+               ));
+              
+              $sheet->cell('A1', function($cell) {
+
+               // manipulate the cell
+                $cell->setFontWeight('bold');
+
+              });
+
+              $sheet->row(3, array(
+              'Booking report for '.$data->id_number.' : '.$data->firstname.' '.$data->lastname
+              ));
+              
+              
+              $sheet->mergeCells('A3:B3');
+              
+
+              $sheet->row(3, function($cell) {
+
+               // manipulate the cell
+                $cell->setFontWeight('bold');
+
+              });
+
+              $sheet->row(5, array(
+               'Ticket No: ',$data->ticketno
+               ));
+
+              $sheet->row(6, array(
+               'Firstname: ',$data->firstname
+               ));
+
+              $sheet->row(7, array(
+               'Lastname: ',$data->lastname
+               ));
+
+              $sheet->row(8, array(
+               'Email: ',$data->email
+               ));
+
+              $sheet->row(9, array(
+               'ID / Passport No: ',$data->id_number
+               ));
+
+              $sheet->row(10, array(
+               'Contact: ',$data->phone
+               ));
+                  
              
     });
 
@@ -1043,7 +1230,7 @@ class ReportsController extends Controller
               }
 
               $sheet->row(7, array(
-              '#', 'Ticket No.',$name,'Customer','Date','Amount ('.$currency.')'
+              '#', 'Ticket No.',$name,'Customer','Date Booked','Payment Option','Amount ('.$currency.')'
               ));
 
               $sheet->row(7, function ($r) {
@@ -1058,20 +1245,128 @@ class ReportsController extends Controller
              
              for($i = 0; $i<count($data); $i++){
              $sheet->row($row, array(
-             $i+1,$data[$i]->ticketno,Booking::getVehicle($data[$i]->vehicle_id)->regno.' '.Booking::getVehicle($data[$i]->vehicle_id)->vehiclename->name,$data[$i]->firstname.' '.$data[$i]->lastname,$data[$i]->date,$data[$i]->amount
+             $i+1,$data[$i]->ticketno,Booking::getVehicle($data[$i]->vehicle_id)->regno.' '.Booking::getVehicle($data[$i]->vehicle_id)->vehiclename->name,$data[$i]->firstname.' '.$data[$i]->lastname,$data[$i]->date,$data[$i]->mode_of_payment,$data[$i]->amount
              ));
              $total = $total + $data[$i]->amount;
              $row++;
              }  
 
              $sheet->row($row, array(
-             '','','','','Total',$total
+             '','','','','','Total',$total
              ));
              $sheet->row($row, function ($r) {
 
              // call cell manipulation methods
               $r->setFontWeight('bold');
  
+              });
+                      
+             
+    });
+
+  })->download('xls');
+    }
+    }
+
+    public function singlepayment(Request $request){
+        if($request->type == 'pdf'){
+        $booking = Booking::where('organization_id',Auth::user()->organization_id)->where('id',$request->id)->first();
+        $organization = Organization::find(Auth::user()->organization_id);
+        $pdf = PDF::loadView('reports.singlepayment',compact('booking','organization'));
+        return $pdf->download($booking->ticketno.'_payment.pdf');
+    }else{
+        $data = Booking::where('organization_id',Auth::user()->organization_id)->where('id',$request->id)->first();
+
+        $organization = Organization::find(Auth::user()->organization_id);
+        
+
+    
+  Excel::create($data->ticketno.'_Payment_Report', function($excel) use($data,$organization) {
+
+    
+    $excel->sheet($data->ticketno.' Payment Report', function($sheet) use($data,$organization){
+
+
+               $sheet->row(1, array(
+               'Organization: ',$organization->name
+               ));
+              
+              $sheet->cell('A1', function($cell) {
+
+               // manipulate the cell
+                $cell->setFontWeight('bold');
+
+              });
+
+              
+              
+              
+              $sheet->mergeCells('A3:B3');
+              $sheet->row(3, array(
+              $data->ticketno.' Payment Report'
+              ));
+
+              $sheet->row(3, function($cell) {
+
+               // manipulate the cell
+                $cell->setFontWeight('bold');
+
+              });
+              
+              $currency = '';
+
+              if($organization->currency_shortname == null || $organization->currency_shortname == ''){
+              $currency = 'KES';
+              }else{
+              $currency = $organization->currency_shortname;
+              }
+
+              $name = '';
+
+              if(Auth::user()->type == 'Travel' || Auth::user()->type == 'Taxi'){
+              $name = 'Vehicle';
+              }else if (Auth::user()->type == 'SGR') {
+              $name = 'Train';
+              }elseif (Auth::user()->type == 'Airline') {
+              $name = 'Airplane';
+              }
+
+              $sheet->row(5, array(
+               'Ticket No : ',$data->ticketno
+               ));
+
+              $sheet->row(6, array(
+               $name.' : ',Booking::getVehicle($data->vehicle_id)->regno.' '.Booking::getVehicle($data->vehicle_id)->vehiclename->name
+               ));
+
+              $sheet->row(7, array(
+               'Customer : ',$data->firstname.' '.$data->lastname
+               ));
+
+              $sheet->row(8, array(
+               'Date Booked : ',$data->date
+               ));
+
+              $sheet->row(8, array(
+               'Payment Option : ',$data->mode_of_payment
+               ));
+
+              $sheet->row(9, array(
+               'Amount ('.$currency.') : ',$data->amount
+               ));
+
+              $sheet->cell('A9', function($cell) {
+
+               // manipulate the cell
+                $cell->setFontWeight('bold');
+
+              });
+
+              $sheet->cell('B9', function($cell) {
+
+               // manipulate the cell
+                $cell->setFontWeight('bold');
+
               });
                       
              
@@ -1215,6 +1510,20 @@ class ReportsController extends Controller
 
   })->download('xls');
     }
+    }
+
+    public function graphbooking(Request $request){
+      $year = $request->year;
+      $type = $request->type;
+      $organization = Organization::find(Auth::user()->organization_id);
+      return view('travel.bookings.bookinggraph',compact('year','type','organization'));
+    }
+
+    public function graphcustomer(Request $request){
+      $year = $request->year;
+      $type = $request->type;
+      $organization = Organization::find(Auth::user()->organization_id);
+      return view('travel.bookings.customergraph',compact('year','type','organization'));
     }
 
     public function excel(){

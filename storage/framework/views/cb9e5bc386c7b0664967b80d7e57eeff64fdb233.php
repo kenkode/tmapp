@@ -83,6 +83,7 @@ body {
    </div>
 
 <br>
+
 <?php $currency = ''; ?>
 <?php if($organization->currency_shortname == null || $organization->currency_shortname == ''): ?>
 <?php $currency = 'KES'; ?>
@@ -108,9 +109,8 @@ body {
         <td><strong>Airplane</strong></td>
         <?php endif; ?>
         <td><strong>Customer</strong></td>
-        <td><strong>Seat No.</strong></td>
-        <td><strong>Travel Date</strong></td>
-        <td><strong>Date Booked</strong></td>
+        <td><strong>Date</strong></td>
+        <td><strong>Payment Option</strong></td>
         <td><strong>Amount (<?php echo e($currency); ?>)</strong></td>
       </tr>
       <?php $i =1; 
@@ -122,9 +122,8 @@ body {
           <td valign="top"><?php echo e($booking->ticketno); ?></td>
           <td valign="top"><?php echo e(App\Booking::getVehicle($booking->vehicle_id)->regno.' '.App\Booking::getVehicle($booking->vehicle_id)->vehiclename->name); ?></td>
           <td valign="top"><?php echo e($booking->firstname.' '.$booking->lastname); ?></td>
-          <td valign="top"><?php echo e($booking->seatno); ?></td>
-          <td valign="top"><?php echo e($booking->travel_date); ?></td>
           <td valign="top"><?php echo e($booking->date); ?></td>
+          <td valign="top"><?php echo e($booking->mode_of_payment); ?></td>
           <td valign="top" align="right"><?php echo e(number_format($booking->amount,2)); ?></td>
       <?php
        $total = $total + $booking->amount;
@@ -132,7 +131,7 @@ body {
    
     <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
     <tr>
-      <td colspan="7" align="right"><strong>Total</strong></td><td align="right"><strong><?php echo e(number_format($total,2)); ?></strong></td>
+      <td colspan="6" align="right"><strong>Total</strong></td><td align="right"><strong><?php echo e(number_format($total,2)); ?></strong></td>
     </tr>
       
     </table>

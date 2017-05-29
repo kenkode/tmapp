@@ -250,7 +250,7 @@
    });
 
 
-       $('#submit').on("click", function() {
+       $('body').on("click","#submit", function() {
     
      if($('#name').val() == ""){
         $('#errors').html("Please insert name!");

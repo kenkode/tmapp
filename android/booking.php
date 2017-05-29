@@ -24,8 +24,8 @@
     //echo count($seat);
     //print_r($amount);
 
-    echo $email[1];
-    exit();
+    //echo $email[1];
+    //exit();
 
     $veh = mysqli_query($con, "select vehiclenames.name,regno from vehicles left join vehiclenames on vehicles.vehiclename_id=vehiclenames.id where vehicles.id='".$vehicle."'");
 
