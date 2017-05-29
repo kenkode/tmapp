@@ -18,6 +18,8 @@
                                 <div class="flot-chart-pie-content" id="flot-pie-chart"></div>
                             </div>
                         </div> -->
+
+                        <button id="exportButton" type="button">Export as PDF</button>
                 
                     <div class="col-sm-12">
                     <h2 align="center" style="font-weight: 500"><?php echo e(date('Y')); ?> Revenues</h2>
@@ -97,6 +99,16 @@ var barChart = new Chart(barCanvas, {
   options: chartOptions
 });
 
+
+var canvas = $("#barChart .canvasjs-chart-canvas").get(0);
+var dataURL = canvas.toDataURL();
+//console.log(dataURL);
+
+$("#exportButton").click(function(){
+    var pdf = new jsPDF();
+    pdf.addImage(dataURL, 'JPEG', 0, 0);
+    pdf.save("download.pdf");
+});
         /*var barData = {
         labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"],
         datasets: [

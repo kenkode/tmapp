@@ -484,7 +484,7 @@
                      } 
                  });
 
-        var barData = {
+       /* var barData = {
         labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"],
         datasets: [
             {
@@ -560,7 +560,7 @@
                         },
                         tooltip: false
                     }
-            );
+            );*/
 
             /*var doughnutData = [
                 {
@@ -636,6 +636,39 @@
             var ctx = document.getElementById("polarChart").getContext("2d");
             var Polarchart = new Chart(ctx).PolarArea(polarData, polarOptions);
 */
+
+var barCanvas = document.getElementById("barChart");
+
+Chart.defaults.global.defaultFontFamily = "Lato";
+Chart.defaults.global.defaultFontSize = 18;
+
+var barData = {
+  labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"],
+  datasets: [{
+    fill: true,
+    borderColor: 'rgba(26,179,148,0.5)',
+    backgroundColor: 'rgba(26,179,148,0.5)',
+    label: 'Monthly Revenues (KES)',
+    data: results,
+  }]
+};
+
+var chartOptions = {
+  legend: {
+    display: true,
+    position: 'top',
+    labels: {
+      fontColor: 'black'
+    }
+  }
+};
+
+var barChart = new Chart(barCanvas, {
+  type: 'bar',
+  data: barData,
+  options: chartOptions
+});
+
         });
     </script>
 @endsection
