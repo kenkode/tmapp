@@ -89,21 +89,62 @@ var barData = {
   }]
 };
 
+var options = {
+    animation: false,
+    tooltips: {
+        callbacks: {
+            label: function(tooltipItem, data) {
+                return "Monthly Revenues KES "+parseFloat(tooltipItem.yLabel.toString()).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+            }
+        }
+    },
+    scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            callback: function(value, index, values) {
+              if(parseInt(value) >= 1000){
+                return  parseFloat(value.toString()).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+              } else {
+                return  value;
+              }
+            }
+          }
+        }]
+      }
+};
+
 var chartOptions = {
   legend: {
     display: true,
     position: 'top',
     labels: {
       fontColor: 'black'
-    }
-  }
+    },
+    scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            callback: function(value, index, values) {
+              if(parseInt(value) >= 1000){
+                return  parseFloat(value.toString()).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+              } else {
+                return  value;
+              }
+            }
+          }
+        }]
+      }
+  },
+  
 };
 
 var barChart = new Chart(barCanvas, {
   type: 'bar',
   data: barData,
-  options: chartOptions
+  options: options
 });
+
 
 
 /*var canvas = $("#barChart .canvasjs-chart-canvas").get(0);
@@ -246,6 +287,31 @@ var lineData = {
   }]
 };
 
+var options = {
+    animation: false,
+    tooltips: {
+        callbacks: {
+            label: function(tooltipItem, data) {
+                return "Monthly Revenues KES "+parseFloat(tooltipItem.yLabel.toString()).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+            }
+        }
+    },
+    scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            callback: function(value, index, values) {
+              if(parseInt(value) >= 1000){
+                return  parseFloat(value.toString()).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+              } else {
+                return  value;
+              }
+            }
+          }
+        }]
+      }
+};
+
 var chartOptions = {
   legend: {
     display: true,
@@ -259,7 +325,7 @@ var chartOptions = {
 var lineChart = new Chart(lineCanvas, {
   type: 'line',
   data: lineData,
-  options: chartOptions
+  options: options
 });
 
         }else if(type == 'pie'){
@@ -290,9 +356,30 @@ var pieData = {
         }]
 };
 
+
+var options = {
+        tooltips: {
+            callbacks: {
+                label: function(tooltipItem, data) {
+                    var allData = data.datasets[tooltipItem.datasetIndex].data;
+                    var tooltipLabel = data.labels[tooltipItem.index];
+                    var tooltipData = allData[tooltipItem.index];
+                    var total = 0;
+                    for (var i in allData) {
+                        total += allData[i];
+                    }
+                    var tooltipPercentage = Math.round((tooltipData / total) * 100);
+                    return tooltipLabel + ': ' + parseFloat(tooltipData.toString()).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + ' (' + tooltipPercentage + '%)';
+                }
+            }
+        }
+    };
+
+
 var pieChart = new Chart(pieCanvas, {
   type: 'pie',
-  data: pieData
+  data: pieData,
+  options:options
 });
 
 
