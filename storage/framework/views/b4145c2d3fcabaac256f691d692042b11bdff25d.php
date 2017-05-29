@@ -23,9 +23,13 @@
                     <h2 align="center" style="font-weight: 500"><?php echo e(date('Y')); ?> Revenues</h2>
                         
                         <div>
+                        <?php if($type != 'pie'): ?>
                         <h4 style="float: left;">Total Customers</h4>
+                        <?php endif; ?>
                                 <canvas id="barChart" height="140"></canvas>
+                                <?php if($type != 'pie'): ?>
                                 <h4 align="center">Months</h4>
+                                <?php endif; ?>
                             </div>
                       
                     </div>

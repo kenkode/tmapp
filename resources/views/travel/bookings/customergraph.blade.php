@@ -25,9 +25,13 @@
                     <h2 align="center" style="font-weight: 500">{{date('Y')}} Revenues</h2>
                         
                         <div>
+                        @if($type != 'pie')
                         <h4 style="float: left;">Total Customers</h4>
+                        @endif
                                 <canvas id="barChart" height="140"></canvas>
+                                @if($type != 'pie')
                                 <h4 align="center">Months</h4>
+                                @endif
                             </div>
                       
                     </div>

@@ -19,15 +19,19 @@
                             </div>
                         </div> -->
 
-                        <button id="exportButton" type="button">Export as PDF</button>
-                
+                        <!-- <button id="exportButton" type="button">Export as PDF</button>
+                 -->
                     <div class="col-sm-12">
                     <h2 align="center" style="font-weight: 500"><?php echo e(date('Y')); ?> Revenues</h2>
                         
                         <div>
+                        <?php if($type != 'pie'): ?>
                         <h4 style="float: left;">Revenues (<?php echo e($currency); ?>)</h4>
+                        <?php endif; ?>
                                 <canvas id="barChart" height="140"></canvas>
+                                <?php if($type != 'pie'): ?>
                                 <h4 align="center">Months</h4>
+                                <?php endif; ?>
                             </div>
                       
                     </div>
@@ -100,7 +104,7 @@ var barChart = new Chart(barCanvas, {
 });
 
 
-var canvas = $("#barChart .canvasjs-chart-canvas").get(0);
+/*var canvas = $("#barChart .canvasjs-chart-canvas").get(0);
 var dataURL = canvas.toDataURL();
 //console.log(dataURL);
 
@@ -108,7 +112,7 @@ $("#exportButton").click(function(){
     var pdf = new jsPDF();
     pdf.addImage(dataURL, 'JPEG', 0, 0);
     pdf.save("download.pdf");
-});
+});*/
         /*var barData = {
         labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"],
         datasets: [
