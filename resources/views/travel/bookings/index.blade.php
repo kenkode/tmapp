@@ -24,6 +24,7 @@
     .modal { overflow: auto !important; }
    </style>
 
+
 @section('content')
 <div class="row  border-bottom white-bg dashboard-header">
 <div class="pro-head">
@@ -99,6 +100,38 @@
                                         <h3 id="title" class="m-t-none m-b">Select Report Type</h3>
                                             
                                              {{ csrf_field() }}
+
+                                            <div class="form-group"><label>Period <span style="color:red">*</span></label> 
+                                             <select required="" id="period" name="period" class="form-control">
+                                             <option value="">Select Period</option>
+                                             <option value="range"> Year Range</option>
+                                             <option value="specific"> Specific Year</option>
+                                             </select>
+                                             <p id="destination" style="color:red"></p>
+                                             </div>
+
+                                             <div id="rangeyears">
+
+                                             <div class="form-group">
+                                                <label for="username">From <span style="color:red">*</span></label>
+                                                <div class="right-inner-addon ">
+                                                <i class="glyphicon glyphicon-calendar"></i>
+                                                <input class="form-control year" readonly="readonly" placeholder="" type="text" required="" name="from" id="from">
+                                                </div>
+                                              </div>
+
+                                              <div class="form-group">
+                                                <label for="username">To <span style="color:red">*</span></label>
+                                                <div class="right-inner-addon ">
+                                                <i class="glyphicon glyphicon-calendar"></i>
+                                                <input class="form-control year" readonly="readonly" placeholder="" type="text" required="" name="to" id="to">
+                                                </div>
+                                              </div>
+
+                                             </div>
+
+                                              <div id="specificyear">
+
                                              <div class="form-group">
                                                 <label for="username">Year <span style="color:red">*</span></label>
                                                 <div class="right-inner-addon ">
@@ -106,6 +139,8 @@
                                                 <input class="form-control year" readonly="readonly" placeholder="" type="text" required="" name="year" id="year">
                                                 </div>
                                               </div>
+
+                                             </div>
 
                                              <div class="form-group"><label>Graph Type <span style="color:red">*</span></label> 
                                             <select required="" id="type" name="type" class="form-control">
@@ -116,6 +151,7 @@
                                              </select>
                                              <p id="destination" style="color:red"></p>
                                              </div>
+
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
@@ -273,6 +309,18 @@
 
 <script type="text/javascript">
    $(document).ready(function() {
+
+    $('#rangeyears').hide();
+    $('#specificyear').hide();
+    $('#period').change(function(){
+    if($(this).val() == "range"){
+    $('#rangeyears').show();
+    $('#specificyear').hide();
+    }else{
+    $('#specificyear').show();
+    $('#rangeyears').hide();
+    }
+    });
 
    $("#users").on("click",".view", function(){
      var id = $(this).data('id');

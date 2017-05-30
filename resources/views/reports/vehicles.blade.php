@@ -33,7 +33,7 @@ body {
 
 
 
- @page { margin: 170px 30px; }
+ @page { margin: 50px 30px; }
  .header { position: fixed; left: 0px; top: 0px; right: 0px; height: 150px;  text-align: center; }
  .content {margin-top: 10px; }
  .footer { position: fixed; left: 0px; bottom: -180px; right: 0px; height: 50px;  }
@@ -66,8 +66,8 @@ body {
         <strong>
           {{ strtoupper($organization->name)}}<br>
           </strong>
-          {{ $organization->phone}},<br>
-          {{ $organization->email}},<br>
+          {{ $organization->phone}}<br>
+          {{ $organization->email}}<br>
           {{ $organization->address}}
        
 
@@ -83,7 +83,7 @@ body {
 <br>
 
 
-	<div class="content" style='margin-top:170px;'>
+	<div class="content" style='margin-top:50px;'>
     @if(Auth::user()->type == 'Travel' || Auth::user()->type == 'Taxi')
 	  @if($status == 'all')
     <div align="center"><h3><strong>Vehicles Report</strong></h3></div>

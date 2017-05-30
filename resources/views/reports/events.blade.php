@@ -32,7 +32,7 @@ body {
 
 
 
- @page { margin: 170px 30px; }
+ @page { margin: 50px 30px; }
  .header { position: fixed; left: 0px; top: 0px; right: 0px; height: 150px;  text-align: center; }
  .content {margin-top: 10px; }
  .footer { position: fixed; left: 0px; bottom: -180px; right: 0px; height: 50px;  }
@@ -67,8 +67,8 @@ body {
         <strong>
           {{ strtoupper($organization->name)}}<br>
           </strong>
-          {{ $organization->phone}},<br>
-          {{ $organization->email}},<br>
+          {{ $organization->phone}}<br>
+          {{ $organization->email}}<br>
           {{ $organization->address}}
        
 
@@ -89,7 +89,7 @@ body {
 <?php $currency = $organization->currency_shortname; ?>
 @endif
  
-	<div class="content" style='margin-top:170px;'>
+	<div class="content" style='margin-top:50px;'>
  
    <div align="center"><h3><strong>Events report</strong></h3></div>
     <table class="table table-bordered" border='1' cellspacing='0' cellpadding='0'>

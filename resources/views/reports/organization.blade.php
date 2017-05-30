@@ -32,7 +32,7 @@ body {
 
 
 
- @page { margin: 170px 30px; }
+ @page { margin: 50px 30px; }
  .header { position: fixed; left: 0px; top: 0px; right: 0px; height: 150px;  text-align: center; }
  .content {margin-top: 10px; }
  .footer { position: fixed; left: 0px; bottom: -180px; right: 0px; height: 50px;  }
@@ -46,7 +46,7 @@ body {
 
 <body>
  
-	<div class="content" style='margin-top:170px;'>
+	<div class="content" style='margin-top:50px;'>
     <table width="500" border='1' cellspacing='0' cellpadding='0'>
 
       <tr><td><strong>Logo:</strong></td>

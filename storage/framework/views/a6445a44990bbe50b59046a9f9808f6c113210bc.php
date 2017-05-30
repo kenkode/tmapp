@@ -32,7 +32,7 @@ body {
 
 
 
- @page  { margin: 170px 30px; }
+ @page  { margin: 50px 30px; }
  .header { position: fixed; left: 0px; top: 0px; right: 0px; height: 150px;  text-align: center; }
  .content {margin-top: 10px; }
  .footer { position: fixed; left: 0px; bottom: -180px; right: 0px; height: 50px;  }
@@ -67,8 +67,8 @@ body {
         <strong>
           <?php echo e(strtoupper($organization->name)); ?><br>
           </strong>
-          <?php echo e($organization->phone); ?>,<br>
-          <?php echo e($organization->email); ?>,<br>
+          <?php echo e($organization->phone); ?><br>
+          <?php echo e($organization->email); ?><br>
           <?php echo e($organization->address); ?>
 
        
@@ -90,7 +90,7 @@ body {
 <?php $currency = $organization->currency_shortname; ?>
 <?php endif; ?>
  
-	<div class="content" style='margin-top:170px;'>
+	<div class="content" style='margin-top:50px;'>
  
    <div align="center"><h3><strong>Booking report for period <?php echo e($from); ?> and <?php echo e($to); ?></strong></h3></div>
     <table class="table table-bordered" border='1' cellspacing='0' cellpadding='0'>

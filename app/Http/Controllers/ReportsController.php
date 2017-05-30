@@ -15,7 +15,8 @@ use App\Event;
 use App\Booking;
 use App\Organization;
 use Illuminate\Support\Facades\Auth;
-use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
+//use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
+use Barryvdh\DomPDF\Facade as PDF;
 use Maatwebsite\Excel\Facades\Excel as Excel;
 
 class ReportsController extends Controller
@@ -1513,17 +1514,25 @@ class ReportsController extends Controller
     }
 
     public function graphbooking(Request $request){
-      $year = $request->year;
-      $type = $request->type;
+      
+      $from   = $request->from;
+      $period = $request->period;
+      $to     = $request->to;
+      $year   = $request->year;
+      $type   = $request->type;
       $organization = Organization::find(Auth::user()->organization_id);
-      return view('travel.bookings.bookinggraph',compact('year','type','organization'));
+      return view('travel.bookings.bookinggraph',compact('from','to','type','year','period','organization'));
+      
     }
 
     public function graphcustomer(Request $request){
-      $year = $request->year;
-      $type = $request->type;
+      $from   = $request->from;
+      $period = $request->period;
+      $to     = $request->to;
+      $year   = $request->year;
+      $type   = $request->type;
       $organization = Organization::find(Auth::user()->organization_id);
-      return view('travel.bookings.customergraph',compact('year','type','organization'));
+      return view('travel.bookings.customergraph',compact('from','to','type','year','period','organization'));
     }
 
     public function excel(){

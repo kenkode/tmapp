@@ -353,11 +353,46 @@ Route::get('bookgraph', function (Illuminate\Http\Request $request) {
     echo json_encode($arr);
 });
 
+Route::get('rangebookgraph', function (Illuminate\Http\Request $request) {
+   $arr = array();
+   $from = $request->from;
+   $to = $request->to;  
+   for ($i=$from; $i <= $to; $i++) {   
+   $amount = App\Booking::where('organization_id',Auth::user()->organization_id)->where('status','approved')->whereYear('date', '=', $i)->sum('amount');
+    array_push($arr, $amount);
+    }
+
+    echo json_encode($arr);
+});
+
+Route::get('labelbookgraph', function (Illuminate\Http\Request $request) {
+   $arr = array();
+   $from = $request->from;
+   $to = $request->to;  
+    for ($i=$from; $i <= $to; $i++) {   
+    array_push($arr, $i);
+    }
+
+    echo json_encode($arr);
+});
+
 Route::get('custgraph', function (Illuminate\Http\Request $request) {
    $arr = array();
    $year = $request->year;
     for ($i=1; $i <= 12; $i++) {   
     $customers = App\Booking::where('organization_id',Auth::user()->organization_id)->where('status','approved')->whereMonth('date', '=', $i)->whereYear('date', '=', $year)->count();
+    array_push($arr, $customers);
+    }
+
+    echo json_encode($arr);
+});
+
+Route::get('rangecustgraph', function (Illuminate\Http\Request $request) {
+   $arr = array();
+   $from = $request->from;
+   $to = $request->to;
+    for ($i=$from; $i <= $to; $i++) {   
+    $customers = App\Booking::where('organization_id',Auth::user()->organization_id)->where('status','approved')->whereYear('date', '=', $i)->count();
     array_push($arr, $customers);
     }
 
