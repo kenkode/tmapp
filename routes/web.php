@@ -399,6 +399,12 @@ Route::get('rangecustgraph', function (Illuminate\Http\Request $request) {
     echo json_encode($arr);
 });
 
+Route::get('apk', function () {
+        $file= public_path(). "/uploads/apk/tmapp.apk";
+        
+        return Response::download($file, "TmApp.apk");
+});
+
 Route::get('reports/test', 'ReportsController@test');
 Route::get('reports/excel', 'ReportsController@excel');
 });

@@ -59,7 +59,7 @@
                                 <canvas id="barChart" height="140"></canvas>
                                 <h4 align="center">Months</h4>
                             </div>
-                        <div class="row text-left">
+                        <!-- <div class="row text-left">
                             <div class="col-xs-4">
                                 <div class=" m-l-md">
                                 <span class="h4 font-bold m-t block">$ 406,100</span>
@@ -73,9 +73,9 @@
                             <div class="col-xs-4">
                                 <span class="h4 font-bold m-t block">$ 16,822</span>
                                 <small class="text-muted m-b block">Half-year revenue margin</small>
-                            </div>
+                            </div> 
 
-                        </div>
+                        </div> -->
                     </div>
                     <!-- <div class="col-sm-3">
                         <div class="statistic-box">

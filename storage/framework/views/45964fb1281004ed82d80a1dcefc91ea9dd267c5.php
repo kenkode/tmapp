@@ -587,10 +587,35 @@ var chartOptions = {
   }
 };
 
+var options = {
+    animation: false,
+    tooltips: {
+        callbacks: {
+            label: function(tooltipItem, data) {
+                return "Monthly Revenues KES "+parseFloat(tooltipItem.yLabel.toString()).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+            }
+        }
+    },
+    scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            callback: function(value, index, values) {
+              if(parseInt(value) >= 1000){
+                return  parseFloat(value.toString()).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+              } else {
+                return  value;
+              }
+            }
+          }
+        }]
+      }
+};
+
 var barChart = new Chart(barCanvas, {
   type: 'bar',
   data: barData,
-  options: chartOptions
+  options: options
 });
 
             /*var doughnutData = [

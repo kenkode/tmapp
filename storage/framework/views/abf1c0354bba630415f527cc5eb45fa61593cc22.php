@@ -25,8 +25,11 @@
                         <!-- <button id="exportButton" type="button">Export as PDF</button>
                  -->
                     <div class="col-sm-12">
-                    <h2 align="center" style="font-weight: 500"><?php echo e(date('Y')); ?> Revenues</h2>
-                        
+                    <?php if($period == 'specific'): ?>
+                    <h2 align="center" style="font-weight: 500"><?php echo e($year); ?> Revenues</h2>
+                    <?php else: ?>
+                    <h2 align="center" style="font-weight: 500"><?php echo e($from.' - '.$to); ?> Revenues</h2>
+                    <?php endif; ?>  
                         <div>
                         <?php if($type != 'pie'): ?>
                         <h4 style="float: left;">Revenues (<?php echo e($currency); ?>)</h4>
