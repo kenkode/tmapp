@@ -3,7 +3,7 @@
 
     $destination = $_POST['destination'];
     $origin = $_POST['origin'];
-    $date = $_POST['date'];
+    //$date = $_POST['date'];
     $time = $_POST['time'];  
     $arrival = $_POST['arrival'];
     $departure = $_POST['departure'];  
@@ -99,16 +99,16 @@ $mail->Subject = "User Confirnmation";
 $mail->msgHTML($message);
 
 if (!$mail->send()) {
-    echo "Mailer Error: " . $mail->ErrorInfo;
-    //echo "An error occured during booking...please try again!";
+    //echo "Mailer Error: " . $mail->ErrorInfo;
+    echo "An error occured during booking...please try again!";
 } else {
-    $query = mysqli_query($con, "insert into bookings(vehicle_id, organization_id, firstname, lastname, email, phone, id_number, ticketno, origin, destination, travel_date, arrival, departure, amount, status, date, mode_of_payment, seatno, created_at, updated_at) values ('".$vehicle."','".$organization."','".$firstname[$i]."','".$lastname[$i]."','".$email[$i]."','".$phone[$i]."','".$idno[$i]."','".$ticketno."','".$origin."','".$destination."','".$datetime."','".$arrival."','".$departure."','".$amount[$i]."','approved',NOW(),'".$paymentmode."','".$seat[$i]."',NOW(),NOW())");
+    $query = mysqli_query($con, "insert into bookings(vehicle_id, organization_id, firstname, lastname, email, phone, id_number, ticketno, origin, destination, travel_date, arrival, departure, amount, status, date, mode_of_payment, seatno, created_at, updated_at) values ('".$vehicle."','".$organization."','".$firstname[$i]."','".$lastname[$i]."','".$email[$i]."','".$phone[$i]."','".$idno[$i]."','".$ticketno."','".$origin."','".$destination."','".$departure."','".$arrival."','".$departure."','".$amount[$i]."','approved',NOW(),'".$paymentmode."','".$seat[$i]."',NOW(),NOW())");
     
     if($query){
         echo "Booking Successful... Your booking Details have been sent to your email address";
     }else{
-        //echo "An error occured during booking...please try again!";
-        echo mysqli_error($con);
+        echo "An error occured during booking...please try again!";
+        //echo mysqli_error($con);
     }
 }
       

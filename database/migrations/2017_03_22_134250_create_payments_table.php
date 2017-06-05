@@ -15,8 +15,8 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->increments('id');
-            $table->increments('origin_id');
-            $table->increments('destination_id');
+            $table->increments('origin_id')->nullable();
+            $table->increments('destination_id')->nullable();
             $table->float("firstclass",15,2)->nullable();
             $table->float("business",15,2)->nullable();
             $table->float("economic",15,2)->nullable();

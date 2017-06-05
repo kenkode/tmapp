@@ -17,6 +17,7 @@ class CreateVehiclenamesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('logo')->nullable();
+            $table->string('type');
             $table->integer('organization_id');
             $table->timestamps();
         });

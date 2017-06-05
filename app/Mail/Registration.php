@@ -31,7 +31,7 @@ class Registration extends Mailable
      */
     public function build()
     {
-        return $this->from('info@lixnet.net', 'TMAPP')
+        return $this->from('info@upstridge.co.ke', 'TMAPP')
                     ->subject('Registration Confirmation')
                     ->view('emails.registration');
     }

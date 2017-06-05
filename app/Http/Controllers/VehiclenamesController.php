@@ -87,6 +87,16 @@ class VehiclenamesController extends Controller
             $vehiclename->logo = 'default_photo.png';
         }
 
+        if(Auth::user()->type == 'Travel'){
+        $vehiclename->type = 'Travel';  
+        }else if(Auth::user()->type == 'Taxi'){
+        $vehiclename->type = 'Taxi'; 
+        }else if(Auth::user()->type == 'SGR'){
+        $vehiclename->type = 'SGR';
+        }else if(Auth::user()->type == 'Airline'){
+        $vehiclename->type = 'Airline'; 
+        }
+
         $vehiclename->name = $request->name;
         $vehiclename->organization_id = Auth::user()->organization_id;
 
@@ -101,6 +111,15 @@ class VehiclenamesController extends Controller
             $imageName = time().'.'.$request->image->getClientOriginalExtension();
             $request->image->move(public_path('uploads/logo'), $imageName);
             $vehiclename->logo = $imageName;
+        }
+        if(Auth::user()->type == 'Travel'){
+        $vehiclename->type = 'Travel';  
+        }else if(Auth::user()->type == 'Taxi'){
+        $vehiclename->type = 'Taxi'; 
+        }else if(Auth::user()->type == 'SGR'){
+        $vehiclename->type = 'SGR';
+        }else if(Auth::user()->type == 'Airline'){
+        $vehiclename->type = 'Airline'; 
         }
         $vehiclename->name = $request->name;
         $vehiclename->update();

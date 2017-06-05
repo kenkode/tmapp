@@ -44,12 +44,12 @@ class PaymentsController extends Controller
 
           <td> $i </td>
           <td>".Payment::getVehicle($payment->vehicle_id)."</td>";
-          $display .="<td>".Schedule::getDestination($payment->origin_id)->name."</td>
-          <td>".Schedule::getDestination($payment->destination_id)->name."</td>";
-          
           if(Auth::user()->type != 'Taxi'){
-          $display .="<td>".number_format($payment->firstclass,2)."</td>";
+          $display .="<td>".Schedule::getDestination($payment->origin_id)->name."</td>
+          <td>".Schedule::getDestination($payment->destination_id)->name."</td>
+          <td>".number_format($payment->firstclass,2)."</td>";
           }
+          
           if(Auth::user()->type == 'Airline'){
           $display .="<td>".number_format($payment->business,2)."</td>";
           $display .="<td>".$payment->children."</td>";
@@ -68,6 +68,11 @@ class PaymentsController extends Controller
                     <li><a data-toggle='modal' href='#modal-view' data-name='".Payment::getVehicle($payment->vehicle_id)."' data-id='$payment->id' data-vip='".number_format($payment->firstclass,2)."' data-business='".number_format($payment->business,2)."' data-children='$payment->children' data-economic='".number_format($payment->economic,2)."' data-origin='".Schedule::getDestination($payment->origin_id)->name."' data-destination='".Schedule::getDestination($payment->destination_id)->name."' class='view'>View</a></li>
 
                     <li><a data-toggle='modal' href='#modal-form' data-name='$payment->vehicle_id' data-id='$payment->id' data-business='".number_format($payment->business,2)."' data-children='$payment->children' data-origin='$payment->origin_id' data-destination='$payment->destination_id' data-vip='".number_format($payment->firstclass,2)."' data-economic='".number_format($payment->economic,2)."' class='edit'>Update</a></li>";
+         }else if(Auth::user()->type == 'Taxi'){
+          $display .="<ul class='dropdown-menu' role='menu'>
+                    <li><a data-toggle='modal' href='#modal-view' data-name='".Payment::getVehicle($payment->vehicle_id)."' data-id='$payment->id' data-economic='".number_format($payment->economic,2)."' class='view'>View</a></li>
+
+                    <li><a data-toggle='modal' href='#modal-form' data-name='$payment->vehicle_id' data-id='$payment->id' data-economic='".number_format($payment->economic,2)."' class='edit'>Update</a></li>";
          }else{
           $display .="<ul class='dropdown-menu' role='menu'>
                     <li><a data-toggle='modal' href='#modal-view' data-name='".Payment::getVehicle($payment->vehicle_id)."' data-id='$payment->id' data-vip='".number_format($payment->firstclass,2)."' data-economic='".number_format($payment->economic,2)."' data-origin='".Schedule::getDestination($payment->origin_id)->name."' data-destination='".Schedule::getDestination($payment->destination_id)->name."' class='view'>View</a></li>

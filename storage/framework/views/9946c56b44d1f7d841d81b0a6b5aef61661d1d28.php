@@ -231,6 +231,7 @@ $('.year').datepicker({
     startView: "years", 
     minViewMode: "years",
     autoclose: true,
+    endDate: '+0d',
     orientation: "bottom"
 });
 });
