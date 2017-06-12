@@ -4,7 +4,7 @@
 @section('content')
 <div class="loginColumns animated fadeInDown">
     <div class="row">
-        <div class="col-md-12 ">
+        <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">Reset Password</div>
                 <div class="panel-body">
@@ -39,14 +39,13 @@
 
                                 
                             </div>
-
+<!--
                             <div class="col-md-4">
-                                
-                                   <a class="btn btn-warning" style="color: white;" href="{{url('/login')}}">Login</a>
-                               
+                                <a class="btn btn-warning" style="color: white;" href="{{url('/login')}}">Login</a>
 
                                 
                             </div>
+                            -->
                         </div>
                     </form>
                 </div>

@@ -35,11 +35,13 @@ class EventsController extends Controller
           </td>
           <td>$event->name</td>
           <td>$event->description</td>
+          <td>$event->slots</td>
           <td>$event->contact</td>
           <td>$event->address</td>
           <td>".number_format($event->vip,2)."</td>
           <td>".number_format($event->normal,2)."</td>
-          <td>".number_format($event->children,2)."</td>";
+          <td>".number_format($event->children,2)."</td>
+          <td>$event->date</td>";
           
           $display .="<td>
 
@@ -49,9 +51,9 @@ class EventsController extends Controller
                   </button>
           
                   <ul class='dropdown-menu' role='menu'>
-                  <li><a data-toggle='modal' href='#modal-view' data-id='$event->id' data-name='$event->name' data-logo='$event->image' data-contact='$event->contact' data-address='$event->address' data-description='$event->description' data-vip='".number_format($event->vip,2)."' data-economic='".number_format($event->normal,2)."' data-children='".number_format($event->children,2)."' class='view'>View</a></li>
+                  <li><a data-toggle='modal' href='#modal-view' data-id='$event->id' data-name='$event->name' data-slots='$event->slots' data-logo='$event->image' data-contact='$event->contact' data-date='$event->date' data-address='$event->address' data-description='$event->description' data-vip='".number_format($event->vip,2)."' data-economic='".number_format($event->normal,2)."' data-children='".number_format($event->children,2)."' class='view'>View</a></li>
 
-                    <li><a data-toggle='modal' href='#modal-form' data-id='$event->id' data-name='$event->name' data-logo='$event->image' data-contact='$event->contact' data-address='$event->address' data-description='$event->description' data-vip='".number_format($event->vip,2)."' data-economic='".number_format($event->normal,2)."' data-children='".number_format($event->children,2)."' class='edit'>Update</a></li>
+                    <li><a data-toggle='modal' href='#modal-form' data-id='$event->id' data-name='$event->name' data-slots='$event->slots' data-logo='$event->image' data-contact='$event->contact' data-date='$event->date' data-address='$event->address' data-description='$event->description' data-vip='".number_format($event->vip,2)."' data-economic='".number_format($event->normal,2)."' data-children='".number_format($event->children,2)."' class='edit'>Update</a></li>
 
                     <li><a id='$event->id' class='delete'>
                     <form id='delform'>".
@@ -88,7 +90,9 @@ class EventsController extends Controller
         }
 
         $event->name = $request->name;
+        $event->date = $request->date;
         $event->description = $request->description;
+        $event->slots = $request->slots;
         $event->contact = $request->contact;
         $event->address = $request->location;
         $event->vip = str_replace(',', '', $request->vip);
@@ -111,7 +115,9 @@ class EventsController extends Controller
         }
 
         $event->name = $request->name;
+        $event->date = $request->date;
         $event->description = $request->description;
+        $event->slots = $request->slots;
         $event->contact = $request->contact;
         $event->address = $request->location;
         $event->vip = str_replace(',', '', $request->vip);

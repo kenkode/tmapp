@@ -209,17 +209,25 @@
                                                <td><strong>Ticket No : </strong></td><td class="tdticket"></td>
                                             </tr>
 
+                                            <?php if(Auth::user()->type != 'Events'): ?>
                                             <tr>
                                                <td><strong>Vehicle : </strong></td><td class="tdvehicle"></td>
                                             </tr>
+                                            <?php elseif(Auth::user()->type == 'Events'): ?>
+                                            <tr>
+                                               <td><strong>Event : </strong></td><td class="tdevent"></td>
+                                            </tr>
+                                            <?php endif; ?>
 
                                             <tr>
                                                <td><strong>Customer : </strong></td><td class="tdcustomer"></td>
                                             </tr>
 
+                                            <?php if(Auth::user()->type != 'Events'): ?>
                                             <tr>
                                                <td><strong>Seat No : </strong></td><td class="tdseat"></td>
                                             </tr>
+                                            <?php endif; ?>
 
                                             <tr>
                                                <td><strong>Travel Date : </strong></td><td class="tdtravel"></td>
@@ -257,9 +265,15 @@
 
         <th style="color:#FFF">#</th>
         <th style="color:#FFF">Ticket No.</th>
+        <?php if(Auth::user()->type != 'Events'): ?>
         <th style="color:#FFF">Vehicle</th>
+        <?php elseif(Auth::user()->type == 'Events'): ?>
+        <th style="color:#FFF">Event</th>
+        <?php endif; ?>
         <th style="color:#FFF">Customer</th>
+        <?php if(Auth::user()->type != 'Events'): ?>
         <th style="color:#FFF">Seat No.</th>
+        <?php endif; ?>
         <th style="color:#FFF">Travel Date</th>
         <th style="color:#FFF">Date Booked</th>
         <th style="color:#FFF">Status</th>
@@ -273,9 +287,15 @@
         <tr class="<?php echo e('del'.$booking->id); ?>">
           <td><?php echo e($i); ?></td>
           <td><?php echo e($booking->ticketno); ?></td>
+          <?php if(Auth::user()->type != 'Events' ): ?>
           <td><?php echo e(App\Booking::getVehicle($booking->vehicle_id)->regno.' '.App\Booking::getVehicle($booking->vehicle_id)->vehiclename->name); ?></td>
+          <?php elseif(Auth::user()->type == 'Events'): ?>
+          <td><?php echo e(App\Booking::getEvent($booking->event_id)->name); ?></td>
+          <?php endif; ?>
           <td><?php echo e($booking->firstname.' '.$booking->lastname); ?></td>
+          <?php if(Auth::user()->type != 'Events'): ?>
           <td><?php echo e($booking->seatno); ?></td>
+          <?php endif; ?>
           <td><?php echo e($booking->travel_date); ?></td>
           <td><?php echo e($booking->date); ?></td>
           <td><?php echo e($booking->status); ?></td>
@@ -288,8 +308,11 @@
                   </button>
           
                   <ul class="dropdown-menu" role="menu">
-                    
+                    <?php if(Auth::user()->type != 'Events'): ?>
                     <li><a class="view" data-toggle="modal" data-ticket="<?php echo e($booking->ticketno); ?>" data-vehicle="<?php echo e(App\Booking::getVehicle($booking->vehicle_id)->regno.' '.App\Booking::getVehicle($booking->vehicle_id)->vehiclename->name); ?>" data-customer="<?php echo e($booking->firstname.' '.$booking->lastname); ?>" data-seat="<?php echo e($booking->seatno); ?>" data-travel="<?php echo e($booking->travel_date); ?>" data-date="<?php echo e($booking->date); ?>" data-status="<?php echo e($booking->status); ?>" data-amount="<?php echo e(number_format($booking->amount,2)); ?>"  data-id="<?php echo e($booking->id); ?>" href="#modal-view">View</a></li>
+                    <?php elseif(Auth::user()->type == 'Events'): ?>
+                    <li><a class="view" data-toggle="modal" data-ticket="<?php echo e($booking->ticketno); ?>" data-event="<?php echo e(App\Booking::getEvent($booking->event_id)->name); ?>" data-customer="<?php echo e($booking->firstname.' '.$booking->lastname); ?>" data-seat="<?php echo e($booking->seatno); ?>" data-travel="<?php echo e($booking->travel_date); ?>" data-date="<?php echo e($booking->date); ?>" data-status="<?php echo e($booking->status); ?>" data-amount="<?php echo e(number_format($booking->amount,2)); ?>"  data-id="<?php echo e($booking->id); ?>" href="#modal-view">View</a></li>
+                    <?php endif; ?>
                     <li><a class="sreport" data-toggle="modal" data-id="<?php echo e($booking->id); ?>" href="#modal-singlereport">Report</a></li>
                     
                   </ul>
@@ -333,6 +356,7 @@
      var status = $(this).data('status');
      var amount = $(this).data('amount');
      var ticket = $(this).data('ticket');
+     var event = $(this).data('event');
      var l = window.location;
      var base_url = l.protocol + "//" + l.host + "/" + l.pathname.split('/')[1];
 
@@ -345,6 +369,7 @@
      $(".modal-body .tddate").html( date );
      $(".modal-body .tdstatus").html( status );
      $(".modal-body .tdamount").html( amount );
+     $(".modal-body .tdevent").html( event );
      /*$(".modal-body #id").val( id );
      $('#title').html('Update Currency');
      $('#submit').html('Update changes');

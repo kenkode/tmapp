@@ -19,6 +19,11 @@
     $amount = preg_replace("/[^0-9.]/", "", explode(',', str_replace(array('[',']'),'',$_POST['amount'])));   
     $newdate = strtotime($date.' '.$time);
     $datetime = date('Y-m-d H:i:s', $newdate);
+    $vip = preg_replace("/[^0-9.]/", "", explode(',', str_replace(array('[',']'),'',$_POST['vip'])));
+    $normal = preg_replace("/[^0-9.]/", "", explode(',', str_replace(array('[',']'),'',$_POST['economic'])));
+    $children = preg_replace("/[^0-9.]/", "", explode(',', str_replace(array('[',']'),'',$_POST['children'])));
+    $adult = explode(',', str_replace(array('[',']'),'',$_POST['adults']));
+    $childrencount = explode(',', str_replace(array('[',']'),'',$_POST['child']));  
 
     //$decoded = explode(',', str_replace(array('[[',']]'),'',$seat));
     //echo count($seat);
@@ -95,14 +100,14 @@ $message = "Hello ".$firstname[$i]." ".$lastname[$i].",<br> This is a confirmati
 
 $mail->setFrom('wangoken2@gmail.com', 'Upstridge');
 $mail->addAddress($email[$i], $firstname[$i]." ".$lastname[$i]);
-$mail->Subject = "User Confirnmation";
+$mail->Subject = "Booking Confirmation";
 $mail->msgHTML($message);
 
 if (!$mail->send()) {
     //echo "Mailer Error: " . $mail->ErrorInfo;
     echo "An error occured during booking...please try again!";
 } else {
-    $query = mysqli_query($con, "insert into bookings(vehicle_id, organization_id, firstname, lastname, email, phone, id_number, ticketno, origin, destination, travel_date, arrival, departure, amount, status, date, mode_of_payment, seatno, created_at, updated_at) values ('".$vehicle."','".$organization."','".$firstname[$i]."','".$lastname[$i]."','".$email[$i]."','".$phone[$i]."','".$idno[$i]."','".$ticketno."','".$origin."','".$destination."','".$departure."','".$arrival."','".$departure."','".$amount[$i]."','approved',NOW(),'".$paymentmode."','".$seat[$i]."',NOW(),NOW())");
+    $query = mysqli_query($con, "insert into bookings(vehicle_id, organization_id, firstname, lastname, email, phone, id_number, ticketno, origin, destination, travel_date, arrival, departure, amount, vip_amount, normal_amount, children_amount, adult_number, children_number, status, date, mode_of_payment, seatno, created_at, updated_at) values ('".$vehicle."','".$organization."','".$firstname[$i]."','".$lastname[$i]."','".$email[$i]."','".$phone[$i]."','".$idno[$i]."','".$ticketno."','".$origin."','".$destination."','".$departure."','".$arrival."','".$departure."','".$amount[$i]."','".$vip[$i]."','".$normal[$i]."','".$children[$i]."','".$adult[$i]."','".$childrencount[$i]."','approved',NOW(),'".$paymentmode."','".$seat[$i]."',NOW(),NOW())");
     
     if($query){
         echo "Booking Successful... Your booking Details have been sent to your email address";

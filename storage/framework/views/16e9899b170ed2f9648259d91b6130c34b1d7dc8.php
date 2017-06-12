@@ -11,7 +11,7 @@
     <title><?php echo e(config('app.name', 'Laravel')); ?></title>
 
     <!-- Styles -->
-    <link href="<?php echo e(url('/css/app.css')); ?>" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
 
     <!-- Scripts -->
     <script>
@@ -84,6 +84,6 @@
     </div>
 
     <!-- Scripts -->
-    <script src="<?php echo e(url('/js/app.js')); ?>"></script>
+    <script src="/js/app.js"></script>
 </body>
 </html>

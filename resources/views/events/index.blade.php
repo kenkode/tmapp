@@ -63,15 +63,28 @@
                                              </div>
                                              <div class="form-group"><label>Description</label> 
                                              <textarea id="description" placeholder="Enter Description" class="form-control"></textarea>
-                                             <p id="errors" style="color:red"></p>
+                                             <p id="deserrors" style="color:red"></p>
+                                             </div>
+
+                                             <div class="form-group"><label>Date <span style="color:red">*</span></label> 
+                                             <div class="right-inner-addon">
+                                             <i class="glyphicon glyphicon-calendar"></i>
+                                             <input type="text" class="form-control" name='date' id='datetimepicker' placeholder="Arrival Date">
+                    
+                                             </div>
+                                             <p id="dateerror" style="color:red"></p>
+                                             </div>
+                                             <div class="form-group"><label>Booking Slots</label> 
+                                             <input type="text" id="slots" placeholder="Enter Booking Slots Available" class="form-control"></textarea>
+                                             <p id="slotserrors" style="color:red"></p>
                                              </div>
                                              <div class="form-group"><label>Contact</label> 
                                              <textarea id="contact" placeholder="Enter Contact" class="form-control"></textarea>
-                                             <p id="errors" style="color:red"></p>
+                                             <p id="contacterrors" style="color:red"></p>
                                              </div>
                                              <div class="form-group"><label>Location</label> 
                                              <textarea id="location" placeholder="Enter Location" class="form-control"></textarea>
-                                             <p id="errors" style="color:red"></p>
+                                             <p id="locerrors" style="color:red"></p>
                                              </div>
                                              <div class="form-group"><label>VIP Entrance Fee</label> 
                                              <input type="text" id="vip" placeholder="Enter VIP Fare" class="form-control">
@@ -89,18 +102,20 @@
                                              $('#economic').priceFormat();
                                              });
                                              </script>
-                                             <p id="errors" style="color:red"></p>
+                                             <p id="econerrors" style="color:red"></p>
                                              </div>
 
-                                             <div class="form-group"><label>Children Entrance Fee<span style="color:red">*</span></label> 
+                                             <div class="form-group"><label>Children Entrance Fee</label> 
                                              <input type="text" id="children" placeholder="Enter Children Fee" class="form-control">
                                              <script type="text/javascript">
                                              $(document).ready(function() {
                                              $('#children').priceFormat();
                                              });
                                              </script>
-                                             <p id="errors" style="color:red"></p>
+                                             <p id="childerrors" style="color:red"></p>
                                              </div>
+
+                                             
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
@@ -165,6 +180,10 @@
                                             </tr>
 
                                             <tr>
+                                               <td><strong>Booking Slots : </strong></td><td class="tdslots"></td>
+                                            </tr>
+
+                                            <tr>
                                                <td><strong>Contact : </strong></td><td class="tdcontact"></td>
                                             </tr>
 
@@ -182,6 +201,10 @@
 
                                             <tr>
                                                <td><strong>Children Entrance Fee : </strong></td><td class="tdchildren"></td>
+                                            </tr>
+
+                                            <tr>
+                                               <td><strong>Date : </strong></td><td class="tddate"></td>
                                             </tr>
 
                                         </table>
@@ -208,11 +231,13 @@
         <th style="color:#FFF">Logo</th>
         <th style="color:#FFF">Name</th>
         <th style="color:#FFF">Description</th>
+        <th style="color:#FFF">Slots</th>
         <th style="color:#FFF">Contact</th>
         <th style="color:#FFF">Address</th>
         <th style="color:#FFF">Vip Entrance Fee</th>
         <th style="color:#FFF">Normal Entrance Fee</th>
         <th style="color:#FFF">Children Entrance Fee</th>
+        <th style="color:#FFF">Date</th>
         <th style="color:#FFF">Action</th>
 
       </thead>
@@ -224,11 +249,13 @@
           <td><img src="{{url('/public/uploads/logo/'.$event->image)}}" width="100" height="100" alt="no logo" /></td>
           <td>{{$event->name}}</td>
           <td>{{$event->description}}</td>
+          <td>{{$event->slots}}</td>
           <td>{{$event->contact}}</td>
           <td>{{$event->address}}</td>
           <td>{{number_format($event->vip,2)}}</td>
           <td>{{number_format($event->normal,2)}}</td>
           <td>{{number_format($event->children,2)}}</td>
+          <td>{{$event->date}}</td>
           <td>
 
                   <div class="btn-group">
@@ -237,9 +264,9 @@
                   </button>
           
                   <ul class="dropdown-menu" role="menu">
-                    <li><a class="view" data-toggle="modal" data-name="{{$event->name}}" data-logo="{{$event->image}}" data-description="{{$event->description}}" data-contact="{{$event->contact}}" data-address="{{$event->address}}" data-vip="{{number_format($event->vip,2)}}" data-economic="{{number_format($event->normal,2)}}" data-id="{{$event->id}}" data-children="{{number_format($event->children,2)}}" href="#modal-view">View</a></li>
+                    <li><a class="view" data-toggle="modal" data-name="{{$event->name}}" data-logo="{{$event->image}}" data-description="{{$event->description}}" data-slots="{{$event->slots}}" data-contact="{{$event->contact}}" data-address="{{$event->address}}" data-vip="{{number_format($event->vip,2)}}" data-economic="{{number_format($event->normal,2)}}" data-id="{{$event->id}}" data-children="{{number_format($event->children,2)}}" data-date="{{$event->date}}" href="#modal-view">View</a></li>
 
-                    <li><a class="edit" data-toggle="modal" data-name="{{$event->name}}" data-logo="{{$event->image}}" data-description="{{$event->description}}" data-contact="{{$event->contact}}" data-address="{{$event->address}}" data-vip="{{number_format($event->vip,2)}}" data-economic="{{number_format($event->normal,2)}}" data-id="{{$event->id}}" data-children="{{number_format($event->children,2)}}" href="#modal-form">Update</a></li>
+                    <li><a class="edit" data-toggle="modal" data-name="{{$event->name}}" data-logo="{{$event->image}}" data-description="{{$event->description}}" data-slots="{{$event->slots}}" data-contact="{{$event->contact}}" data-address="{{$event->address}}" data-vip="{{number_format($event->vip,2)}}" data-economic="{{number_format($event->normal,2)}}" data-id="{{$event->id}}" data-children="{{number_format($event->children,2)}}" data-date="{{$event->date}}" href="#modal-form">Update</a></li>
                    
                     <li><a id="{{$event->id}}" class="delete">
                     <form id="delform">
@@ -320,11 +347,13 @@ $(document).ready(function() {
      $('#sucessmessage').html('Saving data');     
      $('#name').val('');
      $('#description').val('');
+     $('#slots').val('');
      $('#contact').val('');
      $('#location').val('');
      $('#vip').val('');
      $('#economic').val('');
      $('#children').val('');
+     $('#datetimepicker').val('');
      $('#id').val('');
      $('#errors').html("");
      $("#form").attr("action", "events/store");
@@ -334,22 +363,26 @@ $(document).ready(function() {
      var id = $(this).data('id');
      var name = $(this).data('name');
      var description = $(this).data('description');
+     var slots = $(this).data('slots');
      var contact = $(this).data('contact');
      var location = $(this).data('address');
      var vip = $(this).data('vip');
      var economic = $(this).data('economic');
      var children = $(this).data('children');
+     var date = $(this).data('date');
      var l = window.location;
      var base_url = l.protocol + "//" + l.host + "/" + l.pathname.split('/')[1];
      var logo = base_url+'/public/uploads/logo/'+$(this).data('logo');
      $('#update').removeAttr('disabled');
      $(".modal-body #name").val( name );
      $(".modal-body #description").val( description );
+     $(".modal-body #slots").val( slots );
      $(".modal-body #contact").val( contact );
      $(".modal-body #location").val( location );
      $(".modal-body #vip").val( vip );
      $(".modal-body #economic").val( economic );
      $(".modal-body #children").val( children );
+     $(".modal-body #datetimepicker").val( date );
      $(".modal-body #id").val( id );
      $(".modal-body #imagePreview").css('background-image', 'url('+logo+')');
      $('#title').html('Update Vehicle Name');
@@ -367,11 +400,13 @@ $(document).ready(function() {
      var id = $(this).data('id');
      var name = $(this).data('name');
      var description = $(this).data('description');
+     var slots = $(this).data('slots');
      var contact = $(this).data('contact');
      var location = $(this).data('address');
      var vip = $(this).data('vip');
      var economic = $(this).data('economic');
      var children = $(this).data('children');
+     var date = $(this).data('date');
      var l = window.location;
      var base_url = l.protocol + "//" + l.host + "/" + l.pathname.split('/')[1];
      var logo = base_url+'/public/uploads/logo/'+$(this).data('logo');
@@ -379,11 +414,13 @@ $(document).ready(function() {
      $(".modal-body .tdname").html( name );
      $(".modal-body .tdlogo").html('<img src="'+logo+'" width="100" height="100" alt="no logo" />');
      $(".modal-body .tddescription").html( description );
+     $(".modal-body .tdslots").html( slots );
      $(".modal-body .tdcontact").html( contact );
      $(".modal-body .tdaddress").html( location );
      $(".modal-body .tdvip").html('{{$currency}} '+ vip );
      $(".modal-body .tdeconomic").html('{{$currency}} '+ economic );
      $(".modal-body .tdchildren").html('{{$currency}} '+ children );
+     $(".modal-body .tddate").html( date );
    });
 
 
@@ -391,6 +428,15 @@ $(document).ready(function() {
     
      if($('#name').val() == ""){
         $('#errors').html("Please insert event name!");
+        return false;
+     }else if($('#slots').val() == ""){
+        $('#slotserrors').html("Please insert booking slots!");
+        return false;
+     }else if($('#economic').val() == ""){
+        $('#econerrors').html("Please insert normal entrance fee!");
+        return false;
+     }else if($('#datetimepicker').val() == ""){
+        $('#dateerror').html("Please insert event date!");
         return false;
      }else{
         $('#submit').attr("disabled", "true");
@@ -400,11 +446,13 @@ $(document).ready(function() {
         }
         var name = $('#name').val();
         var description = $('#description').val();
+        var slots = $('#slots').val();
         var location = $('#location').val();
         var contact = $('#contact').val();
         var vip = $('#vip').val();
         var economic = $('#economic').val();
         var children = $('#children').val();
+        var date = $('#datetimepicker').val();
         var image = $("#form input[name=logo]").val();
         var id = $('#vid').val();
         var token = $("#form input[name=_token]").val();
@@ -413,11 +461,13 @@ $(document).ready(function() {
         data.append("image", $('input[type=file]')[0].files[0]);
         data.append("name",name);
         data.append("description",description);
+        data.append("slots",slots);
         data.append("location",location);
         data.append("contact",contact);
         data.append("vip",vip);
         data.append("economic",economic);
         data.append("children",children);
+        data.append("date",date);
         data.append("_token",token);
         data.append("logo",$('input[type=file]')[0].files[0].name);
 
@@ -439,11 +489,13 @@ $(document).ready(function() {
                       $('#submit').removeAttr('disabled');
                       $('#name').val('');
                       $('#description').val('');
+                      $('#slots').val('');
                       $('#location').val('');
                       $('#contact').val('');
                       $('#vip').val('');
                       $('#economic').val('');
                       $('#children').val('');
+                      $('#datetimepicker').val('');
                       displaydata(); 
                       /*$.alert("Registration Successfully! <br/>A confirmation link has been sent to your email!", {autoClose: true,closeTime: 5000,withTime: false,type: 'success',position: ['center', [-0.25, 0]], title: false,icon:'glyphicon glyphicon-ok',close: '',speed: 'normal',isOnly: true,minTop: 10,animation: false,animShow: 'fadeIn',animHide: 'fadeOut'});*/
                       $.notify({
@@ -518,6 +570,15 @@ $(document).ready(function() {
      if($('#name').val() == ""){
         $('#errors').html("Please insert event name!");
         return false;
+     }else if($('#slots').val() == ""){
+        $('#slotserrors').html("Please insert booking slots!");
+        return false;
+     }else if($('#economic').val() == ""){
+        $('#econerrors').html("Please insert normal entrance fee!");
+        return false;
+     }else if($('#datetimepicker').val() == ""){
+        $('#dateerror').html("Please insert event date!");
+        return false;
      }else{
         $('#update').attr("disabled", "true");
         var data= false;
@@ -528,22 +589,26 @@ $(document).ready(function() {
         var image = $("#form input[name=logo]").val();
         var id = $('#id').val();
         var description = $('#description').val();
+        var slots = $('#slots').val();
         var location = $('#location').val();
         var contact = $('#contact').val();
         var vip = $('#vip').val();
         var economic = $('#economic').val();
         var children = $('#children').val();
+        var date = $('#datetimepicker').val();
         var token = $("#form input[name=_token]").val();
         var urL = $('#form').attr('action');
 
         data.append("image", $('input[type=file]')[0].files[0]);
         data.append("name",name);
         data.append("description",description);
+        data.append("slots",slots);
         data.append("location",location);
         data.append("contact",contact);
         data.append("vip",vip);
         data.append("economic",economic);
         data.append("children",children);
+        data.append("date",date);
         data.append("_token",token);
         data.append("id",id);
         //data.append("logo",$('input[type=file]')[0].files[0].name);
@@ -642,6 +707,32 @@ $(document).ready(function() {
      }
    });
 
+   $('#slots').keyup(function(){
+    if($('#slots').val() == ""){
+        $('#slotserrors').html("Please insert booking slots!");
+        return false;
+     }else{
+      $('#slotserrors').html("");
+     }
+   });
+
+   $('#datetimepicker').on('change',function(){
+    if($(this).val() == ""){
+        $('#dateerror').html("Please insert event date!");
+        return false;
+     }else{
+      $('#dateerror').html("");
+     }
+   });
+
+   $('#economic').keyup(function(){
+    if($('#economic').val() == ""){
+        $('#econerrors').html("Please insert normal entrance fee!");
+        return false;
+     }else{
+      $('#econerrors').html("");
+     }
+   });
    
 
   });

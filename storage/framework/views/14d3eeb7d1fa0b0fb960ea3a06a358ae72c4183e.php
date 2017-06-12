@@ -68,7 +68,7 @@
                                 <canvas id="barChart" height="140"></canvas>
                                 <h4 align="center">Months</h4>
                             </div>
-                        <div class="row text-left">
+                        <!-- <div class="row text-left">
                             <div class="col-xs-4">
                                 <div class=" m-l-md">
                                 <span class="h4 font-bold m-t block">$ 406,100</span>
@@ -84,7 +84,7 @@
                                 <small class="text-muted m-b block">Half-year revenue margin</small>
                             </div>
 
-                        </div>
+                        </div> -->
                     </div>
                     <!-- <div class="col-sm-3">
                         <div class="statistic-box">
@@ -481,7 +481,7 @@
                      } 
                  });
 
-        var barData = {
+        /*var barData = {
         labels: ["January", "February", "March", "April", "May", "June", "July","August","September","      October","November","December"],
         datasets: [
             {
@@ -631,7 +631,65 @@
             var ctx = document.getElementById("polarChart").getContext("2d");
             var Polarchart = new Chart(ctx).PolarArea(polarData, polarOptions);
 
-        });
+        });*/
+
+        var barCanvas = document.getElementById("barChart");
+
+Chart.defaults.global.defaultFontFamily = "Lato";
+Chart.defaults.global.defaultFontSize = 18;
+
+var barData = {
+  labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"],
+  datasets: [{
+    fill: true,
+    borderColor: 'rgba(26,179,148,0.5)',
+    backgroundColor: 'rgba(26,179,148,0.5)',
+    label: 'Monthly Revenues (KES)',
+    data: results,
+  }]
+};
+
+var chartOptions = {
+  legend: {
+    display: true,
+    position: 'top',
+    labels: {
+      fontColor: 'black'
+    }
+  }
+};
+
+var options = {
+    animation: false,
+    tooltips: {
+        callbacks: {
+            label: function(tooltipItem, data) {
+                return "Monthly Revenues KES "+parseFloat(tooltipItem.yLabel.toString()).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+            }
+        }
+    },
+    scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            callback: function(value, index, values) {
+              if(parseInt(value) >= 1000){
+                return  parseFloat(value.toString()).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+              } else {
+                return  value;
+              }
+            }
+          }
+        }]
+      }
+};
+
+var barChart = new Chart(barCanvas, {
+  type: 'bar',
+  data: barData,
+  options: options
+});
+ });
     </script>
 <?php $__env->stopSection(); ?>
 

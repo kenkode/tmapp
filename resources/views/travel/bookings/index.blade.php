@@ -208,17 +208,25 @@
                                                <td><strong>Ticket No : </strong></td><td class="tdticket"></td>
                                             </tr>
 
+                                            @if(Auth::user()->type != 'Events')
                                             <tr>
                                                <td><strong>Vehicle : </strong></td><td class="tdvehicle"></td>
                                             </tr>
+                                            @elseif(Auth::user()->type == 'Events')
+                                            <tr>
+                                               <td><strong>Event : </strong></td><td class="tdevent"></td>
+                                            </tr>
+                                            @endif
 
                                             <tr>
                                                <td><strong>Customer : </strong></td><td class="tdcustomer"></td>
                                             </tr>
 
+                                            @if(Auth::user()->type != 'Events')
                                             <tr>
                                                <td><strong>Seat No : </strong></td><td class="tdseat"></td>
                                             </tr>
+                                            @endif
 
                                             <tr>
                                                <td><strong>Travel Date : </strong></td><td class="tdtravel"></td>
@@ -256,9 +264,15 @@
 
         <th style="color:#FFF">#</th>
         <th style="color:#FFF">Ticket No.</th>
+        @if(Auth::user()->type != 'Events')
         <th style="color:#FFF">Vehicle</th>
+        @elseif(Auth::user()->type == 'Events')
+        <th style="color:#FFF">Event</th>
+        @endif
         <th style="color:#FFF">Customer</th>
+        @if(Auth::user()->type != 'Events')
         <th style="color:#FFF">Seat No.</th>
+        @endif
         <th style="color:#FFF">Travel Date</th>
         <th style="color:#FFF">Date Booked</th>
         <th style="color:#FFF">Status</th>
@@ -272,9 +286,15 @@
         <tr class="{{'del'.$booking->id}}">
           <td>{{$i}}</td>
           <td>{{$booking->ticketno}}</td>
+          @if(Auth::user()->type != 'Events' )
           <td>{{App\Booking::getVehicle($booking->vehicle_id)->regno.' '.App\Booking::getVehicle($booking->vehicle_id)->vehiclename->name}}</td>
+          @elseif(Auth::user()->type == 'Events')
+          <td>{{App\Booking::getEvent($booking->event_id)->name}}</td>
+          @endif
           <td>{{$booking->firstname.' '.$booking->lastname}}</td>
+          @if(Auth::user()->type != 'Events')
           <td>{{$booking->seatno}}</td>
+          @endif
           <td>{{$booking->travel_date}}</td>
           <td>{{$booking->date}}</td>
           <td>{{$booking->status}}</td>
@@ -287,8 +307,11 @@
                   </button>
           
                   <ul class="dropdown-menu" role="menu">
-                    
+                    @if(Auth::user()->type != 'Events')
                     <li><a class="view" data-toggle="modal" data-ticket="{{$booking->ticketno}}" data-vehicle="{{App\Booking::getVehicle($booking->vehicle_id)->regno.' '.App\Booking::getVehicle($booking->vehicle_id)->vehiclename->name}}" data-customer="{{$booking->firstname.' '.$booking->lastname}}" data-seat="{{$booking->seatno}}" data-travel="{{$booking->travel_date}}" data-date="{{$booking->date}}" data-status="{{$booking->status}}" data-amount="{{number_format($booking->amount,2)}}"  data-id="{{$booking->id}}" href="#modal-view">View</a></li>
+                    @elseif(Auth::user()->type == 'Events')
+                    <li><a class="view" data-toggle="modal" data-ticket="{{$booking->ticketno}}" data-event="{{App\Booking::getEvent($booking->event_id)->name}}" data-customer="{{$booking->firstname.' '.$booking->lastname}}" data-seat="{{$booking->seatno}}" data-travel="{{$booking->travel_date}}" data-date="{{$booking->date}}" data-status="{{$booking->status}}" data-amount="{{number_format($booking->amount,2)}}"  data-id="{{$booking->id}}" href="#modal-view">View</a></li>
+                    @endif
                     <li><a class="sreport" data-toggle="modal" data-id="{{$booking->id}}" href="#modal-singlereport">Report</a></li>
                     
                   </ul>
@@ -332,6 +355,7 @@
      var status = $(this).data('status');
      var amount = $(this).data('amount');
      var ticket = $(this).data('ticket');
+     var event = $(this).data('event');
      var l = window.location;
      var base_url = l.protocol + "//" + l.host + "/" + l.pathname.split('/')[1];
 
@@ -344,6 +368,7 @@
      $(".modal-body .tddate").html( date );
      $(".modal-body .tdstatus").html( status );
      $(".modal-body .tdamount").html( amount );
+     $(".modal-body .tdevent").html( event );
      /*$(".modal-body #id").val( id );
      $('#title').html('Update Currency');
      $('#submit').html('Update changes');
