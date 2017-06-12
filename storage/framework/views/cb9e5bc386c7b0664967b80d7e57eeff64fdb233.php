@@ -32,7 +32,7 @@ body {
 
 
 
- @page  { margin: 170px 30px; }
+ @page  { margin: 50px 30px; }
  .header { position: fixed; left: 0px; top: 0px; right: 0px; height: 150px;  text-align: center; }
  .content {margin-top: 10px; }
  .footer { position: fixed; left: 0px; bottom: -180px; right: 0px; height: 50px;  }
@@ -67,8 +67,8 @@ body {
         <strong>
           <?php echo e(strtoupper($organization->name)); ?><br>
           </strong>
-          <?php echo e($organization->phone); ?>,<br>
-          <?php echo e($organization->email); ?>,<br>
+          <?php echo e($organization->phone); ?><br>
+          <?php echo e($organization->email); ?><br>
           <?php echo e($organization->address); ?>
 
        
@@ -91,7 +91,7 @@ body {
 <?php $currency = $organization->currency_shortname; ?>
 <?php endif; ?>
  
-	<div class="content" style='margin-top:170px;'>
+	<div class="content" style='margin-top:50px;'>
  
    <div align="center"><h3><strong>Booking report for period <?php echo e($from); ?> and <?php echo e($to); ?></strong></h3></div>
     <table class="table table-bordered" border='1' cellspacing='0' cellpadding='0'>
@@ -107,9 +107,11 @@ body {
         <td><strong>Train</strong></td>
         <?php elseif(Auth::user()->type == 'Airline'): ?>
         <td><strong>Airplane</strong></td>
+        <?php elseif(Auth::user()->type == 'Events'): ?>
+        <td><strong>Event</strong></td>
         <?php endif; ?>
         <td><strong>Customer</strong></td>
-        <td><strong>Date</strong></td>
+        <td><strong>Date Booked</strong></td>
         <td><strong>Payment Option</strong></td>
         <td><strong>Amount (<?php echo e($currency); ?>)</strong></td>
       </tr>
@@ -120,7 +122,11 @@ body {
       <tr>
           <td valign="top"><?php echo e($i); ?></td>
           <td valign="top"><?php echo e($booking->ticketno); ?></td>
+          <?php if(Auth::user()->type == 'Travel' || Auth::user()->type == 'Taxi' || Auth::user()->type == 'SGR' || Auth::user()->type == 'Airline'): ?>
           <td valign="top"><?php echo e(App\Booking::getVehicle($booking->vehicle_id)->regno.' '.App\Booking::getVehicle($booking->vehicle_id)->vehiclename->name); ?></td>
+          <?php elseif(Auth::user()->type == 'Events'): ?>
+          <td valign="top"><?php echo e(App\Booking::getEvent($booking->event_id)->name); ?></td>
+          <?php endif; ?>
           <td valign="top"><?php echo e($booking->firstname.' '.$booking->lastname); ?></td>
           <td valign="top"><?php echo e($booking->date); ?></td>
           <td valign="top"><?php echo e($booking->mode_of_payment); ?></td>

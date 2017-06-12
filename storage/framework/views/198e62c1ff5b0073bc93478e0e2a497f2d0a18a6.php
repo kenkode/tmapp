@@ -122,13 +122,45 @@
                             <div class="modal fade" id="modal-graph" tabindex="-1" role="dialog" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content animated fadeIn">
-                                        <form action="<?php echo e(url('report/graph/payment')); ?>" method="post">     
+                                        <form action="<?php echo e(url('report/graph/booking')); ?>" method="post">     
                                         <div class="modal-body">
                                         
                                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                         <h3 id="title" class="m-t-none m-b">Select Report Type</h3>
                                             
                                              <?php echo e(csrf_field()); ?>
+
+
+                                            <div class="form-group"><label>Period <span style="color:red">*</span></label> 
+                                             <select required="" id="period" name="period" class="form-control">
+                                             <option value="">Select Period</option>
+                                             <option value="range"> Year Range</option>
+                                             <option value="specific"> Specific Year</option>
+                                             </select>
+                                             <p id="destination" style="color:red"></p>
+                                             </div>
+
+                                             <div id="rangeyears">
+
+                                             <div class="form-group">
+                                                <label for="username">From <span style="color:red">*</span></label>
+                                                <div class="right-inner-addon ">
+                                                <i class="glyphicon glyphicon-calendar"></i>
+                                                <input class="form-control year" readonly="readonly" placeholder="" type="text" required="" name="from" id="from">
+                                                </div>
+                                              </div>
+
+                                              <div class="form-group">
+                                                <label for="username">To <span style="color:red">*</span></label>
+                                                <div class="right-inner-addon ">
+                                                <i class="glyphicon glyphicon-calendar"></i>
+                                                <input class="form-control year" readonly="readonly" placeholder="" type="text" required="" name="to" id="to">
+                                                </div>
+                                              </div>
+
+                                             </div>
+
+                                              <div id="specificyear">
 
                                              <div class="form-group">
                                                 <label for="username">Year <span style="color:red">*</span></label>
@@ -137,6 +169,8 @@
                                                 <input class="form-control year" readonly="readonly" placeholder="" type="text" required="" name="year" id="year">
                                                 </div>
                                               </div>
+
+                                             </div>
 
                                              <div class="form-group"><label>Graph Type <span style="color:red">*</span></label> 
                                             <select required="" id="type" name="type" class="form-control">
@@ -147,6 +181,7 @@
                                              </select>
                                              <p id="destination" style="color:red"></p>
                                              </div>
+
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
@@ -172,9 +207,15 @@
                                                <td><strong>Ticket No : </strong></td><td class="tdticket"></td>
                                             </tr>
 
+                                            <?php if(Auth::user()->type != 'Events'): ?>
                                             <tr>
                                                <td><strong>Vehicle : </strong></td><td class="tdvehicle"></td>
                                             </tr>
+                                            <?php elseif(Auth::user()->type == 'Events'): ?>
+                                            <tr>
+                                               <td><strong>Event : </strong></td><td class="tdevent"></td>
+                                            </tr>
+                                            <?php endif; ?>
 
                                             <tr>
                                                <td><strong>Customer : </strong></td><td class="tdcustomer"></td>
@@ -212,7 +253,11 @@
 
         <th style="color:#FFF">#</th>
         <th style="color:#FFF">Ticket No.</th>
+        <?php if(Auth::user()->type != 'Events'): ?>
         <th style="color:#FFF">Vehicle</th>
+        <?php elseif(Auth::user()->type == 'Events'): ?>
+        <th style="color:#FFF">Event</th>
+        <?php endif; ?>
         <th style="color:#FFF">Customer</th>
         <th style="color:#FFF">Date Booked</th>
         <th style="color:#FFF">Payment Option</th>
@@ -226,7 +271,11 @@
         <tr class="<?php echo e('del'.$payment->id); ?>">
           <td><?php echo e($i); ?></td>
           <td><?php echo e($payment->ticketno); ?></td>
+           <?php if(Auth::user()->type != 'Events' ): ?>
           <td><?php echo e(App\Booking::getVehicle($payment->vehicle_id)->regno.' '.App\Booking::getVehicle($payment->vehicle_id)->vehiclename->name); ?></td>
+          <?php elseif(Auth::user()->type == 'Events'): ?>
+          <td><?php echo e(App\Booking::getEvent($payment->event_id)->name); ?></td>
+          <?php endif; ?>
           <td><?php echo e($payment->firstname.' '.$payment->lastname); ?></td>
           <td><?php echo e($payment->date); ?></td>
           <td><?php echo e($payment->mode_of_payment); ?></td>
@@ -239,10 +288,13 @@
                   </button>
           
                   <ul class="dropdown-menu" role="menu">
-                    
+                    <?php if(Auth::user()->type != 'Events'): ?>
                     <li><a class="view" data-toggle="modal" data-ticket="<?php echo e($payment->ticketno); ?>" data-vehicle="<?php echo e(App\Booking::getVehicle($payment->vehicle_id)->regno.' '.App\Booking::getVehicle($payment->vehicle_id)->vehiclename->name); ?>" data-customer="<?php echo e($payment->firstname.' '.$payment->lastname); ?>" data-date="<?php echo e($payment->date); ?>" data-mode="<?php echo e($payment->mode_of_payment); ?>" data-amount="<?php echo e(number_format($payment->amount,2)); ?>"  data-id="<?php echo e($payment->id); ?>" href="#modal-view">View</a></li>
+                    <?php else: ?>
+                    <li><a class="view" data-toggle="modal" data-ticket="<?php echo e($payment->ticketno); ?>" data-event="<?php echo e(App\Booking::getEvent($payment->event_id)->name); ?>" data-customer="<?php echo e($payment->firstname.' '.$payment->lastname); ?>" data-date="<?php echo e($payment->date); ?>" data-mode="<?php echo e($payment->mode_of_payment); ?>" data-amount="<?php echo e(number_format($payment->amount,2)); ?>"  data-id="<?php echo e($payment->id); ?>" href="#modal-view">View</a></li>
+                    <?php endif; ?>
                     <li><a class="sreport" data-toggle="modal" data-id="<?php echo e($payment->id); ?>" href="#modal-singlereport">Report</a></li>
-                    
+                
                   </ul>
               </div>
 
@@ -262,6 +314,18 @@
 <script type="text/javascript">
    $(document).ready(function() {
 
+    $('#rangeyears').hide();
+    $('#specificyear').hide();
+    $('#period').change(function(){
+    if($(this).val() == "range"){
+    $('#rangeyears').show();
+    $('#specificyear').hide();
+    }else{
+    $('#specificyear').show();
+    $('#rangeyears').hide();
+    }
+    });
+
    $("#users").on("click",".view", function(){
      var id = $(this).data('id');
      var vehicle = $(this).data('vehicle');
@@ -270,6 +334,7 @@
      var mode = $(this).data('mode');
      var amount = $(this).data('amount');
      var ticket = $(this).data('ticket');
+     var event = $(this).data('event');
      var l = window.location;
      var base_url = l.protocol + "//" + l.host + "/" + l.pathname.split('/')[1];
 
@@ -280,6 +345,7 @@
      $(".modal-body .tddate").html( date );
      $(".modal-body .tdmode").html( mode );
      $(".modal-body .tdamount").html( amount );
+     $(".modal-body .tdevent").html( event );
      /*$(".modal-body #id").val( id );
      $('#title').html('Update Currency');
      $('#submit').html('Update changes');

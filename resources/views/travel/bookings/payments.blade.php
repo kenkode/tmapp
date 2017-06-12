@@ -122,13 +122,45 @@
                             <div class="modal fade" id="modal-graph" tabindex="-1" role="dialog" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content animated fadeIn">
-                                        <form action="{{url('report/graph/payment')}}" method="post">     
+                                        <form action="{{url('report/graph/booking')}}" method="post">     
                                         <div class="modal-body">
                                         
                                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                         <h3 id="title" class="m-t-none m-b">Select Report Type</h3>
                                             
                                              {{ csrf_field() }}
+
+                                            <div class="form-group"><label>Period <span style="color:red">*</span></label> 
+                                             <select required="" id="period" name="period" class="form-control">
+                                             <option value="">Select Period</option>
+                                             <option value="range"> Year Range</option>
+                                             <option value="specific"> Specific Year</option>
+                                             </select>
+                                             <p id="destination" style="color:red"></p>
+                                             </div>
+
+                                             <div id="rangeyears">
+
+                                             <div class="form-group">
+                                                <label for="username">From <span style="color:red">*</span></label>
+                                                <div class="right-inner-addon ">
+                                                <i class="glyphicon glyphicon-calendar"></i>
+                                                <input class="form-control year" readonly="readonly" placeholder="" type="text" required="" name="from" id="from">
+                                                </div>
+                                              </div>
+
+                                              <div class="form-group">
+                                                <label for="username">To <span style="color:red">*</span></label>
+                                                <div class="right-inner-addon ">
+                                                <i class="glyphicon glyphicon-calendar"></i>
+                                                <input class="form-control year" readonly="readonly" placeholder="" type="text" required="" name="to" id="to">
+                                                </div>
+                                              </div>
+
+                                             </div>
+
+                                              <div id="specificyear">
+
                                              <div class="form-group">
                                                 <label for="username">Year <span style="color:red">*</span></label>
                                                 <div class="right-inner-addon ">
@@ -136,6 +168,8 @@
                                                 <input class="form-control year" readonly="readonly" placeholder="" type="text" required="" name="year" id="year">
                                                 </div>
                                               </div>
+
+                                             </div>
 
                                              <div class="form-group"><label>Graph Type <span style="color:red">*</span></label> 
                                             <select required="" id="type" name="type" class="form-control">
@@ -146,6 +180,7 @@
                                              </select>
                                              <p id="destination" style="color:red"></p>
                                              </div>
+
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
@@ -171,9 +206,15 @@
                                                <td><strong>Ticket No : </strong></td><td class="tdticket"></td>
                                             </tr>
 
+                                            @if(Auth::user()->type != 'Events')
                                             <tr>
                                                <td><strong>Vehicle : </strong></td><td class="tdvehicle"></td>
                                             </tr>
+                                            @elseif(Auth::user()->type == 'Events')
+                                            <tr>
+                                               <td><strong>Event : </strong></td><td class="tdevent"></td>
+                                            </tr>
+                                            @endif
 
                                             <tr>
                                                <td><strong>Customer : </strong></td><td class="tdcustomer"></td>
@@ -211,7 +252,11 @@
 
         <th style="color:#FFF">#</th>
         <th style="color:#FFF">Ticket No.</th>
+        @if(Auth::user()->type != 'Events')
         <th style="color:#FFF">Vehicle</th>
+        @elseif(Auth::user()->type == 'Events')
+        <th style="color:#FFF">Event</th>
+        @endif
         <th style="color:#FFF">Customer</th>
         <th style="color:#FFF">Date Booked</th>
         <th style="color:#FFF">Payment Option</th>
@@ -225,7 +270,11 @@
         <tr class="{{'del'.$payment->id}}">
           <td>{{$i}}</td>
           <td>{{$payment->ticketno}}</td>
+           @if(Auth::user()->type != 'Events' )
           <td>{{App\Booking::getVehicle($payment->vehicle_id)->regno.' '.App\Booking::getVehicle($payment->vehicle_id)->vehiclename->name}}</td>
+          @elseif(Auth::user()->type == 'Events')
+          <td>{{App\Booking::getEvent($payment->event_id)->name}}</td>
+          @endif
           <td>{{$payment->firstname.' '.$payment->lastname}}</td>
           <td>{{$payment->date}}</td>
           <td>{{$payment->mode_of_payment}}</td>
@@ -238,10 +287,13 @@
                   </button>
           
                   <ul class="dropdown-menu" role="menu">
-                    
+                    @if(Auth::user()->type != 'Events')
                     <li><a class="view" data-toggle="modal" data-ticket="{{$payment->ticketno}}" data-vehicle="{{App\Booking::getVehicle($payment->vehicle_id)->regno.' '.App\Booking::getVehicle($payment->vehicle_id)->vehiclename->name}}" data-customer="{{$payment->firstname.' '.$payment->lastname}}" data-date="{{$payment->date}}" data-mode="{{$payment->mode_of_payment}}" data-amount="{{number_format($payment->amount,2)}}"  data-id="{{$payment->id}}" href="#modal-view">View</a></li>
+                    @else
+                    <li><a class="view" data-toggle="modal" data-ticket="{{$payment->ticketno}}" data-event="{{App\Booking::getEvent($payment->event_id)->name}}" data-customer="{{$payment->firstname.' '.$payment->lastname}}" data-date="{{$payment->date}}" data-mode="{{$payment->mode_of_payment}}" data-amount="{{number_format($payment->amount,2)}}"  data-id="{{$payment->id}}" href="#modal-view">View</a></li>
+                    @endif
                     <li><a class="sreport" data-toggle="modal" data-id="{{$payment->id}}" href="#modal-singlereport">Report</a></li>
-                    
+                
                   </ul>
               </div>
 
@@ -261,6 +313,18 @@
 <script type="text/javascript">
    $(document).ready(function() {
 
+    $('#rangeyears').hide();
+    $('#specificyear').hide();
+    $('#period').change(function(){
+    if($(this).val() == "range"){
+    $('#rangeyears').show();
+    $('#specificyear').hide();
+    }else{
+    $('#specificyear').show();
+    $('#rangeyears').hide();
+    }
+    });
+
    $("#users").on("click",".view", function(){
      var id = $(this).data('id');
      var vehicle = $(this).data('vehicle');
@@ -269,6 +333,7 @@
      var mode = $(this).data('mode');
      var amount = $(this).data('amount');
      var ticket = $(this).data('ticket');
+     var event = $(this).data('event');
      var l = window.location;
      var base_url = l.protocol + "//" + l.host + "/" + l.pathname.split('/')[1];
 
@@ -279,6 +344,7 @@
      $(".modal-body .tddate").html( date );
      $(".modal-body .tdmode").html( mode );
      $(".modal-body .tdamount").html( amount );
+     $(".modal-body .tdevent").html( event );
      /*$(".modal-body #id").val( id );
      $('#title').html('Update Currency');
      $('#submit').html('Update changes');

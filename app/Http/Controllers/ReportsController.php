@@ -1287,6 +1287,8 @@ class ReportsController extends Controller
               $name = 'Train';
               }elseif (Auth::user()->type == 'Airline') {
               $name = 'Airplane';
+              }elseif (Auth::user()->type == 'Events') {
+              $name = 'Event';
               }
 
               $sheet->row(7, array(
@@ -1304,9 +1306,15 @@ class ReportsController extends Controller
             $total = 0;
              
              for($i = 0; $i<count($data); $i++){
+             if (Auth::user()->type == 'Events') {
              $sheet->row($row, array(
+             $i+1,$data[$i]->ticketno,Booking::getEvent($data[$i]->event_id)->name,$data[$i]->firstname.' '.$data[$i]->lastname,$data[$i]->date,$data[$i]->mode_of_payment,$data[$i]->amount
+             ));
+             }else{
+              $sheet->row($row, array(
              $i+1,$data[$i]->ticketno,Booking::getVehicle($data[$i]->vehicle_id)->regno.' '.Booking::getVehicle($data[$i]->vehicle_id)->vehiclename->name,$data[$i]->firstname.' '.$data[$i]->lastname,$data[$i]->date,$data[$i]->mode_of_payment,$data[$i]->amount
              ));
+             }
              $total = $total + $data[$i]->amount;
              $row++;
              }  
@@ -1389,15 +1397,23 @@ class ReportsController extends Controller
               $name = 'Train';
               }elseif (Auth::user()->type == 'Airline') {
               $name = 'Airplane';
+              }elseif (Auth::user()->type == 'Events') {
+              $name = 'Event';
               }
 
               $sheet->row(5, array(
                'Ticket No : ',$data->ticketno
                ));
 
+              if (Auth::user()->type == 'Events') {
+              $sheet->row(6, array(
+               $name.' : ',Booking::getEvent($data->event_id)->name
+               ));
+              }else{
               $sheet->row(6, array(
                $name.' : ',Booking::getVehicle($data->vehicle_id)->regno.' '.Booking::getVehicle($data->vehicle_id)->vehiclename->name
                ));
+              }
 
               $sheet->row(7, array(
                'Customer : ',$data->firstname.' '.$data->lastname

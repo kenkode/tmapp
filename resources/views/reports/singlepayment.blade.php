@@ -101,8 +101,14 @@ body {
         <td><strong>Train</strong></td>
         @elseif(Auth::user()->type == 'Airline')
         <td><strong>Airplane</strong></td>
+        @elseif(Auth::user()->type == 'Events')
+        <td><strong>Event</strong></td>
         @endif
+        @if(Auth::user()->type == 'Events')
+        <td>{{App\Booking::getEvent($booking->event_id)->name}}</td>
+        @else
         <td>{{App\Booking::getVehicle($booking->vehicle_id)->regno.' '.App\Booking::getVehicle($booking->vehicle_id)->vehiclename->name}}</td>
+        @endif
         </tr>
         <tr><td><strong>Customer</strong></td><td>{{$booking->firstname.' '.$booking->lastname}}</td></tr>
         <tr><td><strong>Date Booked</strong></td><td>{{$booking->date}}</td></tr>
