@@ -105,10 +105,19 @@ body {
         <td><strong>Train</strong></td>
         @elseif(Auth::user()->type == 'Airline')
         <td><strong>Airplane</strong></td>
+        @elseif(Auth::user()->type == 'Events')
+        <td><strong>Event</strong></td>
         @endif
         <td><strong>Customer</strong></td>
+        @if(Auth::user()->type != 'Events')
         <td><strong>Seat No.</strong></td>
+        @endif
+
+        @if(Auth::user()->type != 'Events')
         <td><strong>Travel Date</strong></td>
+        @else
+        <td><strong>Event Date</strong></td>
+        @endif
         <td><strong>Date Booked</strong></td>
         <td><strong>Amount ({{$currency}})</strong></td>
       </tr>
@@ -119,9 +128,15 @@ body {
       <tr>
           <td valign="top">{{$i}}</td>
           <td valign="top">{{$booking->ticketno}}</td>
+          @if(Auth::user()->type == 'Travel' || Auth::user()->type == 'Taxi' || Auth::user()->type == 'SGR' || Auth::user()->type == 'Airline')
           <td valign="top">{{App\Booking::getVehicle($booking->vehicle_id)->regno.' '.App\Booking::getVehicle($booking->vehicle_id)->vehiclename->name}}</td>
+          @elseif(Auth::user()->type == 'Events')
+          <td valign="top">{{App\Booking::getEvent($booking->event_id)->name}}</td>
+          @endif
           <td valign="top">{{$booking->firstname.' '.$booking->lastname}}</td>
+          @if(Auth::user()->type != 'Events')
           <td valign="top">{{$booking->seatno}}</td>
+          @endif
           <td valign="top">{{$booking->travel_date}}</td>
           <td valign="top">{{$booking->date}}</td>
           <td valign="top" align="right">{{number_format($booking->amount,2)}}</td>
@@ -130,10 +145,15 @@ body {
        $i++; ?>
    
     @endforeach
+    @if(Auth::user()->type == 'Events')
+    <tr>
+      <td colspan="6" align="right"><strong>Total</strong></td><td align="right"><strong>{{number_format($total,2)}}</strong></td>
+    </tr>
+    @else
     <tr>
       <td colspan="7" align="right"><strong>Total</strong></td><td align="right"><strong>{{number_format($total,2)}}</strong></td>
     </tr>
-      
+    @endif
     </table>
 
 <br><br>

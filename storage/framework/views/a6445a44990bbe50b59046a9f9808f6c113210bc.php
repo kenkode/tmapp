@@ -106,10 +106,19 @@ body {
         <td><strong>Train</strong></td>
         <?php elseif(Auth::user()->type == 'Airline'): ?>
         <td><strong>Airplane</strong></td>
+        <?php elseif(Auth::user()->type == 'Events'): ?>
+        <td><strong>Event</strong></td>
         <?php endif; ?>
         <td><strong>Customer</strong></td>
+        <?php if(Auth::user()->type != 'Events'): ?>
         <td><strong>Seat No.</strong></td>
+        <?php endif; ?>
+
+        <?php if(Auth::user()->type != 'Events'): ?>
         <td><strong>Travel Date</strong></td>
+        <?php else: ?>
+        <td><strong>Event Date</strong></td>
+        <?php endif; ?>
         <td><strong>Date Booked</strong></td>
         <td><strong>Amount (<?php echo e($currency); ?>)</strong></td>
       </tr>
@@ -120,9 +129,15 @@ body {
       <tr>
           <td valign="top"><?php echo e($i); ?></td>
           <td valign="top"><?php echo e($booking->ticketno); ?></td>
+          <?php if(Auth::user()->type == 'Travel' || Auth::user()->type == 'Taxi' || Auth::user()->type == 'SGR' || Auth::user()->type == 'Airline'): ?>
           <td valign="top"><?php echo e(App\Booking::getVehicle($booking->vehicle_id)->regno.' '.App\Booking::getVehicle($booking->vehicle_id)->vehiclename->name); ?></td>
+          <?php elseif(Auth::user()->type == 'Events'): ?>
+          <td valign="top"><?php echo e(App\Booking::getEvent($booking->event_id)->name); ?></td>
+          <?php endif; ?>
           <td valign="top"><?php echo e($booking->firstname.' '.$booking->lastname); ?></td>
+          <?php if(Auth::user()->type != 'Events'): ?>
           <td valign="top"><?php echo e($booking->seatno); ?></td>
+          <?php endif; ?>
           <td valign="top"><?php echo e($booking->travel_date); ?></td>
           <td valign="top"><?php echo e($booking->date); ?></td>
           <td valign="top" align="right"><?php echo e(number_format($booking->amount,2)); ?></td>
@@ -131,10 +146,15 @@ body {
        $i++; ?>
    
     <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
+    <?php if(Auth::user()->type == 'Events'): ?>
+    <tr>
+      <td colspan="6" align="right"><strong>Total</strong></td><td align="right"><strong><?php echo e(number_format($total,2)); ?></strong></td>
+    </tr>
+    <?php else: ?>
     <tr>
       <td colspan="7" align="right"><strong>Total</strong></td><td align="right"><strong><?php echo e(number_format($total,2)); ?></strong></td>
     </tr>
-      
+    <?php endif; ?>
     </table>
 
 <br><br>

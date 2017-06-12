@@ -106,6 +106,8 @@ body {
         <td><strong>Train</strong></td>
         @elseif(Auth::user()->type == 'Airline')
         <td><strong>Airplane</strong></td>
+        @elseif(Auth::user()->type == 'Events')
+        <td><strong>Event</strong></td>
         @endif
         <td><strong>Customer</strong></td>
         <td><strong>Date Booked</strong></td>
@@ -119,7 +121,11 @@ body {
       <tr>
           <td valign="top">{{$i}}</td>
           <td valign="top">{{$booking->ticketno}}</td>
+          @if(Auth::user()->type == 'Travel' || Auth::user()->type == 'Taxi' || Auth::user()->type == 'SGR' || Auth::user()->type == 'Airline')
           <td valign="top">{{App\Booking::getVehicle($booking->vehicle_id)->regno.' '.App\Booking::getVehicle($booking->vehicle_id)->vehiclename->name}}</td>
+          @elseif(Auth::user()->type == 'Events')
+          <td valign="top">{{App\Booking::getEvent($booking->event_id)->name}}</td>
+          @endif
           <td valign="top">{{$booking->firstname.' '.$booking->lastname}}</td>
           <td valign="top">{{$booking->date}}</td>
           <td valign="top">{{$booking->mode_of_payment}}</td>

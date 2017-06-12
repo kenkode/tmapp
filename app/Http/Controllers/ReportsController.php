@@ -820,11 +820,19 @@ class ReportsController extends Controller
               $name = 'Train';
               }elseif (Auth::user()->type == 'Airline') {
               $name = 'Airplane';
+              }elseif (Auth::user()->type == 'Events') {
+              $name = 'Event';
               }
 
+              if (Auth::user()->type == 'Events') {
               $sheet->row(7, array(
-              '#', 'Ticket No.',$name,'Customer','Seat No.','Travel Date','Date Booked','Amount ('.$currency.')'
+              '#', 'Ticket No.',$name,'Customer','Event Date','Date Booked','Amount ('.$currency.')'
               ));
+              }else{
+               $sheet->row(7, array(
+              '#', 'Ticket No.',$name,'Customer','Seat No.','Travel Date','Date Booked','Amount ('.$currency.')'
+              )); 
+              }
 
               $sheet->row(7, function ($r) {
 
@@ -837,16 +845,29 @@ class ReportsController extends Controller
             $total = 0;
              
              for($i = 0; $i<count($data); $i++){
-             $sheet->row($row, array(
-             $i+1,$data[$i]->ticketno,Booking::getVehicle($data[$i]->vehicle_id)->regno.' '.Booking::getVehicle($data[$i]->vehicle_id)->vehiclename->name,$data[$i]->firstname.' '.$data[$i]->lastname,$data[$i]->seatno,$data[$i]->travel_date,$data[$i]->date,$data[$i]->amount
+             if (Auth::user()->type == 'Events') {
+              $sheet->row($row, array(
+              $i+1,$data[$i]->ticketno,Booking::getEvent($data[$i]->event_id)->name,$data[$i]->firstname.' '.$data[$i]->lastname,$data[$i]->travel_date,$data[$i]->date,$data[$i]->amount
              ));
+             }else{
+              $sheet->row($row, array(
+              $i+1,$data[$i]->ticketno,Booking::getVehicle($data[$i]->vehicle_id)->regno.' '.Booking::getVehicle($data[$i]->vehicle_id)->vehiclename->name,$data[$i]->firstname.' '.$data[$i]->lastname,$data[$i]->seatno,$data[$i]->travel_date,$data[$i]->date,$data[$i]->amount
+             ));
+             }
+             
              $total = $total + $data[$i]->amount;
              $row++;
              }  
 
+             if (Auth::user()->type == 'Events') {
+             $sheet->row($row, array(
+             '','','','','','Total',$total
+             ));
+             }else{
              $sheet->row($row, array(
              '','','','','','','Total',$total
              ));
+             }
              $sheet->row($row, function ($r) {
 
              // call cell manipulation methods
@@ -923,28 +944,38 @@ class ReportsController extends Controller
               $name = 'Train';
               }elseif (Auth::user()->type == 'Airline') {
               $name = 'Airplane';
+              }elseif (Auth::user()->type == 'Events') {
+              $name = 'Event';
               }
 
               $sheet->row(5, array(
                'Ticket No : ',$data->ticketno
                ));
 
+              if (Auth::user()->type == 'Events') {
               $sheet->row(6, array(
-               $name.' : ',Booking::getVehicle($data->vehicle_id)->regno.' '.Booking::getVehicle($data->vehicle_id)->vehiclename->name
+               $name.' : ',Booking::getEvent($data->event_id)->name
                ));
+              }else{
+               $sheet->row(6, array(
+               $name.' : ',Booking::getVehicle($data->vehicle_id)->regno.' '.Booking::getVehicle($data->vehicle_id)->vehiclename->name
+               )); 
+              }
 
               $sheet->row(7, array(
                'Customer : ',$data->firstname.' '.$data->lastname
                ));
 
+              if (Auth::user()->type != 'Events') {
+
               $sheet->row(8, array(
                'Seat No : ',$data->seatno
                ));
 
-              $sheet->row(9, array(
+                $sheet->row(9, array(
                'Travel Date : ',$data->travel_date
                ));
-
+              
               $sheet->row(10, array(
                'Date Booked : ',$data->date
                ));
@@ -966,11 +997,39 @@ class ReportsController extends Controller
                 $cell->setFontWeight('bold');
 
               });
-    });
+              }else{
+              $sheet->row(8, array(
+               'Event Date : ',$data->travel_date
+               ));
+             
+              $sheet->row(9, array(
+               'Date Booked : ',$data->date
+               ));
+
+              $sheet->row(10, array(
+               'Amount ('.$currency.') : ',$data->amount
+               ));
+
+              $sheet->cell('A10', function($cell) {
+
+               // manipulate the cell
+                $cell->setFontWeight('bold');
+
+              });
+                      
+             $sheet->cell('B10', function($cell) {
+
+               // manipulate the cell
+                $cell->setFontWeight('bold');
+
+              });
+           }
+         });
 
   })->download('xls');
     }
-    }
+  }
+    
 
     public function customers(Request $request){
         if($request->type == 'pdf'){

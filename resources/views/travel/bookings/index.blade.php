@@ -229,7 +229,12 @@
                                             @endif
 
                                             <tr>
-                                               <td><strong>Travel Date : </strong></td><td class="tdtravel"></td>
+                                            @if(Auth::user()->type != 'Events')
+                                               <td><strong>Travel Date : </strong></td>
+                                            @else
+                                               <td><strong>Event Date : </strong></td>
+                                            @endif
+                                               <td class="tdtravel"></td>
                                             </tr>
 
                                             <tr>
@@ -273,7 +278,11 @@
         @if(Auth::user()->type != 'Events')
         <th style="color:#FFF">Seat No.</th>
         @endif
+        @if(Auth::user()->type != 'Events')
         <th style="color:#FFF">Travel Date</th>
+        @else
+        <th style="color:#FFF">Event Date</th>
+        @endif
         <th style="color:#FFF">Date Booked</th>
         <th style="color:#FFF">Status</th>
         <th style="color:#FFF">Amount ({{$currency}})</th>

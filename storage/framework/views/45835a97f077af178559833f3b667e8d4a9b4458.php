@@ -230,7 +230,12 @@
                                             <?php endif; ?>
 
                                             <tr>
-                                               <td><strong>Travel Date : </strong></td><td class="tdtravel"></td>
+                                            <?php if(Auth::user()->type != 'Events'): ?>
+                                               <td><strong>Travel Date : </strong></td>
+                                            <?php else: ?>
+                                               <td><strong>Date : </strong></td>
+                                            <?php endif; ?>
+                                               <td class="tdtravel"></td>
                                             </tr>
 
                                             <tr>
@@ -274,7 +279,11 @@
         <?php if(Auth::user()->type != 'Events'): ?>
         <th style="color:#FFF">Seat No.</th>
         <?php endif; ?>
+        <?php if(Auth::user()->type != 'Events'): ?>
         <th style="color:#FFF">Travel Date</th>
+        <?php else: ?>
+        <th style="color:#FFF">Date</th>
+        <?php endif; ?>
         <th style="color:#FFF">Date Booked</th>
         <th style="color:#FFF">Status</th>
         <th style="color:#FFF">Amount (<?php echo e($currency); ?>)</th>

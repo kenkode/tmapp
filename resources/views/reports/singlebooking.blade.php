@@ -101,12 +101,24 @@ body {
         <td><strong>Train</strong></td>
         @elseif(Auth::user()->type == 'Airline')
         <td><strong>Airplane</strong></td>
+        @elseif(Auth::user()->type == 'Events')
+        <td><strong>Event</strong></td>
         @endif
+        @if(Auth::user()->type != 'Events')
         <td>{{App\Booking::getVehicle($booking->vehicle_id)->regno.' '.App\Booking::getVehicle($booking->vehicle_id)->vehiclename->name}}</td>
+        @else
+        <td>{{App\Booking::getEvent($booking->event_id)->name}}</td>
+        @endif
         </tr>
         <tr><td><strong>Customer</strong></td><td>{{$booking->firstname.' '.$booking->lastname}}</td></tr>
+        @if(Auth::user()->type != 'Events')
         <tr><td><strong>Seat No.</strong></td><td>{{$booking->seatno}}</td></tr>
+        @endif
+        @if(Auth::user()->type != 'Events')
         <tr><td><strong>Travel Date</strong></td><td>{{$booking->travel_date}}</td></tr>
+        @else
+        <tr><td><strong>Event Date</strong></td><td>{{$booking->travel_date}}</td></tr>
+        @endif
         <tr><td><strong>Date Booked</strong></td><td>{{$booking->date}}</td></tr>
         <tr><td><strong>Amount ({{$currency}})</strong></td><td align="right"><strong>{{number_format($booking->amount,2)}}</strong></td></tr>
       </tr>
