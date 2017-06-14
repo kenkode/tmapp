@@ -287,7 +287,7 @@ body{
 
                     <?php if(collect(request()->segments())->last() == 'organizations' || collect(request()->segments())->last() == 'currencies' || collect(request()->segments())->last() == 'mails' || collect(request()->segments())->last() == 'profile'): ?>
                     <li class="active">
-                        <a href="mailbox.html"><i class="fa fa-cog nav_icon"></i> <span class="nav-label">Settings </span><span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-cog nav_icon"></i> <span class="nav-label">Settings </span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="<?php echo e(url('organizations')); ?>">Organization</a></li>
                             <!-- <li><a href="<?php echo e(url('currencies')); ?>">Currency</a></li> -->
@@ -297,17 +297,27 @@ body{
                     </li>
                     <?php else: ?>
                     <li>
-                        <a href="mailbox.html"><i class="fa fa-cog nav_icon"></i> <span class="nav-label">Settings </span><span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-cog nav_icon"></i> <span class="nav-label">Settings </span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="<?php echo e(url('organizations')); ?>">Organization</a></li>
-                            <li><a href="<?php echo e(url('currencies')); ?>">Currency</a></li>
+                            <!-- <li><a href="<?php echo e(url('currencies')); ?>">Currency</a></li> -->
                             <li><a href="<?php echo e(url('mails')); ?>">Mail Settings</a></li>
                             <li><a href="<?php echo e(url('profile')); ?>">Profile</a></li>
                         </ul>
                     </li>
                     <?php endif; ?>
                     <li>
-                        <a href="widgets.html"><i class="fa fa-sign-out"></i> <span class="nav-label">Logout</span> </a>
+                     <a href="<?php echo e(url('/logout')); ?>"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                                     <i class="fa fa-sign-out"></i>
+                                            Log out
+                                        </a>
+
+                                        <form id="logout-form" action="<?php echo e(url('/logout')); ?>" method="POST" style="display: none;">
+                                            <?php echo e(csrf_field()); ?>
+
+                                        </form>
                     </li>
                     
                 </ul>

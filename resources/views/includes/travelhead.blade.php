@@ -286,7 +286,7 @@ body{
 
                     @if(collect(request()->segments())->last() == 'organizations' || collect(request()->segments())->last() == 'currencies' || collect(request()->segments())->last() == 'mails' || collect(request()->segments())->last() == 'profile')
                     <li class="active">
-                        <a href="mailbox.html"><i class="fa fa-cog nav_icon"></i> <span class="nav-label">Settings </span><span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-cog nav_icon"></i> <span class="nav-label">Settings </span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="{{url('organizations')}}">Organization</a></li>
                             <!-- <li><a href="{{url('currencies')}}">Currency</a></li> -->
@@ -296,17 +296,26 @@ body{
                     </li>
                     @else
                     <li>
-                        <a href="mailbox.html"><i class="fa fa-cog nav_icon"></i> <span class="nav-label">Settings </span><span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-cog nav_icon"></i> <span class="nav-label">Settings </span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="{{url('organizations')}}">Organization</a></li>
-                            <li><a href="{{url('currencies')}}">Currency</a></li>
+                            <!-- <li><a href="{{url('currencies')}}">Currency</a></li> -->
                             <li><a href="{{url('mails')}}">Mail Settings</a></li>
                             <li><a href="{{url('profile')}}">Profile</a></li>
                         </ul>
                     </li>
                     @endif
                     <li>
-                        <a href="widgets.html"><i class="fa fa-sign-out"></i> <span class="nav-label">Logout</span> </a>
+                     <a href="{{ url('/logout') }}"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                                     <i class="fa fa-sign-out"></i>
+                                            Log out
+                                        </a>
+
+                                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
                     </li>
                     
                 </ul>

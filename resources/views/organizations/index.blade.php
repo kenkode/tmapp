@@ -11,6 +11,7 @@
     -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
     display: inline-block;
     }
+    
     .modal-body {
     max-height: calc(100vh - 100px);
     overflow-y: auto;

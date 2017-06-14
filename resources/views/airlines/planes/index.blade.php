@@ -27,7 +27,7 @@
 @section('content')
 <div class="row  border-bottom white-bg dashboard-header">
 <div class="pro-head">
-            <h2>Trains</h2>
+            <h2>Airplanes</h2>
         </div>
 
       <div style="margin-bottom:20px;margin-left:10px;">

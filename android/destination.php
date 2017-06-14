@@ -1,7 +1,8 @@
 <?php
     include'db.php';
 
-	$query = mysqli_query($con, "select Distinct(name) from routes");
+    $type = $_POST['type'];
+	$query = mysqli_query($con, "select Distinct(name) from routes where type='".$type."'");
 	
 	if($query){
 		while ($row = mysqli_fetch_array($query)) {

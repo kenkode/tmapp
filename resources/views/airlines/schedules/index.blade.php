@@ -55,7 +55,7 @@
                                              
                                              <div class="form-group"><label>Name <span style="color:red">*</span></label> 
                                              <select id="vid" class="form-control">
-                                             <option value="">Select Vehicle</option>
+                                             <option value="">Select Airplane</option>
                                              @foreach($vehicles as $vehicle)
                                              <option value="{{ $vehicle->id }}"> {{ $vehicle->regno.'-'.$vehicle->vehiclename->name }}</option>
                                              @endforeach
@@ -379,19 +379,19 @@
      var fares = '<ul>';
 
      if(vip == 1){
-     fares = '<li>First Class Fare</li>';
+     fares += '<li>First Class Fare</li>';
      }
      if(business== 1){
-     fares = '<li>Business Class Fare</li>';
+     fares += '<li>Business Class Fare</li>';
      }
      if(economic== 1){
-     fares = '<li>Economic Class Fare</li>';
+     fares += '<li>Economic Class Fare</li>';
      }
      if(children== 1){
-     fares = '<li>Children Fare</li>';
+     fares += '<li>Children Fare</li>';
      }
 
-     fares = '</ul>';
+     fares += '</ul>';
 
      var l = window.location;
      var base_url = l.protocol + "//" + l.host + "/" + l.pathname.split('/')[1];
