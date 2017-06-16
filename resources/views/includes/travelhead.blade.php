@@ -154,7 +154,7 @@ body{
                             <li ><a href="{{url('hotelbranches')}}">Branches</a></li>
                             <li ><a href="{{url('hotelcalendar')}}">Calendar</a></li>
                             <li ><a href="{{url('hotelrooms')}}">Rooms</a></li>
-                            <li ><a href="{{url('hotelreservations')}}">Reservations</a></li>
+                            <li ><a href="{{url('roomtype')}}">Room Type</a></li>
                         </ul>
                     </li>          
                     @else
@@ -164,7 +164,7 @@ body{
                             <li ><a href="{{url('hotelbranches')}}">Branches</a></li>
                             <li ><a href="{{url('hotelcalendar')}}">Calendar</a></li>
                             <li ><a href="{{url('hotelrooms')}}">Rooms</a></li>
-                            <li ><a href="{{url('hotelreservations')}}">Reservations</a></li>
+                            <li ><a href="{{url('roomtype')}}">Room Type</a></li> 
                         </ul>
                     </li>          
                     @endif

@@ -325,6 +325,13 @@ Route::get('hotelrooms/showrecord', 'HotelRoomsController@showrecord');
 Route::post('hotelrooms/update', 'HotelRoomsController@update');
 Route::post('hotelrooms/delete', 'HotelRoomsController@delete');
 Route::post('report/rooms', 'ReportsController@rooms');
+//Hotel Room Types
+Route::get('roomtype','RoomTypesController@index');
+Route::post('roomtype/store', 'RoomTypesController@store');
+Route::post('roomtype/update', 'RoomTypesController@update');
+Route::post('roomtype/delete', 'RoomTypesController@delete');
+Route::get('roomtype/showrecord', 'RoomTypesController@showrecord');
+Route::post('report/roomtypes', 'ReportsController@roomtypes');
 //Hotel Reservations Routes
 Route::get('hotelreservations','HotelReservationsController@index');
 Route::post('hotelreservations/store', 'HotelReservationsController@store');

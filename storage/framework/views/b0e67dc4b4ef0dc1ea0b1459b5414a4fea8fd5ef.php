@@ -33,7 +33,7 @@ body {
 
 
 
- @page { margin: 50px 30px; }
+ @page  { margin: 50px 30px; }
  .header { position: fixed; left: 0px; top: 0px; right: 0px; height: 150px;  text-align: center; }
  .content {margin-top: 10px; }
  .footer { position: fixed; left: 0px; bottom: -180px; right: 0px; height: 50px;  }
@@ -56,21 +56,22 @@ body {
        
         <td style="width:150px">
 
-            @if($organization->logo == null || $organization->logo == '')
-            @else
-            <img src="{{public_path().'/uploads/logo/'.$organization->logo}}" alt="logo" width="80%" alt="no logo">
-            @endif
+            <?php if($organization->logo == null || $organization->logo == ''): ?>
+            <?php else: ?>
+            <img src="<?php echo e(public_path().'/uploads/logo/'.$organization->logo); ?>" alt="logo" width="80%" alt="no logo">
+            <?php endif; ?>
 
     
         </td>
 
         <td>
         <strong>
-          {{ strtoupper($organization->name)}}<br>
+          <?php echo e(strtoupper($organization->name)); ?><br>
           </strong>
-          {{ $organization->phone}}<br>
-          {{ $organization->email}}<br>
-          {{ $organization->address}}
+          <?php echo e($organization->phone); ?><br>
+          <?php echo e($organization->email); ?><br>
+          <?php echo e($organization->address); ?>
+
        
 
         </td>
@@ -105,26 +106,26 @@ body {
         <td><strong>Price </strong></td>
       </tr>
       <?php $i =1; ?>
-      @foreach($rooms as $room)
+      <?php $__currentLoopData = $rooms; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $room): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
       <tr>
 
-       <td>{{$i}}</td>
-          @if($room->image == null || $room->image == '')
+       <td><?php echo e($i); ?></td>
+          <?php if($room->image == null || $room->image == ''): ?>
           <td></td>
-          @else
-          <td><img src="{{url('/public/uploads/hotel/rooms/'.$room->image)}}" width="100" height="100" alt="no logo" /></td>
-          @endif
-          <td>{{App\Room::getBranch($room->branch_id)}}</td>
-          <td>{{$room->roomno}}</td>
-          <td>{{$room->roomtype->name}}</td>
-          <td>{{$room->adults}}</td>
-          <td>{{$room->children}}</td>
-          <td>{{($room->adults+$room->children)}}</td>
-          <td>{{number_format($room->price,2)}}</td>
+          <?php else: ?>
+          <td><img src="<?php echo e(url('/public/uploads/hotel/rooms/'.$room->image)); ?>" width="100" height="100" alt="no logo" /></td>
+          <?php endif; ?>
+          <td><?php echo e(App\Room::getBranch($room->branch_id)); ?></td>
+          <td><?php echo e($room->roomno); ?></td>
+          <td><?php echo e($room->roomtype->name); ?></td>
+          <td><?php echo e($room->adults); ?></td>
+          <td><?php echo e($room->children); ?></td>
+          <td><?php echo e(($room->adults+$room->children)); ?></td>
+          <td><?php echo e(number_format($room->price,2)); ?></td>
         </tr>
       <?php $i++; ?>
    
-    @endforeach
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
       
     </table>
 

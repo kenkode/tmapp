@@ -13,4 +13,9 @@ class Room extends Model
         $branch = Branch::find($id);
 		return $branch->name;
 	}
+
+	public function roomtype(){
+
+		return $this->belongsTo('App\Roomtype');
+	}
 }

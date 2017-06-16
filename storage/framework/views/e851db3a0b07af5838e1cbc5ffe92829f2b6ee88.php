@@ -1,8 +1,6 @@
-@extends('layouts.hotel')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <style type="text/css">
-    @media screen and (min-width: 768px) {
+    @media  screen and (min-width: 768px) {
         .modal-dialog {
           width: 500px; /* New width for default modal */
         }
@@ -10,7 +8,7 @@
           width: 250px; /* New width for small modal */
         }
     }
-    @media screen and (min-width: 992px) {
+    @media  screen and (min-width: 992px) {
         .modal-lg {
           width: 450px; /* New width for large modal */
         }
@@ -21,7 +19,7 @@
       height: 180px;
       background-position: center center;
       background-size: cover;
-      background-image:url("{{url('/public/uploads/logo/1497620012_3.png')}}");
+      background-image:url("<?php echo e(url('/public/uploads/logo/1497620012_3.png')); ?>");
       -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
       display: inline-block;
     }  
@@ -40,7 +38,8 @@
             <div class="ibox">
                 <div class="ibox-title">
                     <h5>
-                        {{strtoupper($organization->name)}}
+                        <?php echo e(strtoupper($organization->name)); ?>
+
                         HOTEL ROOMS
                     </h5>                                    
                 </div>
@@ -71,7 +70,8 @@
                                         </a>        
                                     </div>                                
 <form id="form" action="" enctype="multipart/form-data">
-{{ csrf_field() }}
+<?php echo e(csrf_field()); ?>
+
 <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content animated fadeIn">                         
@@ -81,7 +81,7 @@
                              <p id="sucessmessage"> 
                                  Saving Data...
                              </p>
-                             <img src="{{url('/assets/images/ellipsis.svg')}}" alt="...." />
+                             <img src="<?php echo e(url('/assets/images/ellipsis.svg')); ?>" alt="...." />
                              </div>
                          </div>
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;
@@ -95,11 +95,12 @@
                                  <select class="form-control" name="branch" required 
                                  data-error="Please select hotel branch" id="branch" placehoder="Please select hotel branch">
                                         <option value="">Select Branch</option>
-                                    @foreach($branches as $branch)
-                                        <option value="{{$branch->id}}">
-                                            {{$branch->name}}
+                                    <?php $__currentLoopData = $branches; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $branch): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                                        <option value="<?php echo e($branch->id); ?>">
+                                            <?php echo e($branch->name); ?>
+
                                         </option>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                                  </select>                                
                                  <p id="errors22" style="color:red"></p>
                              </div>                                            
@@ -114,11 +115,12 @@
                                  <select class="form-control" name="room_type" required 
                                  data-error="Please select room type" id="room_type">
                                      <option value="">Select Room Type</option>
-                                      @foreach($types as $type)
-                                        <option value="{{$type->id}}">
-                                            {{$type->name}}
+                                      <?php $__currentLoopData = $types; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                                        <option value="<?php echo e($type->id); ?>">
+                                            <?php echo e($type->name); ?>
+
                                         </option>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                                      <option></option>
                                  </select>                                
                                  <p id="errors2" style="color:red"></p>
@@ -172,13 +174,14 @@
  <div class="modal fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content animated fadeIn">
-                                        <form target="_blank" action="{{url('report/rooms')}}" method="post">     
+                                        <form target="_blank" action="<?php echo e(url('report/rooms')); ?>" method="post">     
                                         <div class="modal-body">
                                         
                                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                         <h3 id="title" class="m-t-none m-b">Select Report Type</h3>
                                             
-                                             {{ csrf_field() }}
+                                             <?php echo e(csrf_field()); ?>
+
                                              <div class="form-group"><label>Report Type <span style="color:red">*</span></label> 
                                             <select required="" id="type" name="type" class="form-control">
                                              <option value="">Select Report Type</option>
@@ -267,22 +270,24 @@
                                             </thead>
                                             <tbody class="displayrecord">
                                               <?php $i=1;?>
-                                               @foreach($rooms as $room) 
-                                                <tr class="{{'del'.$room->id}}">
+                                               <?php $__currentLoopData = $rooms; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $room): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?> 
+                                                <tr class="<?php echo e('del'.$room->id); ?>">
                                                   <td>
-                                                    {{$i}}
+                                                    <?php echo e($i); ?>
+
                                                   </td>                 
                                                   
                                                   <td>
-                                                  <img src="{{url('/public/uploads/hotel/rooms/'.$room->image)}}" width="100" height="100" alt="No Room Sample Image" />
+                                                  <img src="<?php echo e(url('/public/uploads/hotel/rooms/'.$room->image)); ?>" width="100" height="100" alt="No Room Sample Image" />
                                                             
                                                   </td>
                                                   <td>
-                                                    {{$room->roomno}}
+                                                    <?php echo e($room->roomno); ?>
+
                                                   </td>
-                                                  <td>{{$room->roomtype->name}}</td>
-                                                  <td>{{$room->room_count}}</td>
-                                                  <td>{{number_format($room->price,2)}}</td>
+                                                  <td><?php echo e($room->roomtype->name); ?></td>
+                                                  <td><?php echo e($room->room_count); ?></td>
+                                                  <td><?php echo e(number_format($room->price,2)); ?></td>
                                                   <td>
                                                       <div class="btn-group">
                                                           <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -290,19 +295,20 @@
                                                           </button>          
                                                           <ul class="dropdown-menu" role="menu">
                                                           <li>
-                                                                <a class="view" data-toggle="modal" data-name="{{$room->roomno}}" data-id="{{$room->id}}" data-roomtype="{{$room->roomtype->name}}" data-adultno="{{$room->adults}}" data-childrenno="{{$room->children}}" data-image="{{$room->image}}" data-branch="{{App\Room::getBranch($room->branch_id)}}" data-count="{{$room->room_count}}" data-price="{{number_format($room->price,2)}}" href="#modal-view">
+                                                                <a class="view" data-toggle="modal" data-name="<?php echo e($room->roomno); ?>" data-id="<?php echo e($room->id); ?>" data-roomtype="<?php echo e($room->roomtype->name); ?>" data-adultno="<?php echo e($room->adults); ?>" data-childrenno="<?php echo e($room->children); ?>" data-image="<?php echo e($room->image); ?>" data-branch="<?php echo e(App\Room::getBranch($room->branch_id)); ?>" data-count="<?php echo e($room->room_count); ?>" data-price="<?php echo e(number_format($room->price,2)); ?>" href="#modal-view">
                                                                     View
                                                                 </a>
                                                             </li> 
                                                             <li>
-                                                                <a class="edit" data-toggle="modal" data-name="{{$room->roomno}}" data-id="{{$room->id}}" data-roomtype="{{$room->roomtype_id}}" data-adultno="{{$room->adults}}" data-childrenno="{{$room->children}}" data-image="{{$room->image}}" data-branch="{{$room->branch_id}}" data-count="{{$room->room_count}}" data-price="{{number_format($room->price,2)}}" href="#modal-form">
+                                                                <a class="edit" data-toggle="modal" data-name="<?php echo e($room->roomno); ?>" data-id="<?php echo e($room->id); ?>" data-roomtype="<?php echo e($room->roomtype_id); ?>" data-adultno="<?php echo e($room->adults); ?>" data-childrenno="<?php echo e($room->children); ?>" data-image="<?php echo e($room->image); ?>" data-branch="<?php echo e($room->branch_id); ?>" data-count="<?php echo e($room->room_count); ?>" data-price="<?php echo e(number_format($room->price,2)); ?>" href="#modal-form">
                                                                     Update
                                                                 </a>
                                                             </li>                   
                                                             <li>
-                                                                <a id="{{$room->id}}" class="delete">
+                                                                <a id="<?php echo e($room->id); ?>" class="delete">
                                                                     <form id="delform">
-                                                                    {{ csrf_field() }}
+                                                                    <?php echo e(csrf_field()); ?>
+
                                                                         Delete
                                                                     </form>
                                                                 </a>
@@ -312,7 +318,7 @@
                                                   </td>
                                                 </tr>
                                                 <?php $i++; ?>
-                                              @endforeach
+                                              <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                                             </tbody>
                                     </table>                  
                                 </div>
@@ -341,7 +347,7 @@
         </div>
     </div>
 </div>
-@include('includes.footer')
+<?php echo $__env->make('includes.footer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <script type="text/javascript">
 $(document).ready(function() {
     $("#image").on("change", function(){
@@ -371,7 +377,7 @@ $(document).ready(function() {
 
     function displaydata(){
        $.ajax({
-          url     : "{{URL::to('hotelrooms/showrecord')}}",
+          url     : "<?php echo e(URL::to('hotelrooms/showrecord')); ?>",
           type    : "GET",
           async   : false,       
           success : function(s){
@@ -811,7 +817,7 @@ $(document).ready(function() {
                 if(confirm("Are you sure you want to delete this hotel room?")){
                     $.ajax({
                         type: "POST",
-                        url: "{{url('hotelrooms/delete')}}",
+                        url: "<?php echo e(url('hotelrooms/delete')); ?>",
                         data: {id:id,_token:token},
                         success: function(){                           
                             $(".del"+id).fadeOut('slow'); 
@@ -874,4 +880,6 @@ $(document).ready(function() {
             });       
     });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.hotel', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

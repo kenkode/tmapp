@@ -8,6 +8,7 @@ use App\Vehicle;
 use App\Route;
 use App\Branch;
 use App\Room;
+use App\Roomtype;
 use App\Currency;
 use App\Payment;
 use App\Schedule;
@@ -1520,6 +1521,74 @@ class ReportsController extends Controller
     }
     }
 
+    public function roomtypes(Request $request){
+        if($request->type == 'pdf'){
+        $types = Roomtype::where('organization_id',Auth::user()->organization_id)->get();
+        $organization = Organization::find(Auth::user()->organization_id);
+        $pdf = PDF::loadView('reports.roomtypes',compact('types','organization'));
+        return $pdf->download('Room Types.pdf');
+    }else{
+        $data = Roomtype::where('organization_id',Auth::user()->organization_id)->get();
+
+        $organization = Organization::find(Auth::user()->organization_id);
+
+    
+  Excel::create('Room Types Report', function($excel) use($data,$organization) {
+
+    
+    $excel->sheet('Room Types Report', function($sheet) use($data,$organization){
+
+
+               $sheet->row(1, array(
+              'Organization: ',$organization->name
+              ));
+              
+              $sheet->cell('A1', function($cell) {
+
+               // manipulate the cell
+                $cell->setFontWeight('bold');
+
+              });
+
+              $sheet->mergeCells('A3:B3');
+              $sheet->row(3, array(
+              'Room Types Report'
+              ));
+
+              $sheet->row(3, function($cell) {
+
+               // manipulate the cell
+                $cell->setAlignment('center');
+                $cell->setFontWeight('bold');
+
+              });
+
+              $sheet->row(5, array(
+              '#', 'Name'
+              ));
+
+              $sheet->row(5, function ($r) {
+
+             // call cell manipulation methods
+              $r->setFontWeight('bold');
+ 
+              });
+               
+            $row = 6;
+             
+             for($i = 0; $i<count($data); $i++){
+             $sheet->row($row, array(
+             $i+1,$data[$i]->name
+             ));
+             $row++;
+             }             
+             
+    });
+
+  })->download('xls');
+    }
+    }
+
     public function rooms(Request $request){
         if($request->type == 'pdf'){
         $rooms = Room::where('organization_id',Auth::user()->organization_id)->get();
@@ -1563,7 +1632,7 @@ class ReportsController extends Controller
               });
 
               $sheet->row(5, array(
-              '#', 'Branch','Room Number','Room Type', 'Adult Number', 'Children Number', 'Room Count'
+              '#', 'Branch','Room Number','Room Type', 'Adult Number', 'Children Number', 'Room Count','Price'
               ));
 
               $sheet->row(5, function ($r) {
@@ -1577,7 +1646,7 @@ class ReportsController extends Controller
              
              for($i = 0; $i<count($data); $i++){
              $sheet->row($row, array(
-             $i+1,Room::getBranch($data[$i]->branch_id),$data[$i]->roomno,$data[$i]->type,$data[$i]->adults,$data[$i]->children,($data[$i]->adults+$data[$i]->children)
+             $i+1,Room::getBranch($data[$i]->branch_id),$data[$i]->roomno,$data[$i]->roomtype->name,$data[$i]->adults,$data[$i]->children,($data[$i]->adults+$data[$i]->children),$data[$i]->price
              ));
              $row++;
              }             

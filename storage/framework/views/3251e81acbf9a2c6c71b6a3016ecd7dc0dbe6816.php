@@ -155,7 +155,7 @@ body{
                             <li ><a href="<?php echo e(url('hotelbranches')); ?>">Branches</a></li>
                             <li ><a href="<?php echo e(url('hotelcalendar')); ?>">Calendar</a></li>
                             <li ><a href="<?php echo e(url('hotelrooms')); ?>">Rooms</a></li>
-                            <li ><a href="<?php echo e(url('hotelreservations')); ?>">Reservations</a></li>
+                            <li ><a href="<?php echo e(url('roomtype')); ?>">Room Type</a></li>
                         </ul>
                     </li>          
                     <?php else: ?>
@@ -165,7 +165,7 @@ body{
                             <li ><a href="<?php echo e(url('hotelbranches')); ?>">Branches</a></li>
                             <li ><a href="<?php echo e(url('hotelcalendar')); ?>">Calendar</a></li>
                             <li ><a href="<?php echo e(url('hotelrooms')); ?>">Rooms</a></li>
-                            <li ><a href="<?php echo e(url('hotelreservations')); ?>">Reservations</a></li>
+                            <li ><a href="<?php echo e(url('roomtype')); ?>">Room Type</a></li> 
                         </ul>
                     </li>          
                     <?php endif; ?>

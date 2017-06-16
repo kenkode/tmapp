@@ -17,8 +17,7 @@ th {
   margin-bottom: 2px;
 }
 hr {
-  margin-top: 1px;
-  margin-bottom: 2px;
+  
   border: 0;
   border-top: 2px dotted #eee;
 }
@@ -84,43 +83,25 @@ body {
 
 <br>
 
-
+ 
 	<div class="content" style='margin-top:50px;'>
-	
-    <div align="center"><h3><strong>Schedules Report</strong></h3></div>
 
+   <div align="center"><h3><strong>Room Types Report</strong></h3></div>
     <table class="table table-bordered" border='1' cellspacing='0' cellpadding='0'>
 
       <tr>
      
 
-        <td width='20'><strong># </strong></td>
-        <td><strong>Image</strong></td>
-        <td><strong>Branch</strong></td>
-        <td><strong>Room No</strong></td>
-        <td><strong>Type </strong></td> 
-        <td><strong>Adults </strong></td> 
-        <td><strong>Children </strong></td> 
-        <td><strong>Rooms Count </strong></td>
-        <td><strong>Price </strong></td>
+        <td><strong># </strong></td>
+        <td><strong>Name </strong></td> 
       </tr>
       <?php $i =1; ?>
-      @foreach($rooms as $room)
+      @foreach($types as $type)
       <tr>
 
-       <td>{{$i}}</td>
-          @if($room->image == null || $room->image == '')
-          <td></td>
-          @else
-          <td><img src="{{url('/public/uploads/hotel/rooms/'.$room->image)}}" width="100" height="100" alt="no logo" /></td>
-          @endif
-          <td>{{App\Room::getBranch($room->branch_id)}}</td>
-          <td>{{$room->roomno}}</td>
-          <td>{{$room->roomtype->name}}</td>
-          <td>{{$room->adults}}</td>
-          <td>{{$room->children}}</td>
-          <td>{{($room->adults+$room->children)}}</td>
-          <td>{{number_format($room->price,2)}}</td>
+
+       <td valign="top">{{$i}}</td>
+        <td valign="top"> {{ $type->name }}</td>
         </tr>
       <?php $i++; ?>
    

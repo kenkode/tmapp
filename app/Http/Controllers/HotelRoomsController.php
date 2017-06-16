@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Room;
+use App\Roomtype;
 use App\Branch;
 use App\Food;
 use App\Roomnumber;
@@ -18,10 +19,12 @@ class HotelRoomsController extends Controller
     {	
     	$organization=Organization::find(Auth::User()->organization_id);
     	$branches=Branch::where('organization_id','=',Auth::User()->organization_id)
-    	->get();     	   
+    	->get();  
+        $types=Roomtype::where('organization_id','=',Auth::User()->organization_id)
+        ->get();     	   
     	$rooms=Room::where('organization_id','=',Auth::User()->organization_id)
     	->get();     	    
-        return view('hotels.rooms.index',compact('rooms','organization','branches'));
+        return view('hotels.rooms.index',compact('rooms','organization','branches','types'));
     }
     /*Storing room details in the database*/
     public function store(Request $request){
@@ -34,7 +37,7 @@ class HotelRoomsController extends Controller
             $room->image = 'default_photo.png';
         }
         $room->branch_id = $request->branch;
-        $room->type = $request->room_type;
+        $room->roomtype_id = $request->room_type;
         $room->adults = $request->adult_number;
         $room->children = $request->children_number;
         $room->room_count = $request->room_count;
@@ -60,8 +63,9 @@ class HotelRoomsController extends Controller
           <td>
           <img src=".url('/public/uploads/hotel/rooms/'.$room->image)." width='100' height='100' alt='No Room Image' />
           </td>
-          <td>$room->type</td>
-          <td>$room->room_count</td>";
+          <td>".$room->roomtype->name."</td>
+          <td>$room->room_count</td>
+          <td>".number_format($room->price,2)."</td>";
           $display .="<td>
                   <div class='btn-group'>
                   	<button type='button' class='btn btn-info btn-sm dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>
@@ -70,12 +74,12 @@ class HotelRoomsController extends Controller
                   	</button>          
                   	<ul class='dropdown-menu' role='menu'>
                         <li>
-                            <a data-toggle='modal' href='#modal-form' data-name='$room->roomno' data-id='$room->id' data-roomtype='$room->type' data-adultno='$room->adults' data-childrenno='$room->children' data-image='$room->image' data-branch='$room->branch_id' data-count='$room->room_count' data-price=".number_format($room->price,2)." enabled class='edit'>
+                            <a data-toggle='modal' href='#modal-view' data-name='$room->roomno' data-id='$room->id' data-roomtype=".$room->roomtype->type." data-adultno='$room->adults' data-childrenno='$room->children' data-image='$room->image' data-branch='$room->branch_id' data-count='$room->room_count' data-price=".number_format($room->price,2)." enabled class='view'>
                             View
                             </a>
 
 	                    <li>
-	                    	<a data-toggle='modal' href='#modal-form' data-name='$room->roomno' data-id='$room->id' data-roomtype='$room->type' data-adultno='$room->adults' data-childrenno='$room->children' data-image='$room->image' data-branch='$room->branch_id' data-count='$room->room_count' data-price=".number_format($room->price,2)." enabled class='edit'>
+	                    	<a data-toggle='modal' href='#modal-form' data-name='$room->roomno' data-id='$room->id' data-roomtype='$room->roomtype_id' data-adultno='$room->adults' data-childrenno='$room->children' data-image='$room->image' data-branch='$room->branch_id' data-count='$room->room_count' data-price=".number_format($room->price,2)." enabled class='edit'>
 	                    	Update
 	                    	</a>
 	                    </li>
@@ -108,7 +112,7 @@ class HotelRoomsController extends Controller
             $room->image = $room->image;
         }
         $room->branch_id = $request->branch;
-        $room->type = $request->room_type;
+        $room->roomtype_id = $request->room_type;
         $room->adults = $request->adult_number;
         $room->children = $request->children_number;
         $room->room_count = $request->room_count;

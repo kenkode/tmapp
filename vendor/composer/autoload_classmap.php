@@ -19,6 +19,7 @@ return array(
     'CreatePaymentschedulesTable' => $baseDir . '/database/migrations/2017_04_07_110842_create_paymentschedules_table.php',
     'CreateRoomnumbersTable' => $baseDir . '/database/migrations/2017_03_22_145912_create_roomnumbers_table.php',
     'CreateRoomsTable' => $baseDir . '/database/migrations/2017_03_22_134435_create_rooms_table.php',
+    'CreateRoomtypesTable' => $baseDir . '/database/migrations/2017_06_16_084811_create_roomtypes_table.php',
     'CreateRoutesTable' => $baseDir . '/database/migrations/2017_03_22_134044_create_routes_table.php',
     'CreateSchedulesTable' => $baseDir . '/database/migrations/2017_03_22_134223_create_schedules_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',

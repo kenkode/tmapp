@@ -84,7 +84,7 @@
                             <li ><a href="{{url('hotelbranches')}}">Branches</a></li>
                             <li ><a href="{{url('hotelcalendar')}}">Calendar</a></li>
                             <li ><a href="{{url('hotelrooms')}}">Rooms</a></li>
-                            <li ><a href="{{url('hotelreservations')}}">Reservations</a></li>
+                            <!-- <li ><a href="{{url('hotelreservations')}}">Reservations</a></li> -->
                         </ul>
                     </li>                                
                     <li>
