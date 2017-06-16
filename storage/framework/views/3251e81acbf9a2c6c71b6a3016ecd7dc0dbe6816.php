@@ -153,7 +153,7 @@ body{
                         <a href="index.html"><i class="fa fa-building nav_icon"></i> <span class="nav-label">Hotel Management</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li ><a href="<?php echo e(url('hotelbranches')); ?>">Branches</a></li>
-                            <li ><a href="<?php echo e(url('hotelcalendar')); ?>">Calendar</a></li>
+                            <!-- <li ><a href="<?php echo e(url('hotelcalendar')); ?>">Calendar</a></li> -->
                             <li ><a href="<?php echo e(url('hotelrooms')); ?>">Rooms</a></li>
                             <li ><a href="<?php echo e(url('roomtype')); ?>">Room Type</a></li>
                         </ul>
@@ -163,7 +163,7 @@ body{
                         <a href="index.html"><i class="fa fa-building nav_icon"></i> <span class="nav-label">Hotel Management</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li ><a href="<?php echo e(url('hotelbranches')); ?>">Branches</a></li>
-                            <li ><a href="<?php echo e(url('hotelcalendar')); ?>">Calendar</a></li>
+                            <!-- <li ><a href="<?php echo e(url('hotelcalendar')); ?>">Calendar</a></li> -->
                             <li ><a href="<?php echo e(url('hotelrooms')); ?>">Rooms</a></li>
                             <li ><a href="<?php echo e(url('roomtype')); ?>">Room Type</a></li> 
                         </ul>

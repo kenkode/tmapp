@@ -152,7 +152,7 @@ body{
                         <a href="index.html"><i class="fa fa-building nav_icon"></i> <span class="nav-label">Hotel Management</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li ><a href="{{url('hotelbranches')}}">Branches</a></li>
-                            <li ><a href="{{url('hotelcalendar')}}">Calendar</a></li>
+                            <!-- <li ><a href="{{url('hotelcalendar')}}">Calendar</a></li> -->
                             <li ><a href="{{url('hotelrooms')}}">Rooms</a></li>
                             <li ><a href="{{url('roomtype')}}">Room Type</a></li>
                         </ul>
@@ -162,7 +162,7 @@ body{
                         <a href="index.html"><i class="fa fa-building nav_icon"></i> <span class="nav-label">Hotel Management</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li ><a href="{{url('hotelbranches')}}">Branches</a></li>
-                            <li ><a href="{{url('hotelcalendar')}}">Calendar</a></li>
+                            <!-- <li ><a href="{{url('hotelcalendar')}}">Calendar</a></li> -->
                             <li ><a href="{{url('hotelrooms')}}">Rooms</a></li>
                             <li ><a href="{{url('roomtype')}}">Room Type</a></li> 
                         </ul>
