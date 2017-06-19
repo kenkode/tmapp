@@ -156,7 +156,7 @@ body{
                             <li ><a href="{{url('hotelrooms')}}">Rooms</a></li>
                             <li ><a href="{{url('roomtype')}}">Room Type</a></li>
                             <li ><a href="{{url('pricing')}}">Pricing Plan</a></li>
-                            <li ><a href="{{url('deposits')}}">Advance Payments</a></li>
+                            <!-- <li ><a href="{{url('deposits')}}">Advance Payments</a></li> -->
                         </ul>
                     </li>          
                     @else
@@ -168,7 +168,7 @@ body{
                             <li ><a href="{{url('hotelrooms')}}">Rooms</a></li>
                             <li ><a href="{{url('roomtype')}}">Room Type</a></li> 
                             <li ><a href="{{url('pricing')}}">Pricing Plan</a></li>
-                            <li ><a href="{{url('deposits')}}">Advance Payments</a></li>
+                            <!-- <li ><a href="{{url('deposits')}}">Advance Payments</a></li> -->
                         </ul>
                     </li>          
                     @endif

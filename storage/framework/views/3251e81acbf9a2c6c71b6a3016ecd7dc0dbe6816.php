@@ -157,7 +157,7 @@ body{
                             <li ><a href="<?php echo e(url('hotelrooms')); ?>">Rooms</a></li>
                             <li ><a href="<?php echo e(url('roomtype')); ?>">Room Type</a></li>
                             <li ><a href="<?php echo e(url('pricing')); ?>">Pricing Plan</a></li>
-                            <li ><a href="<?php echo e(url('deposits')); ?>">Advance Payments</a></li>
+                            <!-- <li ><a href="<?php echo e(url('deposits')); ?>">Advance Payments</a></li> -->
                         </ul>
                     </li>          
                     <?php else: ?>
@@ -169,7 +169,7 @@ body{
                             <li ><a href="<?php echo e(url('hotelrooms')); ?>">Rooms</a></li>
                             <li ><a href="<?php echo e(url('roomtype')); ?>">Room Type</a></li> 
                             <li ><a href="<?php echo e(url('pricing')); ?>">Pricing Plan</a></li>
-                            <li ><a href="<?php echo e(url('deposits')); ?>">Advance Payments</a></li>
+                            <!-- <li ><a href="<?php echo e(url('deposits')); ?>">Advance Payments</a></li> -->
                         </ul>
                     </li>          
                     <?php endif; ?>
