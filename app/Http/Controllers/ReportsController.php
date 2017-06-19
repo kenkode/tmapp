@@ -15,6 +15,8 @@ use App\Schedule;
 use App\Event;
 use App\Booking;
 use App\Organization;
+use App\Deposit;
+use App\Pricing;
 use Illuminate\Support\Facades\Auth;
 //use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -1618,7 +1620,7 @@ class ReportsController extends Controller
 
               });
 
-              $sheet->mergeCells('A3:G3');
+              $sheet->mergeCells('A3:F3');
               $sheet->row(3, array(
               'Hotel Rooms Report'
               ));
@@ -1632,7 +1634,7 @@ class ReportsController extends Controller
               });
 
               $sheet->row(5, array(
-              '#', 'Branch','Room Number','Room Type', 'Adult Number', 'Children Number', 'Room Count','Price'
+              '#', 'Branch','Room Type', 'Adult Number', 'Children Number', 'Room Count'
               ));
 
               $sheet->row(5, function ($r) {
@@ -1646,10 +1648,188 @@ class ReportsController extends Controller
              
              for($i = 0; $i<count($data); $i++){
              $sheet->row($row, array(
-             $i+1,Room::getBranch($data[$i]->branch_id),$data[$i]->roomno,$data[$i]->roomtype->name,$data[$i]->adults,$data[$i]->children,($data[$i]->adults+$data[$i]->children),$data[$i]->price
+             $i+1,Room::getBranch($data[$i]->branch_id),$data[$i]->roomtype->name,$data[$i]->adults,$data[$i]->children,($data[$i]->adults+$data[$i]->children)
              ));
              $row++;
              }             
+             
+    });
+
+  })->download('xls');
+    }
+    }
+
+    public function pricing(Request $request){
+        if($request->type == 'pdf'){
+        $pricings = Pricing::where('organization_id',Auth::user()->organization_id)->get();
+        $organization = Organization::find(Auth::user()->organization_id);
+        $pdf = PDF::loadView('reports.pricings',compact('pricings','organization'));
+        return $pdf->download('Pricing Plan.pdf');
+    }else{
+        $data = Pricing::where('organization_id',Auth::user()->organization_id)->get();
+
+        $organization = Organization::find(Auth::user()->organization_id);
+
+    
+  Excel::create('Pricing Plan', function($excel) use($data,$organization) {
+
+    
+    $excel->sheet('Pricing Plan', function($sheet) use($data,$organization){
+
+
+               $sheet->row(1, array(
+              'Organization: ',$organization->name
+              ));
+              
+              $sheet->cell('A1', function($cell) {
+
+               // manipulate the cell
+                $cell->setFontWeight('bold');
+
+              });
+
+              $sheet->mergeCells('A3:K3');
+              $sheet->row(3, array(
+              'Pricing Plan'
+              ));
+
+              $sheet->row(3, function($cell) {
+
+               // manipulate the cell
+                $cell->setAlignment('center');
+                $cell->setFontWeight('bold');
+
+              });
+
+              $sheet->row(5, array(
+              '#', 'Branch','Room Type', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday','Children %'
+              ));
+
+              $sheet->row(5, function ($r) {
+
+             // call cell manipulation methods
+              $r->setFontWeight('bold');
+ 
+              });
+               
+            $row = 6;
+             
+             for($i = 0; $i<count($data); $i++){
+             $sheet->row($row, array(
+             $i+1,$data[$i]->branch->name,$data[$i]->roomtype->name,$data[$i]->mon,$data[$i]->tue,$data[$i]->wen,$data[$i]->thur,$data[$i]->fri,$data[$i]->sat,$data[$i]->sun,$data[$i]->children
+             ));
+             $row++;
+             }             
+             
+    });
+
+  })->download('xls');
+    }
+    }
+
+    public function deposits(Request $request){
+        if($request->type == 'pdf'){
+        $deposit = Deposit::where('organization_id',Auth::user()->organization_id)->first();
+        $organization = Organization::find(Auth::user()->organization_id);
+        $pdf = PDF::loadView('reports.deposits',compact('deposit','organization'));
+        return $pdf->download('Advanced Payment Settings.pdf');
+    }else{
+        $data = Deposit::where('organization_id',Auth::user()->organization_id)->first();
+
+        $organization = Organization::find(Auth::user()->organization_id);
+
+    
+  Excel::create('Advanced Payment Settings', function($excel) use($data,$organization) {
+
+    
+    $excel->sheet('Advanced Payment Settings', function($sheet) use($data,$organization){
+
+
+               $sheet->row(1, array(
+              'Organization: ',$organization->name
+              ));
+              
+              $sheet->cell('A1', function($cell) {
+
+               // manipulate the cell
+                $cell->setFontWeight('bold');
+
+              });
+
+              $sheet->mergeCells('A3:C3');
+              $sheet->row(3, array(
+              'Advanced Payment Settings'
+              ));
+
+              $sheet->row(3, function($cell) {
+
+               // manipulate the cell
+                $cell->setAlignment('center');
+                $cell->setFontWeight('bold');
+
+              });
+
+              $sheet->row(5, array(
+              '#', 'Month','Advanced Payment (% of Total Amount)'
+              ));
+
+              $sheet->row(5, function ($r) {
+
+             // call cell manipulation methods
+              $r->setFontWeight('bold');
+ 
+              });
+
+              $sheet->row(6, array(
+              '1','January',$data->jan
+              ));
+
+
+              $sheet->row(7, array(
+              '2','February',$data->feb
+              ));
+
+              $sheet->row(8, array(
+              '3','March',$data->mar
+              ));
+
+
+              $sheet->row(9, array(
+              '4','April',$data->apr
+              ));
+
+          
+              $sheet->row(10, array(
+              '5','May',$data->may
+              ));
+
+              $sheet->row(11, array(
+              '6','June',$data->jun
+              ));
+
+              $sheet->row(12, array(
+              '7','July',$data->jul
+              ));
+
+              $sheet->row(13, array(
+              '8','August',$data->aug
+              ));
+
+              $sheet->row(14, array(
+              '9','September',$data->sep
+              ));
+
+              $sheet->row(15, array(
+              '10','October',$data->oct
+              ));
+
+              $sheet->row(16, array(
+              '11','November',$data->nov
+              ));
+
+              $sheet->row(17, array(
+              '12','December',$data->dec
+              ));                      
              
     });
 

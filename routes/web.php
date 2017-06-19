@@ -332,6 +332,20 @@ Route::post('roomtype/update', 'RoomTypesController@update');
 Route::post('roomtype/delete', 'RoomTypesController@delete');
 Route::get('roomtype/showrecord', 'RoomTypesController@showrecord');
 Route::post('report/roomtypes', 'ReportsController@roomtypes');
+//Room Pricing
+Route::get('pricing','PricingController@index');
+Route::post('pricing/store', 'PricingController@store');
+Route::post('pricing/update', 'PricingController@update');
+Route::post('pricing/delete', 'PricingController@delete');
+Route::get('pricing/showrecord', 'PricingController@showrecord');
+Route::post('report/pricing', 'ReportsController@pricing');
+//Room Deposits
+Route::get('deposits','DepositsController@index');
+Route::post('deposits/store', 'DepositsController@store');
+Route::post('deposits/update', 'DepositsController@update');
+Route::post('deposits/delete', 'DepositsController@delete');
+Route::get('deposits/showrecord', 'DepositsController@showrecord');
+Route::post('report/deposits', 'ReportsController@deposits');
 //Hotel Reservations Routes
 Route::get('hotelreservations','HotelReservationsController@index');
 Route::post('hotelreservations/store', 'HotelReservationsController@store');

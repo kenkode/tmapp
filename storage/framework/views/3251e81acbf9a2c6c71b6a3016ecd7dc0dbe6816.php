@@ -148,24 +148,28 @@ body{
                     <?php endif; ?>
 
                     <?php if(Auth::user()->type == 'Hotel'): ?>
-                    <?php if(collect(request()->segments())->last() == 'hotelbranches' || collect(request()->segments())->last() == 'hotelcalendar' || collect(request()->segments())->last() == 'hotelrooms' || collect(request()->segments())->last() == 'hotelreservations'): ?>
+                    <?php if(collect(request()->segments())->last() == 'hotelbranches' || collect(request()->segments())->last() == 'pricing' || collect(request()->segments())->last() == 'hotelrooms' || collect(request()->segments())->last() == 'roomtype' || collect(request()->segments())->last() == 'deposits'): ?>
                     <li class="active">
-                        <a href="index.html"><i class="fa fa-building nav_icon"></i> <span class="nav-label">Hotel Management</span> <span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-building nav_icon"></i> <span class="nav-label">Hotel Management</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li ><a href="<?php echo e(url('hotelbranches')); ?>">Branches</a></li>
                             <!-- <li ><a href="<?php echo e(url('hotelcalendar')); ?>">Calendar</a></li> -->
                             <li ><a href="<?php echo e(url('hotelrooms')); ?>">Rooms</a></li>
                             <li ><a href="<?php echo e(url('roomtype')); ?>">Room Type</a></li>
+                            <li ><a href="<?php echo e(url('pricing')); ?>">Pricing Plan</a></li>
+                            <li ><a href="<?php echo e(url('deposits')); ?>">Advance Payments</a></li>
                         </ul>
                     </li>          
                     <?php else: ?>
                     <li >
-                        <a href="index.html"><i class="fa fa-building nav_icon"></i> <span class="nav-label">Hotel Management</span> <span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-building nav_icon"></i> <span class="nav-label">Hotel Management</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li ><a href="<?php echo e(url('hotelbranches')); ?>">Branches</a></li>
                             <!-- <li ><a href="<?php echo e(url('hotelcalendar')); ?>">Calendar</a></li> -->
                             <li ><a href="<?php echo e(url('hotelrooms')); ?>">Rooms</a></li>
                             <li ><a href="<?php echo e(url('roomtype')); ?>">Room Type</a></li> 
+                            <li ><a href="<?php echo e(url('pricing')); ?>">Pricing Plan</a></li>
+                            <li ><a href="<?php echo e(url('deposits')); ?>">Advance Payments</a></li>
                         </ul>
                     </li>          
                     <?php endif; ?>

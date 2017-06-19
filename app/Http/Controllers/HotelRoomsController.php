@@ -41,9 +41,9 @@ class HotelRoomsController extends Controller
         $room->adults = $request->adult_number;
         $room->children = $request->children_number;
         $room->room_count = $request->room_count;
-        $room->price = str_replace(",", "", $request->price);
+        //$room->price = str_replace(",", "", $request->price);
         $room->organization_id = Auth::user()->organization_id;
-        $room->roomno= $request->room_number;
+        //$room->roomno= $request->room_number;
         $room->save();        
 
         return 1;
@@ -59,13 +59,11 @@ class HotelRoomsController extends Controller
         $display .="
         <tr class='del$room->id'>
           <td> $i </td>
-          <td>$room->roomno</td>
           <td>
           <img src=".url('/public/uploads/hotel/rooms/'.$room->image)." width='100' height='100' alt='No Room Image' />
           </td>
           <td>".$room->roomtype->name."</td>
-          <td>$room->room_count</td>
-          <td>".number_format($room->price,2)."</td>";
+          <td>$room->room_count</td>";
           $display .="<td>
                   <div class='btn-group'>
                   	<button type='button' class='btn btn-info btn-sm dropdown-toggle' data-toggle='dropdown' aria-expanded='false'>
@@ -74,12 +72,12 @@ class HotelRoomsController extends Controller
                   	</button>          
                   	<ul class='dropdown-menu' role='menu'>
                         <li>
-                            <a data-toggle='modal' href='#modal-view' data-name='$room->roomno' data-id='$room->id' data-roomtype=".$room->roomtype->type." data-adultno='$room->adults' data-childrenno='$room->children' data-image='$room->image' data-branch='$room->branch_id' data-count='$room->room_count' data-price=".number_format($room->price,2)." enabled class='view'>
+                            <a data-toggle='modal' href='#modal-view' data-id='$room->id' data-roomtype='".$room->roomtype->name."' data-adultno='$room->adults' data-childrenno='$room->children' data-image='$room->image' data-branch='".$room->branch->name."' data-count='$room->room_count' enabled class='view'>
                             View
                             </a>
 
 	                    <li>
-	                    	<a data-toggle='modal' href='#modal-form' data-name='$room->roomno' data-id='$room->id' data-roomtype='$room->roomtype_id' data-adultno='$room->adults' data-childrenno='$room->children' data-image='$room->image' data-branch='$room->branch_id' data-count='$room->room_count' data-price=".number_format($room->price,2)." enabled class='edit'>
+	                    	<a data-toggle='modal' href='#modal-form' data-id='$room->id' data-roomtype='$room->roomtype_id' data-adultno='$room->adults' data-childrenno='$room->children' data-image='$room->image' data-branch='$room->branch_id' data-count='$room->room_count' enabled class='edit'>
 	                    	Update
 	                    	</a>
 	                    </li>
@@ -116,9 +114,9 @@ class HotelRoomsController extends Controller
         $room->adults = $request->adult_number;
         $room->children = $request->children_number;
         $room->room_count = $request->room_count;
-        $room->price = str_replace(",", "", $request->price);
+        //$room->price = str_replace(",", "", $request->price);
         $room->organization_id = Auth::user()->organization_id;
-        $room->roomno= $request->room_number;
+        //$room->roomno= $request->room_number;
         $room->update();        
         return 1;
     }

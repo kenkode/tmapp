@@ -87,7 +87,7 @@ body {
 
 	<div class="content" style='margin-top:50px;'>
 	
-    <div align="center"><h3><strong>Schedules Report</strong></h3></div>
+    <div align="center"><h3><strong>Pricing Plan</strong></h3></div>
 
     <table class="table table-bordered" border='1' cellspacing='0' cellpadding='0'>
 
@@ -95,28 +95,32 @@ body {
      
 
         <td width='20'><strong># </strong></td>
-        <td><strong>Image</strong></td>
         <td><strong>Branch</strong></td>
-        <td><strong>Type </strong></td> 
-        <td><strong>Adults </strong></td> 
-        <td><strong>Children </strong></td> 
-        <td><strong>Rooms Count </strong></td>
+        <td><strong>Room Type</strong></td>
+        <td><strong>Mon </strong></td> 
+        <td><strong>Tue </strong></td> 
+        <td><strong>Wed </strong></td> 
+        <td><strong>Thur </strong></td>
+        <td><strong>Fri </strong></td>
+        <td><strong>Sat </strong></td>
+        <td><strong>Sun </strong></td>
+        <td><strong>Children % </strong></td>
       </tr>
       <?php $i =1; ?>
-      @foreach($rooms as $room)
+      @foreach($pricings as $pricing)
       <tr>
 
        <td>{{$i}}</td>
-          @if($room->image == null || $room->image == '')
-          <td></td>
-          @else
-          <td><img src="{{url('/public/uploads/hotel/rooms/'.$room->image)}}" width="100" height="100" alt="no logo" /></td>
-          @endif
-          <td>{{App\Room::getBranch($room->branch_id)}}</td>
-          <td>{{$room->roomtype->name}}</td>
-          <td>{{$room->adults}}</td>
-          <td>{{$room->children}}</td>
-          <td>{{($room->adults+$room->children)}}</td>
+          <td>{{$pricing->branch->name}}</td>
+          <td>{{$pricing->roomtype->name}}</td>
+          <td>{{number_format($pricing->mon,2)}}</td>
+          <td>{{number_format($pricing->tue,2)}}</td>
+          <td>{{number_format($pricing->wen,2)}}</td>
+          <td>{{number_format($pricing->thur,2)}}</td>
+          <td>{{number_format($pricing->fri,2)}}</td>
+          <td>{{number_format($pricing->sat,2)}}</td>
+          <td>{{number_format($pricing->sun,2)}}</td>
+          <td>{{$pricing->children}}</td>
         </tr>
       <?php $i++; ?>
    

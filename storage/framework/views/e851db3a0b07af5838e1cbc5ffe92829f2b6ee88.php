@@ -48,7 +48,7 @@
                 <div class="row">
                     <div class="panel blank-panel">
                         <div class="panel-heading">                            
-                            <div class="panel-options">
+                            <!-- <div class="panel-options">
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-laptop"></i>Rooms</a></li>
                                     <li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-desktop"></i>Rates</a></li>
@@ -56,7 +56,7 @@
                                     <li class=""><a data-toggle="tab" href="#tab-4"><i class="fa fa-bar-chart-o"></i>Reservations</a></li>
                                     <li class=""><a data-toggle="tab" href="#tab-5"><i class="fa fa-bar-chart-o"></i>History Log</a></li>
                                 </ul>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="panel-body">
                             <div class="tab-content">
@@ -104,12 +104,12 @@
                                  </select>                                
                                  <p id="errors22" style="color:red"></p>
                              </div>                                            
-                             <div class="form-group">
+                             <!-- <div class="form-group">
                              <label>Room Number</label> 
                                  <input type="text" id="room_number" placeholder="Enter Room Number" name="room_number" class="form-control" required 
                                  data-error="Please insert hotel room number">
                                  <p id="errors1" style="color:red"></p>
-                             </div> 
+                             </div>  -->
                              <div class="form-group">
                              <label>Room Type</label> 
                                  <select class="form-control" name="room_type" required 
@@ -146,14 +146,14 @@
                                  data-error="Please insert rooms available!">
                                  <p id="errors36" style="color:red"></p>
                              </div>    
-                             <div class="form-group"><label>Price</label> 
+                             <!-- <div class="form-group"><label>Price</label> 
                                              <input type="text" id="price" placeholder="Enter Price" class="form-control">
                                              <script type="text/javascript">
                                              $(document).ready(function() {
                                              $('#price').priceFormat();
                                              });
                                              </script>
-                                             </div>                         
+                                             </div>   -->                       
                              <div class="form-group">
                              <label>Room Image</label> 
                                  <input id="image" type="file" name="image">
@@ -220,9 +220,9 @@
                                                <td><strong>Branch : </strong></td><td class="tdbranch"></td>
                                             </tr>
 
-                                            <tr>
+                                            <!-- <tr>
                                                <td><strong>Room Number : </strong></td><td class="tdroomno"></td>
-                                            </tr>
+                                            </tr> -->
 
                                             <tr>
                                                <td><strong>Room Type : </strong></td><td class="tdtype"></td>
@@ -240,9 +240,9 @@
                                                <td><strong>Room Count : </strong></td><td class="tdcount"></td>
                                             </tr>
 
-                                            <tr>
+                                            <!-- <tr>
                                                <td><strong>Price : </strong></td><td class="tdprice"></td>
-                                            </tr>
+                                            </tr> -->
 
                                         </table>
 
@@ -261,10 +261,10 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Image</th>
-                                                <th>Room #</th>
+                                                <!-- <th>Room #</th> -->
                                                 <th>Type</th>
                                                 <th>Room Count</th>
-                                                <th>Price</th>
+                                                <!-- <th>Price</th> -->
                                                 <th>Action</th>
                                             </tr>
                                             </thead>
@@ -281,13 +281,13 @@
                                                   <img src="<?php echo e(url('/public/uploads/hotel/rooms/'.$room->image)); ?>" width="100" height="100" alt="No Room Sample Image" />
                                                             
                                                   </td>
-                                                  <td>
+                                                  <!-- <td>
                                                     <?php echo e($room->roomno); ?>
 
-                                                  </td>
+                                                  </td> -->
                                                   <td><?php echo e($room->roomtype->name); ?></td>
                                                   <td><?php echo e($room->room_count); ?></td>
-                                                  <td><?php echo e(number_format($room->price,2)); ?></td>
+                                                  <!-- <td><?php echo e(number_format($room->price,2)); ?></td> -->
                                                   <td>
                                                       <div class="btn-group">
                                                           <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -295,12 +295,12 @@
                                                           </button>          
                                                           <ul class="dropdown-menu" role="menu">
                                                           <li>
-                                                                <a class="view" data-toggle="modal" data-name="<?php echo e($room->roomno); ?>" data-id="<?php echo e($room->id); ?>" data-roomtype="<?php echo e($room->roomtype->name); ?>" data-adultno="<?php echo e($room->adults); ?>" data-childrenno="<?php echo e($room->children); ?>" data-image="<?php echo e($room->image); ?>" data-branch="<?php echo e(App\Room::getBranch($room->branch_id)); ?>" data-count="<?php echo e($room->room_count); ?>" data-price="<?php echo e(number_format($room->price,2)); ?>" href="#modal-view">
+                                                                <a class="view" data-toggle="modal" data-id="<?php echo e($room->id); ?>" data-roomtype="<?php echo e($room->roomtype->name); ?>" data-adultno="<?php echo e($room->adults); ?>" data-childrenno="<?php echo e($room->children); ?>" data-image="<?php echo e($room->image); ?>" data-branch="<?php echo e(App\Room::getBranch($room->branch_id)); ?>" data-count="<?php echo e($room->room_count); ?>" href="#modal-view">
                                                                     View
                                                                 </a>
                                                             </li> 
                                                             <li>
-                                                                <a class="edit" data-toggle="modal" data-name="<?php echo e($room->roomno); ?>" data-id="<?php echo e($room->id); ?>" data-roomtype="<?php echo e($room->roomtype_id); ?>" data-adultno="<?php echo e($room->adults); ?>" data-childrenno="<?php echo e($room->children); ?>" data-image="<?php echo e($room->image); ?>" data-branch="<?php echo e($room->branch_id); ?>" data-count="<?php echo e($room->room_count); ?>" data-price="<?php echo e(number_format($room->price,2)); ?>" href="#modal-form">
+                                                                <a class="edit" data-toggle="modal" data-id="<?php echo e($room->id); ?>" data-roomtype="<?php echo e($room->roomtype_id); ?>" data-adultno="<?php echo e($room->adults); ?>" data-childrenno="<?php echo e($room->children); ?>" data-image="<?php echo e($room->image); ?>" data-branch="<?php echo e($room->branch_id); ?>" data-count="<?php echo e($room->room_count); ?>" href="#modal-form">
                                                                     Update
                                                                 </a>
                                                             </li>                   
@@ -392,7 +392,7 @@ $(document).ready(function() {
          $('#title').html('Create Hotel Room');
          $('#submit').html('Save Changes');
          $('#sucessmessage').html('Saving Data...');     
-         $('#room_number').val('');
+         //$('#room_number').val('');
          $('#branch').val('');
          $('#adult_number').val('');
          $('#children_number').val('');
@@ -410,25 +410,25 @@ $(document).ready(function() {
 
     $("#users").on("click",".edit", function(){
          var id = $(this).data('id');
-         var name = $(this).data('name');   
+         //var name = $(this).data('name');   
          var branch = $(this).data('branch');
          var adultno = $(this).data('adultno');  
          var childrenno = $(this).data('childrenno');  
          var roomtype = $(this).data('roomtype');
          var room_count = $(this).data('count');
-         var price = $(this).data('price');
+         //var price = $(this).data('price');
          var l = window.location;
          var base_url = l.protocol + "//" + l.host + "/" + l.pathname.split('/')[1];
          var image = base_url+'/public/uploads/hotel/rooms/'+$(this).data('image'); 
          $('#update').removeAttr('disabled');
-         $(".modal-body #room_number").val( name );
+         //$(".modal-body #room_number").val( name );
          $(".modal-body #room_id").val( id );
          $(".modal-body #branch").val(branch);
          $(".modal-body #adult_number").val(adultno);
          $(".modal-body #children_number").val(childrenno);
          $(".modal-body #room_type").val(roomtype);
          $(".modal-body #room_count").val(room_count);
-         $(".modal-body #price").val(price);
+         //$(".modal-body #price").val(price);
          $(".modal-body #imagePreview").css('background-image', 'url('+image+')');
          $('#title').html('Update Hotel Room');
          $('#submit').html('Update changes');
@@ -449,13 +449,13 @@ $(document).ready(function() {
 
    $("#users").on("click",".view", function(){
      var id = $(this).data('id');
-     var name = $(this).data('name');   
+     //var name = $(this).data('name');   
      var branch = $(this).data('branch');
      var adultno = $(this).data('adultno');  
      var childrenno = $(this).data('childrenno');  
      var roomtype = $(this).data('roomtype');
      var room_count = $(this).data('count');
-     var price = $(this).data('price');
+     //var price = $(this).data('price');
      var l = window.location;
      var base_url = l.protocol + "//" + l.host + "/" + l.pathname.split('/')[1];
      var image = base_url+'/public/uploads/hotel/rooms/'+$(this).data('image'); 
@@ -463,20 +463,17 @@ $(document).ready(function() {
      $(".modal-body .tdcount").html( childrenno + adultno );
      $(".modal-body .tdadult").html( adultno );
      $(".modal-body .tdchildren").html( childrenno );
-     $(".modal-body .tdroomno").html( name );
+     //$(".modal-body .tdroomno").html( name );
      $(".modal-body .tdbranch").html( branch );
      $(".modal-body .tdtype").html( roomtype );
      $(".modal-body .tdcount").html( room_count );
-     $(".modal-body .tdprice").html( price );
+     //$(".modal-body .tdprice").html( price );
      $(".modal-body .tdimage").html('<img src="'+image+'" width="100" height="100" alt="no logo" />');
     });
 
   
       $('body').on("click","#submit",function() {
-     if($('#room_number').val() == ""){
-        $('#errors1').html("Please insert name!");
-        return false;
-     }
+     
      if($('#adult_number').val() == ""){
         $('#errors3').html("Please insert adult number!");
         return false;
@@ -509,7 +506,7 @@ $(document).ready(function() {
         if (window.FormData) {
         data= new FormData();
         }
-        var room_number = $('#room_number').val();
+        //var room_number = $('#room_number').val();
         var image = $("#form input[name=image]").val();
         var room_type = $('#room_type').val();
         var adult_number = $('#adult_number').val();
@@ -517,18 +514,18 @@ $(document).ready(function() {
         var id = $('#room_id').val();
         var branch=$('#branch').val();
         var room_count = $('#room_count').val();
-        var price = $('#price').val();
+        //var price = $('#price').val();
         var token = $("#form input[name=_token]").val();
         var urL = $('#form').attr('action');
         
-        data.append("room_number",room_number);
+        //data.append("room_number",room_number);
         data.append("image", $('input[type=file]')[0].files[0]);
         data.append("room_type",room_type);
         data.append("adult_number",adult_number);
         data.append("id",id);
         data.append("branch",branch);
         data.append("room_count",room_count);
-        data.append("price",price);
+        //data.append("price",price);
         data.append("children_number",children_number);
         data.append("_token",token);                
         $.ajax({
@@ -613,10 +610,6 @@ $(document).ready(function() {
    });
    
      $('body').on("click","#update",function() {    
-     if($('#room_number').val() == ""){
-        $('#errors1').html("Please insert room number!");
-        return false;
-     }
      if($('#adult_number').val() == ""){
         $('#errors3').html("Please insert adult number!");
         return false;
@@ -643,7 +636,7 @@ $(document).ready(function() {
         if (window.FormData) {
         data= new FormData();
         }
-        var room_number = $('#room_number').val();
+        //var room_number = $('#room_number').val();
         var image = $("#form input[name=image]").val();
         var room_type = $('#room_type').val();
         var adult_number = $('#adult_number').val();
@@ -651,17 +644,17 @@ $(document).ready(function() {
         var id = $('#room_id').val();
         var branch=$('#branch').val();
         var room_count = $('#room_count').val();
-        var price = $('#price').val();
+        //var price = $('#price').val();
         var token = $("#form input[name=_token]").val();
         var urL = $('#form').attr('action');
         
-        data.append("room_number",room_number);
+        //data.append("room_number",room_number);
         data.append("image", $('input[type=file]')[0].files[0]);
         data.append("room_type",room_type);
         data.append("adult_number",adult_number);
         data.append("id",id);
         data.append("room_count",room_count);
-        data.append("price",price);
+        //data.append("price",price);
         data.append("branch",branch);
         data.append("children_number",children_number);
         data.append("_token",token);
@@ -745,14 +738,7 @@ $(document).ready(function() {
                  }
                });
 
-               $('#room_number').keyup(function(){
-                if($('#room_number').val() == ""){
-                    $('#errors1').html("Please insert room number!");
-                    return false;
-                 }else{
-                  $('#errors1').html("");
-                 }
-               });
+               
 
                $('#adult_number').keyup(function(){
                 if($('#adult_number').val() == ""){

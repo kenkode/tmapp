@@ -33,14 +33,14 @@
                 <div class="row">
                     <div class="panel blank-panel">
                         <div class="panel-heading">                            
-                            <div class="panel-options">
+                            <!-- <div class="panel-options">
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-laptop"></i>Branches</a></li>
                                     <li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-desktop"></i>Reservations</a></li>
                                     <li class=""><a data-toggle="tab" href="#tab-3"><i class="fa fa-signal"></i>Performance</a></li>
                                     <li class=""><a data-toggle="tab" href="#tab-4"><i class="fa fa-bar-chart-o"></i>History Log</a></li>
                                 </ul>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="panel-body">
                             <div class="tab-content">

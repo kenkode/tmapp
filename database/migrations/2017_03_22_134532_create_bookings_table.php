@@ -17,6 +17,8 @@ class CreateBookingsTable extends Migration
             $table->increments('id');
             $table->integer("vehicle_id")->nullable();
             $table->integer("hotel_id")->nullable();
+            $table->integer("branch_id")->nullable();
+            $table->string("type")->nullable();
             $table->integer("organization_id");
             $table->string("firstname");
             $table->string("lastname");
@@ -33,6 +35,11 @@ class CreateBookingsTable extends Migration
             $table->string("roomnumber_id")->nullable();
             $table->integer("event_id")->nullable();
             $table->float("amount",15,2);
+            $table->float("vip_amount",15,2)->nullable();
+            $table->float("normal_amount",15,2)->nullable();
+            $table->float("children_amount",15,2)->nullable();
+            $table->integer("adult_number")->nullable();
+            $table->integer("children_number")->nullable();
             $table->string("mode_of_payment")->nullable();
             $table->string("status");
             $table->integer("is_refunded")->nullable();

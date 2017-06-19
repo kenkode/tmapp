@@ -17,8 +17,7 @@ th {
   margin-bottom: 2px;
 }
 hr {
-  margin-top: 1px;
-  margin-bottom: 2px;
+  
   border: 0;
   border-top: 2px dotted #eee;
 }
@@ -84,44 +83,77 @@ body {
 
 <br>
 
-
+ 
 	<div class="content" style='margin-top:50px;'>
-	
-    <div align="center"><h3><strong>Schedules Report</strong></h3></div>
 
+   <div align="center"><h3><strong>Advanced Payment Settings</strong></h3></div>
     <table class="table table-bordered" border='1' cellspacing='0' cellpadding='0'>
 
       <tr>
-     
-
-        <td width='20'><strong># </strong></td>
-        <td><strong>Image</strong></td>
-        <td><strong>Branch</strong></td>
-        <td><strong>Type </strong></td> 
-        <td><strong>Adults </strong></td> 
-        <td><strong>Children </strong></td> 
-        <td><strong>Rooms Count </strong></td>
+        <td><strong>#</strong></td>
+        <td><strong>Month</strong></td>
+        <td><strong>Advanced Payment (% of Total Amount)</strong></td>
       </tr>
-      <?php $i =1; ?>
-      @foreach($rooms as $room)
       <tr>
-
-       <td>{{$i}}</td>
-          @if($room->image == null || $room->image == '')
-          <td></td>
-          @else
-          <td><img src="{{url('/public/uploads/hotel/rooms/'.$room->image)}}" width="100" height="100" alt="no logo" /></td>
-          @endif
-          <td>{{App\Room::getBranch($room->branch_id)}}</td>
-          <td>{{$room->roomtype->name}}</td>
-          <td>{{$room->adults}}</td>
-          <td>{{$room->children}}</td>
-          <td>{{($room->adults+$room->children)}}</td>
-        </tr>
-      <?php $i++; ?>
-   
-    @endforeach
-      
+        <td>1</td>
+        <td>January</td>
+        <td>{{$deposit->jan}}</td> 
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>February</td>
+        <td>{{$deposit->feb}}</td> 
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>March</td>
+        <td>{{$deposit->mar}}</td> 
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>April</td>
+        <td>{{$deposit->apr}}</td> 
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>May</td>
+        <td>{{$deposit->may}}</td> 
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>June</td>
+        <td>{{$deposit->jun}}</td> 
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>July</td>
+        <td>{{$deposit->jul}}</td> 
+      </tr>
+      <tr>
+        <td>8</td>
+        <td>August</td>
+        <td>{{$deposit->aug}}</td> 
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>September</td>
+        <td>{{$deposit->sep}}</td> 
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>October</td>
+        <td>{{$deposit->oct}}</td> 
+      </tr>
+      <tr>
+        <td>11</td>
+        <td>November</td>
+        <td>{{$deposit->nov}}</td> 
+      </tr>
+      <tr>
+        <td>12</td>
+        <td>December</td>
+        <td>{{$deposit->dec}}</td> 
+      </tr>
     </table>
 
 <br><br>

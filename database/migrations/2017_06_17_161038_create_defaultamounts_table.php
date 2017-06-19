@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRoomsTable extends Migration
+class CreateDefaultamountsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,12 @@ class CreateRoomsTable extends Migration
      */
     public function up()
     {
-        Schema::create('rooms', function (Blueprint $table) {
+        Schema::create('defaultamounts', function (Blueprint $table) {
             $table->increments('id');
-            $table->string("image")->nullable();
             $table->integer("roomtype_id");
-            $table->integer("adults");
-            $table->integer("children");
-            $table->integer("room_count");
-            $table->integer('organization_id');
-            $table->integer('branch_id');
+            $table->integer("branch_id");
+            $table->float("amount",15,2)->default('0.00');
+            $table->integer("organization_id");
             $table->timestamps();
         });
     }
@@ -33,6 +30,6 @@ class CreateRoomsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rooms');
+        Schema::dropIfExists('defaultamounts');
     }
 }

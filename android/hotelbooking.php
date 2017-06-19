@@ -1,7 +1,7 @@
 <?php
     include'db.php';
 
-    $eventid = $_POST['event'];
+    $hotelid = $_POST['hotelid'];
     $organization = $_POST['organization'];
     $firstname = explode(',', str_replace(array('[',']'),'',$_POST['firstname']));
     $lastname = explode(',', str_replace(array('[',']'),'',$_POST['lastname']));
@@ -10,13 +10,16 @@
     $idno = explode(',', str_replace(array('[',']'),'',$_POST['idno']));
     $slots = $_POST['slots'];
     $paymentmode = $_POST['paymentmode'];
-    $amount = preg_replace("/[^0-9.]/", "", explode(',', str_replace(array('[',']'),'',$_POST['amount'])));
-    $vip = $_POST['vip'];
-    $normal = $_POST['economic'];
-    $children = $_POST['children'];
+    $amount = preg_replace("/[^0-9.]/", "", $_POST['amount']);
+    $type = $_POST['type'];
+    $branch = $_POST['branchid'];
+    $date = $_POST['date'];
+    $time = $_POST['time'];
     $adult = $_POST['adults'];
-    $childrencount = $_POST['child'];
-       
+    $childrencount = $_POST['child'];   
+    $price = preg_replace("/[^0-9.]/", "", $_POST['amount']) * $slots;
+    $newdate = strtotime($date.' '.$time);
+    $datetime = date('Y-m-d H:i:s', $newdate);
 
     //$decoded = explode(',', str_replace(array('[[',']]'),'',$seat));
     //echo count($seat);
@@ -25,7 +28,7 @@
     //echo $slots;
     //exit();
 
-    $event = mysqli_query($con, "select * from events where id='".$eventid."'");
+    $event = mysqli_query($con, "select * from hotels were id='".$hotelid."'");
 
     $rowe = mysqli_fetch_array($event);
 
@@ -89,7 +92,7 @@ for($i=0;$i<$slots;$i++){
 
 $ticketno = initials($row['name'],$id+$i);
 
-$message = "Hello ".$firstname[$i]." ".$lastname[$i].",<br> This is a confirmation that you have successfully booked ".$rowe['name']." on ".date('d-M-Y').".<br><br>Your booking details are:<br><table border='0'><tr><td><strong>Ticket number  :</strong></td><td>".$ticketno."</td></tr><tr><td><strong>First name :</strong></td><td>".$firstname[$i]."</td></tr><tr><td><strong>Last name :</strong></td><td>".$lastname[$i]."</td></tr><tr><td><strong>Phone number :</strong></td><td>".$phone[$i]."</td></tr><tr><td><strong>ID / Passport Number :</strong></td><td>".$idno[$i]."</td></tr><tr><td><strong>Amount :</strong></td><td>KES".number_format($amount[$i],2)."</td></tr><tr><td><strong>Payment Mode :</strong></td><td>".$paymentmode."</td></tr></table><br><br> For mor information contact us on...<a href='#'>upstridge.com</a>";
+$message = "Hello ".$firstname[$i]." ".$lastname[$i].",<br> This is a confirmation that you have successfully booked ".$rowe['name']." on ".date('d-M-Y').".<br><br>Your booking details are:<br><table border='0'><tr><td><strong>Ticket number  :</strong></td><td>".$ticketno."</td></tr><tr><td><strong>First name :</strong></td><td>".$firstname[$i]."</td></tr><tr><td><strong>Last name :</strong></td><td>".$lastname[$i]."</td></tr><tr><td><strong>Phone number :</strong></td><td>".$phone[$i]."</td></tr><tr><td><strong>ID / Passport Number :</strong></td><td>".$idno[$i]."</td></tr><tr><td><strong>Total Amount :</strong></td><td>KES".number_format($price,2)."</td></tr><tr><td><strong>Payment Mode :</strong></td><td>".$paymentmode."</td></tr></table><br><br> For mor information contact us on...<a href='#'>upstridge.com</a>";
 
 $mail->setFrom('info@upstridge.co.ke', 'Upstridge');
 $mail->addAddress($email[$i], $firstname[$i]." ".$lastname[$i]);
@@ -100,7 +103,7 @@ if (!$mail->send()) {
     echo "Mailer Error: " . $mail->ErrorInfo;
     //echo "An error occured during booking...please try again!";
 } else {
-    $query = mysqli_query($con, "insert into bookings(event_id, organization_id, firstname, lastname, email, phone, id_number, ticketno, travel_date, amount, vip_amount, normal_amount, children_amount, adult_number, children_number, status, date, mode_of_payment, created_at, updated_at) values ('".$eventid."','".$organization."','".$firstname[$i]."','".$lastname[$i]."','".$email[$i]."','".$phone[$i]."','".$idno[$i]."','".$ticketno."','".$rowe['date']."','".$amount[$i]."','".$vip."','".$normal."','".$children."','".$adult."','".$childrencount."','approved',NOW(),'".$paymentmode."',NOW(),NOW())");
+    $query = mysqli_query($con, "insert into bookings(hotel_id, organization_id, firstname, lastname, email, phone, id_number, ticketno, travel_date, amount, type, branch_id, normal_amount, adult_number, children_number, status, date, mode_of_payment, created_at, updated_at) values ('".$hotelid."','".$organization."','".$firstname[$i]."','".$lastname[$i]."','".$email[$i]."','".$phone[$i]."','".$idno[$i]."','".$ticketno."','".$datetime."','".$price."','".$type."','".$branchid."','".$amount."','".$adult."','".$childrencount."','approved',NOW(),'".$paymentmode."',NOW(),NOW())");
     
     if($query){
         echo "Booking Successful... Your booking Details have been sent to your email address";

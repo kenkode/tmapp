@@ -12,4 +12,9 @@ class Roomtype extends Model
 
 		return $this->hasMany('App\Room');
 	}
+
+	public function pricing(){
+
+		return $this->hasMany('App\Pricing');
+	}
 }
