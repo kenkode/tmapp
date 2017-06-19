@@ -4,6 +4,7 @@
     ini_set('display_errors',1);
     $branch = $_POST['branch'];
     //$time = $_POST['time'];
+    //$branch = "Nairobi";
 
     /*$destination = "Mombasa";
     $origin = "Nairobi";
@@ -43,10 +44,8 @@
     //$datetime = date('Y-m-d H:i:s', $newdate);
     
 
-	$query = mysqli_query($con, "select organizations.name, organizations.logo, roomtypes.name as type, rooms.room_count, rooms.id, rooms.organization_id, rooms.price, rooms.adults, rooms.children,rooms.branch_id,branches.name as branch from rooms 
-	 left join roomtypes on rooms.roomtype_id=roomtypes.id 
-	 left join organizations on rooms.organization_id=organizations.id 
-   left join branches on rooms.branch_id=branches.id 
+	$query = mysqli_query($con, "select organizations.name, organizations.logo, branches.organization_id, branches.id,branches.name as branch from branches 
+   left join organizations on branches.organization_id=organizations.id 
 	 where branches.name='".$branch."'");
 	
 	if($query){
