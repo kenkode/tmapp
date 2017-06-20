@@ -4,13 +4,13 @@
     ini_set('display_errors',1);
     $destination = $_POST['destination'];
     $origin = $_POST['origin'];
-    $time = $_POST['time'];
+    //$time = $_POST['time'];
 
     /*$destination = "Mombasa";
     $origin = "Nairobi";
     $time = "Night";*/
 
-    $timerange1 = '';
+    /*$timerange1 = '';
     $timerange2 = '';
 
     if($time == 'Morning'){
@@ -33,7 +33,7 @@
       $latedate   = strtotime(date('Y-m-d').' '.'23:59:59');
       $timerange1 = date('Y-m-d H:i:s', $earlydate);
       $timerange2 = date('Y-m-d H:i:s', $latedate);
-    }
+    }*/
 
 
     /*$destination = "Mombasa";
@@ -50,7 +50,7 @@
 	 left join vehiclenames on vehicles.vehiclename_id=vehiclenames.id 
 	 left join (select routes.name as oname,routes.id as oid from schedules left join routes on schedules.origin_id=routes.id where routes.name='".$origin."') as origin on schedules.origin_id=origin.oid
 	 left join (select routes.name as dname,routes.id as did from schedules left join routes on schedules.destination_id=routes.id where routes.name='".$destination."') as des on schedules.destination_id=des.did
-	 where departure >= '".$timerange1."' and departure <= '".$timerange2."' and origin.oname='".$origin."' and des.dname='".$destination."' and vehiclenames.type='Airline'");
+	 where origin.oname='".$origin."' and des.dname='".$destination."' and vehiclenames.type='Airline'");
 	
 	if($query){
 		while ($row = mysqli_fetch_array($query)) {
