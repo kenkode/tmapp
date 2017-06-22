@@ -83,6 +83,7 @@ body {
    </div>
 
 <br>
+
 <?php $currency = ''; ?>
 <?php if($organization->currency_shortname == null || $organization->currency_shortname == ''): ?>
 <?php $currency = 'KES'; ?>
@@ -108,21 +109,10 @@ body {
         <td><strong>Airplane</strong></td>
         <?php elseif(Auth::user()->type == 'Events'): ?>
         <td><strong>Event</strong></td>
-        <?php elseif(Auth::user()->type == 'Events'): ?>
         <?php endif; ?>
         <td><strong>Customer</strong></td>
-        <?php if(Auth::user()->type != 'Events' && Auth::user()->type != 'Hotel'): ?>
-        <td><strong>Seat No.</strong></td>
-        <?php endif; ?>
-
-        <?php if(Auth::user()->type != 'Events'): ?>
-        <td><strong>Travel Date</strong></td>
-        <?php elseif(Auth::user()->type == 'Events'): ?>
-        <td><strong>Event Date</strong></td>
-        <?php elseif(Auth::user()->type == 'Hotel'): ?>
-        <td><strong>Check-In Date/Time</strong></td>
-        <?php endif; ?>
         <td><strong>Date Booked</strong></td>
+        <td><strong>Payment Option</strong></td>
         <td><strong>Amount (<?php echo e($currency); ?>)</strong></td>
       </tr>
       <?php $i =1; 
@@ -136,33 +126,27 @@ body {
           <td valign="top"><?php echo e(App\Booking::getVehicle($booking->vehicle_id)->regno.' '.App\Booking::getVehicle($booking->vehicle_id)->vehiclename->name); ?></td>
           <?php elseif(Auth::user()->type == 'Events'): ?>
           <td valign="top"><?php echo e(App\Booking::getEvent($booking->event_id)->name); ?></td>
-          <?php elseif(Auth::user()->type == 'Hotel'): ?>
           <?php endif; ?>
           <td valign="top"><?php echo e($booking->firstname.' '.$booking->lastname); ?></td>
-          <?php if(Auth::user()->type != 'Events' && Auth::user()->type != 'Hotel'): ?>
-          <td valign="top"><?php echo e($booking->seatno); ?></td>
-          <?php endif; ?>
-          <td valign="top"><?php echo e($booking->travel_date); ?></td>
           <td valign="top"><?php echo e($booking->date); ?></td>
+          <td valign="top"><?php echo e($booking->mode_of_payment); ?></td>
           <td valign="top" align="right"><?php echo e(number_format($booking->amount,2)); ?></td>
       <?php
        $total = $total + $booking->amount;
        $i++; ?>
    
     <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
-    <?php if(Auth::user()->type == 'Events'): ?>
-    <tr>
-      <td colspan="6" align="right"><strong>Total</strong></td><td align="right"><strong><?php echo e(number_format($total,2)); ?></strong></td>
-    </tr>
-    <?php elseif(Auth::user()->type == 'Hotel'): ?>
+    <?php if(Auth::user()->type == 'Hotel'): ?>
     <tr>
       <td colspan="5" align="right"><strong>Total</strong></td><td align="right"><strong><?php echo e(number_format($total,2)); ?></strong></td>
     </tr>
+
     <?php else: ?>
     <tr>
-      <td colspan="7" align="right"><strong>Total</strong></td><td align="right"><strong><?php echo e(number_format($total,2)); ?></strong></td>
+      <td colspan="6" align="right"><strong>Total</strong></td><td align="right"><strong><?php echo e(number_format($total,2)); ?></strong></td>
     </tr>
     <?php endif; ?>
+      
     </table>
 
 <br><br>

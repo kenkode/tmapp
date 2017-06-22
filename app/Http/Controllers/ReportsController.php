@@ -794,7 +794,13 @@ class ReportsController extends Controller
 
               });
 
-              $sheet->mergeCells('A5:H5');
+              if (Auth::user()->type == 'Events') {
+                $sheet->mergeCells('A5:G5');
+              }else if (Auth::user()->type == 'Hotel') {
+                $sheet->mergeCells('A5:F5');
+              }else{
+                $sheet->mergeCells('A5:H5');
+              }
               $sheet->row(5, array(
               'Booking Report'
               ));
@@ -831,6 +837,10 @@ class ReportsController extends Controller
               $sheet->row(7, array(
               '#', 'Ticket No.',$name,'Customer','Event Date','Date Booked','Amount ('.$currency.')'
               ));
+              }else if (Auth::user()->type == 'Hotel') {
+              $sheet->row(7, array(
+              '#', 'Ticket No.','Customer','Check-In Date/Time','Date Booked','Amount ('.$currency.')'
+              ));
               }else{
                $sheet->row(7, array(
               '#', 'Ticket No.',$name,'Customer','Seat No.','Travel Date','Date Booked','Amount ('.$currency.')'
@@ -852,6 +862,10 @@ class ReportsController extends Controller
               $sheet->row($row, array(
               $i+1,$data[$i]->ticketno,Booking::getEvent($data[$i]->event_id)->name,$data[$i]->firstname.' '.$data[$i]->lastname,$data[$i]->travel_date,$data[$i]->date,$data[$i]->amount
              ));
+             }else if (Auth::user()->type == 'Hotel') {
+              $sheet->row($row, array(
+              $i+1,$data[$i]->ticketno,$data[$i]->firstname.' '.$data[$i]->lastname,$data[$i]->travel_date,$data[$i]->date,$data[$i]->amount
+             ));
              }else{
               $sheet->row($row, array(
               $i+1,$data[$i]->ticketno,Booking::getVehicle($data[$i]->vehicle_id)->regno.' '.Booking::getVehicle($data[$i]->vehicle_id)->vehiclename->name,$data[$i]->firstname.' '.$data[$i]->lastname,$data[$i]->seatno,$data[$i]->travel_date,$data[$i]->date,$data[$i]->amount
@@ -865,6 +879,10 @@ class ReportsController extends Controller
              if (Auth::user()->type == 'Events') {
              $sheet->row($row, array(
              '','','','','','Total',$total
+             ));
+             }else if (Auth::user()->type == 'Hotel') {
+             $sheet->row($row, array(
+             '','','','','Total',$total
              ));
              }else{
              $sheet->row($row, array(
@@ -949,6 +967,8 @@ class ReportsController extends Controller
               $name = 'Airplane';
               }elseif (Auth::user()->type == 'Events') {
               $name = 'Event';
+              }elseif (Auth::user()->type == 'Hotel') {
+              $name = 'Hotel';
               }
 
               $sheet->row(5, array(
@@ -959,17 +979,26 @@ class ReportsController extends Controller
               $sheet->row(6, array(
                $name.' : ',Booking::getEvent($data->event_id)->name
                ));
+              }else if (Auth::user()->type == 'Hotel') {
+              
               }else{
                $sheet->row(6, array(
                $name.' : ',Booking::getVehicle($data->vehicle_id)->regno.' '.Booking::getVehicle($data->vehicle_id)->vehiclename->name
                )); 
               }
-
+              
+              if (Auth::user()->type == 'Hotel') {
+              $sheet->row(6, array(
+               'Customer : ',$data->firstname.' '.$data->lastname
+               ));
+              }else{
+            
               $sheet->row(7, array(
                'Customer : ',$data->firstname.' '.$data->lastname
                ));
+              }
 
-              if (Auth::user()->type != 'Events') {
+              if (Auth::user()->type != 'Events' && Auth::user()->type != 'Hotel') {
 
               $sheet->row(8, array(
                'Seat No : ',$data->seatno
@@ -995,6 +1024,33 @@ class ReportsController extends Controller
               });
                       
              $sheet->cell('B11', function($cell) {
+
+               // manipulate the cell
+                $cell->setFontWeight('bold');
+
+              });
+              }else if (Auth::user()->type == 'Hotel') {
+
+                $sheet->row(7, array(
+               'Check-In Date/Time : ',$data->travel_date
+               ));
+              
+              $sheet->row(8, array(
+               'Date Booked : ',$data->date
+               ));
+
+              $sheet->row(9, array(
+               'Amount ('.$currency.') : ',$data->amount
+               ));
+
+              $sheet->cell('A9', function($cell) {
+
+               // manipulate the cell
+                $cell->setFontWeight('bold');
+
+              });
+                      
+             $sheet->cell('B9', function($cell) {
 
                // manipulate the cell
                 $cell->setFontWeight('bold');
@@ -1294,9 +1350,15 @@ class ReportsController extends Controller
               $name = 'Event';
               }
 
+              if(Auth::user()->type == 'Hotel'){
+              $sheet->row(7, array(
+              '#', 'Ticket No.','Customer','Date Booked','Payment Option','Amount ('.$currency.')'
+              ));
+              }else{
               $sheet->row(7, array(
               '#', 'Ticket No.',$name,'Customer','Date Booked','Payment Option','Amount ('.$currency.')'
               ));
+              }
 
               $sheet->row(7, function ($r) {
 
@@ -1313,6 +1375,10 @@ class ReportsController extends Controller
              $sheet->row($row, array(
              $i+1,$data[$i]->ticketno,Booking::getEvent($data[$i]->event_id)->name,$data[$i]->firstname.' '.$data[$i]->lastname,$data[$i]->date,$data[$i]->mode_of_payment,$data[$i]->amount
              ));
+             }else if (Auth::user()->type == 'Hotel') {
+             $sheet->row($row, array(
+             $i+1,$data[$i]->ticketno,$data[$i]->firstname.' '.$data[$i]->lastname,$data[$i]->date,$data[$i]->mode_of_payment,$data[$i]->amount
+             ));
              }else{
               $sheet->row($row, array(
              $i+1,$data[$i]->ticketno,Booking::getVehicle($data[$i]->vehicle_id)->regno.' '.Booking::getVehicle($data[$i]->vehicle_id)->vehiclename->name,$data[$i]->firstname.' '.$data[$i]->lastname,$data[$i]->date,$data[$i]->mode_of_payment,$data[$i]->amount
@@ -1322,9 +1388,15 @@ class ReportsController extends Controller
              $row++;
              }  
 
+             if (Auth::user()->type == 'Hotel') {
+             $sheet->row($row, array(
+             '','','','','Total',$total
+             ));
+             }else{
              $sheet->row($row, array(
              '','','','','','Total',$total
              ));
+             }
              $sheet->row($row, function ($r) {
 
              // call cell manipulation methods
@@ -1412,17 +1484,19 @@ class ReportsController extends Controller
               $sheet->row(6, array(
                $name.' : ',Booking::getEvent($data->event_id)->name
                ));
+              }else if (Auth::user()->type == 'Hotel') {
               }else{
               $sheet->row(6, array(
                $name.' : ',Booking::getVehicle($data->vehicle_id)->regno.' '.Booking::getVehicle($data->vehicle_id)->vehiclename->name
                ));
               }
 
-              $sheet->row(7, array(
+              if (Auth::user()->type == 'Hotel') {
+              $sheet->row(6, array(
                'Customer : ',$data->firstname.' '.$data->lastname
                ));
 
-              $sheet->row(8, array(
+              $sheet->row(7, array(
                'Date Booked : ',$data->date
                ));
 
@@ -1447,6 +1521,37 @@ class ReportsController extends Controller
                 $cell->setFontWeight('bold');
 
               });
+            }else{
+              $sheet->row(7, array(
+               'Customer : ',$data->firstname.' '.$data->lastname
+               ));
+
+              $sheet->row(8, array(
+               'Date Booked : ',$data->date
+               ));
+
+              $sheet->row(9, array(
+               'Payment Option : ',$data->mode_of_payment
+               ));
+
+              $sheet->row(10, array(
+               'Amount ('.$currency.') : ',$data->amount
+               ));
+
+              $sheet->cell('A10', function($cell) {
+
+               // manipulate the cell
+                $cell->setFontWeight('bold');
+
+              });
+
+              $sheet->cell('B10', function($cell) {
+
+               // manipulate the cell
+                $cell->setFontWeight('bold');
+
+              });
+            }
                       
              
     });

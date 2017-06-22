@@ -275,7 +275,7 @@ body{
                         <ul class="nav nav-second-level">
                             <li><a href="<?php echo e(url('bookings')); ?>">Bookings</a></li>
                             <li><a href="<?php echo e(url('customers')); ?>">Customers</a></li>
-                            <li><a href="<?php echo e(url('payments')); ?>">Payments</a></li>\
+                            <li><a href="<?php echo e(url('payments')); ?>">Payments</a></li>
                         </ul>
                     </li>
                     <?php else: ?>

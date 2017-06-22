@@ -107,16 +107,19 @@ body {
         <td><strong>Airplane</strong></td>
         @elseif(Auth::user()->type == 'Events')
         <td><strong>Event</strong></td>
+        @elseif(Auth::user()->type == 'Events')
         @endif
         <td><strong>Customer</strong></td>
-        @if(Auth::user()->type != 'Events')
+        @if(Auth::user()->type != 'Events' && Auth::user()->type != 'Hotel')
         <td><strong>Seat No.</strong></td>
         @endif
 
         @if(Auth::user()->type != 'Events')
         <td><strong>Travel Date</strong></td>
-        @else
+        @elseif(Auth::user()->type == 'Events')
         <td><strong>Event Date</strong></td>
+        @elseif(Auth::user()->type == 'Hotel')
+        <td><strong>Check-In Date/Time</strong></td>
         @endif
         <td><strong>Date Booked</strong></td>
         <td><strong>Amount ({{$currency}})</strong></td>
@@ -132,9 +135,10 @@ body {
           <td valign="top">{{App\Booking::getVehicle($booking->vehicle_id)->regno.' '.App\Booking::getVehicle($booking->vehicle_id)->vehiclename->name}}</td>
           @elseif(Auth::user()->type == 'Events')
           <td valign="top">{{App\Booking::getEvent($booking->event_id)->name}}</td>
+          @elseif(Auth::user()->type == 'Hotel')
           @endif
           <td valign="top">{{$booking->firstname.' '.$booking->lastname}}</td>
-          @if(Auth::user()->type != 'Events')
+          @if(Auth::user()->type != 'Events' && Auth::user()->type != 'Hotel')
           <td valign="top">{{$booking->seatno}}</td>
           @endif
           <td valign="top">{{$booking->travel_date}}</td>
@@ -148,6 +152,10 @@ body {
     @if(Auth::user()->type == 'Events')
     <tr>
       <td colspan="6" align="right"><strong>Total</strong></td><td align="right"><strong>{{number_format($total,2)}}</strong></td>
+    </tr>
+    @elseif(Auth::user()->type == 'Hotel')
+    <tr>
+      <td colspan="5" align="right"><strong>Total</strong></td><td align="right"><strong>{{number_format($total,2)}}</strong></td>
     </tr>
     @else
     <tr>

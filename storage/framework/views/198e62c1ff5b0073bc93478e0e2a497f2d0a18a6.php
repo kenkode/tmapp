@@ -1,5 +1,3 @@
-@extends('layouts.travel')
-
 <style type="text/css">
 
    .checkboxes label {
@@ -24,22 +22,21 @@
     .modal { overflow: auto !important; }
    </style>
 
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="row  border-bottom white-bg dashboard-header">
 <div class="pro-head">
-            <h2>Bookings</h2>
+            <h2>Payments</h2>
         </div>
 
         <?php $currency = ''; ?>
-        @if($organization->currency_shortname == null || $organization->currency_shortname == '')
-        <?php $currency = 'KES'; ?>
-        @else
-        <?php $currency = $organization->currency_shortname; ?>
-        @endif
+       <?php if($organization->currency_shortname == null || $organization->currency_shortname == ''): ?>
+       <?php $currency = 'KES'; ?>
+       <?php else: ?>
+       <?php $currency = $organization->currency_shortname; ?>
+       <?php endif; ?>
 
       <div style="margin-bottom:20px;margin-left:10px;">
-      <a data-toggle="modal" id="report" href="#modal-report" class="btn btn-warning">Booking Report</a>&emsp;<a data-toggle="modal" id="graph" href="#modal-graph" class="btn btn-primary">Graph</a><span style="color: #18a689;float: right;font-size: 16px">Total Amount : {{$currency.' '.number_format($total,2)}}</span>
+      <a data-toggle="modal" id="report" href="#modal-report" class="btn btn-warning">Payment Report</a>&emsp;<a data-toggle="modal" id="graph" href="#modal-graph" class="btn btn-primary">Graph</a><span style="color: #18a689;float: right;font-size: 16px">Total Amount : <?php echo e($currency.' '.number_format($total,2)); ?></span>
       </div>
 
       
@@ -48,13 +45,14 @@
                         <div class="modal fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content animated fadeIn">
-                                        <form target="_blank" action="{{url('report/bookings')}}" method="post">     
+                                        <form target="_blank" action="<?php echo e(url('report/payments')); ?>" method="post">     
                                         <div class="modal-body">
                                         
                                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                         <h3 id="title" class="m-t-none m-b">Select Report Type</h3>
                                             
-                                             {{ csrf_field() }}
+                                             <?php echo e(csrf_field()); ?>
+
                                              <div class="form-group">
                                                 <label for="username">From <span style="color:red">*</span></label>
                                                 <div class="right-inner-addon ">
@@ -90,16 +88,48 @@
                                 </div>
                             </div>
 
-                            <div class="modal fade" id="modal-graph" tabindex="-1" role="dialog" aria-hidden="true">
+                       <div class="modal fade" id="modal-singlereport" tabindex="-1" role="dialog" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content animated fadeIn">
-                                        <form action="{{url('report/graph/booking')}}" method="post">     
+                                        <form target="_blank" action="<?php echo e(url('report/single/payment')); ?>" method="post">     
                                         <div class="modal-body">
                                         
                                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                         <h3 id="title" class="m-t-none m-b">Select Report Type</h3>
                                             
-                                             {{ csrf_field() }}
+                                             <?php echo e(csrf_field()); ?>
+
+                                            <input type="hidden" name="id" id="id">
+                                            <div class="form-group"><label>Report Type <span style="color:red">*</span></label> 
+                                            <select required="" id="type" name="type" class="form-control">
+                                             <option value="">Select Report Type</option>
+                                             <option value="pdf"> PDF</option>
+                                             <option value="excel"> Excel</option>
+                                             </select>
+                                             <p id="destination" style="color:red"></p>
+                                             </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+
+                                            <input type="submit" class="btn btn-primary sub-form" value="Select" />
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="modal-graph" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content animated fadeIn">
+                                        <form action="<?php echo e(url('report/graph/booking')); ?>" method="post">     
+                                        <div class="modal-body">
+                                        
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h3 id="title" class="m-t-none m-b">Select Report Type</h3>
+                                            
+                                             <?php echo e(csrf_field()); ?>
+
 
                                             <div class="form-group"><label>Period <span style="color:red">*</span></label> 
                                              <select required="" id="period" name="period" class="form-control">
@@ -163,80 +193,32 @@
                                 </div>
                             </div>
 
-                            <div class="modal fade" id="modal-singlereport" tabindex="-1" role="dialog" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content animated fadeIn">
-                                        <form target="_blank" action="{{url('report/single/booking')}}" method="post">     
-                                        <div class="modal-body">
-                                        
-                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                        <h3 id="title" class="m-t-none m-b">Select Report Type</h3>
-                                            
-                                             {{ csrf_field() }}
-                                            <input type="hidden" name="id" id="id">
-                                            <div class="form-group"><label>Report Type <span style="color:red">*</span></label> 
-                                            <select required="" id="type" name="type" class="form-control">
-                                             <option value="">Select Report Type</option>
-                                             <option value="pdf"> PDF</option>
-                                             <option value="excel"> Excel</option>
-                                             </select>
-                                             <p id="destination" style="color:red"></p>
-                                             </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-
-                                            <input type="submit" class="btn btn-primary sub-form" value="Select" />
-                                        </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="modal fade" id="modal-view" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal fade" id="modal-view" tabindex="-1" role="dialog" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content animated fadeIn">
                                             
                                         <div class="modal-body">
                                         
                                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                        <h3 id="title" class="m-t-none m-b">Booking</h3>
+                                        <h3 id="title" class="m-t-none m-b">Payment</h3>
                                         <table class="table table-bordered table-hover">
 
                                             <tr>
                                                <td><strong>Ticket No : </strong></td><td class="tdticket"></td>
                                             </tr>
 
-                                            @if(Auth::user()->type != 'Events' && Auth::user()->type != 'Hotel')
+                                            <?php if(Auth::user()->type != 'Events' && Auth::user()->type != 'Hotel'): ?>
                                             <tr>
                                                <td><strong>Vehicle : </strong></td><td class="tdvehicle"></td>
                                             </tr>
-                                            @elseif(Auth::user()->type == 'Events')
+                                            <?php elseif(Auth::user()->type == 'Events'): ?>
                                             <tr>
                                                <td><strong>Event : </strong></td><td class="tdevent"></td>
                                             </tr>
-                                            @endif
+                                            <?php endif; ?>
 
                                             <tr>
                                                <td><strong>Customer : </strong></td><td class="tdcustomer"></td>
-                                            </tr>
-
-                                            @if(Auth::user()->type != 'Events' && Auth::user()->type != 'Hotel')
-                                            <tr>
-                                               <td><strong>Seat No : </strong></td><td class="tdseat"></td>
-                                            </tr>
-                                            @endif
-
-                                            <tr>
-                                            @if(Auth::user()->type != 'Events' && Auth::user()->type != 'Hotel')
-                                               <td><strong>Travel Date : </strong></td>
-                                            @elseif(Auth::user()->type == 'Events')
-                                               <td><strong>Event Date : </strong></td>
-                                            @elseif(Auth::user()->type == 'Hotel')
-                                               <td><strong>Check-In Date/Time : </strong></td>
-                                            @endif
-                                               <td class="tdtravel"></td>
                                             </tr>
 
                                             <tr>
@@ -244,7 +226,7 @@
                                             </tr>
 
                                             <tr>
-                                               <td><strong>Status : </strong></td><td class="tdstatus"></td>
+                                               <td><strong>Payment Option : </strong></td><td class="tdmode"></td>
                                             </tr>
 
                                             <tr>
@@ -261,9 +243,9 @@
                                     </div>
                                 </div>
                             </div>
+       
 
         <div class="table-responsive" style="border: none; min-height: 1000px !important">
-       
         <table id="users" class="table table-condensed table-responsive table-hover">
 
 
@@ -271,49 +253,33 @@
 
         <th style="color:#FFF">#</th>
         <th style="color:#FFF">Ticket No.</th>
-        @if(Auth::user()->type != 'Events' && Auth::user()->type != 'Hotel')
+        <?php if(Auth::user()->type != 'Events' && Auth::user()->type != 'Hotel'): ?>
         <th style="color:#FFF">Vehicle</th>
-        @elseif(Auth::user()->type == 'Events')
+        <?php elseif(Auth::user()->type == 'Events'): ?>
         <th style="color:#FFF">Event</th>
-        
-        @endif
+        <?php endif; ?>
         <th style="color:#FFF">Customer</th>
-        @if(Auth::user()->type != 'Events'  && Auth::user()->type != 'Hotel')
-        <th style="color:#FFF">Seat No.</th>
-        @endif
-        @if(Auth::user()->type != 'Events'  && Auth::user()->type != 'Hotel')
-        <th style="color:#FFF">Travel Date</th>
-        @elseif(Auth::user()->type == 'Events')
-        <th style="color:#FFF">Event Date</th>
-        @elseif(Auth::user()->type == 'Hotel')
-        <th style="color:#FFF">Check-In Date/Time</th>
-        @endif
         <th style="color:#FFF">Date Booked</th>
-        <th style="color:#FFF">Status</th>
-        <th style="color:#FFF">Amount ({{$currency}})</th>
+        <th style="color:#FFF">Payment Option</th>
+        <th style="color:#FFF">Amount (<?php echo e($currency); ?>)</th>
         <th style="color:#FFF">Action</th>
 
       </thead>
       <tbody class="displayrecord">
       <?php $i=1;?>
-      @foreach($bookings as $booking)
-        <tr class="{{'del'.$booking->id}}">
-          <td>{{$i}}</td>
-          <td>{{$booking->ticketno}}</td>
-          @if(Auth::user()->type != 'Events' && Auth::user()->type != 'Hotel')
-          <td>{{App\Booking::getVehicle($booking->vehicle_id)->regno.' '.App\Booking::getVehicle($booking->vehicle_id)->vehiclename->name}}</td>
-          
-          @elseif(Auth::user()->type == 'Events')
-          <td>{{App\Booking::getEvent($booking->event_id)->name}}</td>
-          @endif
-          <td>{{$booking->firstname.' '.$booking->lastname}}</td>
-          @if(Auth::user()->type != 'Events'  && Auth::user()->type != 'Hotel')
-          <td>{{$booking->seatno}}</td>
-          @endif
-          <td>{{$booking->travel_date}}</td>
-          <td>{{$booking->date}}</td>
-          <td>{{$booking->status}}</td>
-          <td>{{number_format($booking->amount,2)}}</td>
+      <?php $__currentLoopData = $payments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $payment): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+        <tr class="<?php echo e('del'.$payment->id); ?>">
+          <td><?php echo e($i); ?></td>
+          <td><?php echo e($payment->ticketno); ?></td>
+           <?php if(Auth::user()->type != 'Events' && Auth::user()->type != 'Hotel'): ?>
+          <td><?php echo e(App\Booking::getVehicle($payment->vehicle_id)->regno.' '.App\Booking::getVehicle($payment->vehicle_id)->vehiclename->name); ?></td>
+          <?php elseif(Auth::user()->type == 'Events'): ?>
+          <td><?php echo e(App\Booking::getEvent($payment->event_id)->name); ?></td>
+          <?php endif; ?>
+          <td><?php echo e($payment->firstname.' '.$payment->lastname); ?></td>
+          <td><?php echo e($payment->date); ?></td>
+          <td><?php echo e($payment->mode_of_payment); ?></td>
+          <td><?php echo e(number_format($payment->amount,2)); ?></td>
           <td>
 
                   <div class="btn-group">
@@ -322,22 +288,22 @@
                   </button>
           
                   <ul class="dropdown-menu" role="menu">
-                    @if(Auth::user()->type != 'Events' && Auth::user()->type != 'Hotel')
-                    <li><a class="view" data-toggle="modal" data-ticket="{{$booking->ticketno}}" data-vehicle="{{App\Booking::getVehicle($booking->vehicle_id)->regno.' '.App\Booking::getVehicle($booking->vehicle_id)->vehiclename->name}}" data-customer="{{$booking->firstname.' '.$booking->lastname}}" data-seat="{{$booking->seatno}}" data-travel="{{$booking->travel_date}}" data-date="{{$booking->date}}" data-status="{{$booking->status}}" data-amount="{{number_format($booking->amount,2)}}"  data-id="{{$booking->id}}" href="#modal-view">View</a></li>
-                    @elseif(Auth::user()->type == 'Events')
-                    <li><a class="view" data-toggle="modal" data-ticket="{{$booking->ticketno}}" data-event="{{App\Booking::getEvent($booking->event_id)->name}}" data-customer="{{$booking->firstname.' '.$booking->lastname}}" data-seat="{{$booking->seatno}}" data-travel="{{$booking->travel_date}}" data-date="{{$booking->date}}" data-status="{{$booking->status}}" data-amount="{{number_format($booking->amount,2)}}"  data-id="{{$booking->id}}" href="#modal-view">View</a></li>
-                    @elseif(Auth::user()->type == 'Hotel')
-                    <li><a class="view" data-toggle="modal" data-ticket="{{$booking->ticketno}}" data-customer="{{$booking->firstname.' '.$booking->lastname}}" data-seat="{{$booking->seatno}}" data-travel="{{$booking->travel_date}}" data-date="{{$booking->date}}" data-status="{{$booking->status}}" data-amount="{{number_format($booking->amount,2)}}"  data-id="{{$booking->id}}" href="#modal-view">View</a></li>
-                    @endif
-                    <li><a class="sreport" data-toggle="modal" data-id="{{$booking->id}}" href="#modal-singlereport">Report</a></li>
-                    
+                    <?php if(Auth::user()->type != 'Events' && Auth::user()->type != 'Hotel'): ?>
+                    <li><a class="view" data-toggle="modal" data-ticket="<?php echo e($payment->ticketno); ?>" data-vehicle="<?php echo e(App\Booking::getVehicle($payment->vehicle_id)->regno.' '.App\Booking::getVehicle($payment->vehicle_id)->vehiclename->name); ?>" data-customer="<?php echo e($payment->firstname.' '.$payment->lastname); ?>" data-date="<?php echo e($payment->date); ?>" data-mode="<?php echo e($payment->mode_of_payment); ?>" data-amount="<?php echo e(number_format($payment->amount,2)); ?>"  data-id="<?php echo e($payment->id); ?>" href="#modal-view">View</a></li>
+                    <?php elseif(Auth::user()->type == 'Hotel'): ?>
+                    <li><a class="view" data-toggle="modal" data-ticket="<?php echo e($payment->ticketno); ?>" data-customer="<?php echo e($payment->firstname.' '.$payment->lastname); ?>" data-date="<?php echo e($payment->date); ?>" data-mode="<?php echo e($payment->mode_of_payment); ?>" data-amount="<?php echo e(number_format($payment->amount,2)); ?>"  data-id="<?php echo e($payment->id); ?>" href="#modal-view">View</a></li>
+                    <?php else: ?>
+                    <li><a class="view" data-toggle="modal" data-ticket="<?php echo e($payment->ticketno); ?>" data-event="<?php echo e(App\Booking::getEvent($payment->event_id)->name); ?>" data-customer="<?php echo e($payment->firstname.' '.$payment->lastname); ?>" data-date="<?php echo e($payment->date); ?>" data-mode="<?php echo e($payment->mode_of_payment); ?>" data-amount="<?php echo e(number_format($payment->amount,2)); ?>"  data-id="<?php echo e($payment->id); ?>" href="#modal-view">View</a></li>
+                    <?php endif; ?>
+                    <li><a class="sreport" data-toggle="modal" data-id="<?php echo e($payment->id); ?>" href="#modal-singlereport">Report</a></li>
+                
                   </ul>
               </div>
 
                     </td>
         </tr>
         <?php $i++; ?>
-      @endforeach
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
       </tbody>
 
 
@@ -345,7 +311,7 @@
     </div>
     </div>
 
-@include('includes.footer')
+<?php echo $__env->make('includes.footer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
 <script type="text/javascript">
    $(document).ready(function() {
@@ -366,10 +332,8 @@
      var id = $(this).data('id');
      var vehicle = $(this).data('vehicle');
      var customer = $(this).data('customer');
-     var seat = $(this).data('seat');
-     var travel = $(this).data('travel');
      var date = $(this).data('date');
-     var status = $(this).data('status');
+     var mode = $(this).data('mode');
      var amount = $(this).data('amount');
      var ticket = $(this).data('ticket');
      var event = $(this).data('event');
@@ -380,11 +344,9 @@
      $(".modal-body .tdticket").html( ticket );
      $(".modal-body .tdvehicle").html( vehicle );
      $(".modal-body .tdcustomer").html( customer );
-     $(".modal-body .tdseat").html( seat );
-     $(".modal-body .tdtravel").html( travel );
      $(".modal-body .tddate").html( date );
-     $(".modal-body .tdstatus").html( status );
-     $(".modal-body .tdamount").html("{{$currency}} "+ amount );
+     $(".modal-body .tdmode").html( mode );
+     $(".modal-body .tdamount").html("<?php echo e($currency); ?> "+ amount );
      $(".modal-body .tdevent").html( event );
      /*$(".modal-body #id").val( id );
      $('#title').html('Update Currency');
@@ -410,7 +372,7 @@
                 if(confirm("Are you sure you want to delete this vehicle?")){
                     $.ajax({
                         type: "POST",
-                        url: "{{url('vehicles/delete')}}",
+                        url: "<?php echo e(url('vehicles/delete')); ?>",
                         data: {id:id,_token:token},
                         success: function(response){
                            //alert(response);
@@ -498,7 +460,7 @@
                 if(confirm("Are you sure you want to deactivate this vehicle?")){
                     $.ajax({
                         type: "POST",
-                        url: "{{url('vehicles/deactivate')}}",
+                        url: "<?php echo e(url('vehicles/deactivate')); ?>",
                         data: {id:id,_token:token},
                         success: function(){
                            //alert(response);
@@ -570,4 +532,5 @@
   });
    </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.travel', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

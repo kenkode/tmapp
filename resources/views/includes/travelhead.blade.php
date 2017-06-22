@@ -274,7 +274,7 @@ body{
                         <ul class="nav nav-second-level">
                             <li><a href="{{url('bookings')}}">Bookings</a></li>
                             <li><a href="{{url('customers')}}">Customers</a></li>
-                            <li><a href="{{url('payments')}}">Payments</a></li>\
+                            <li><a href="{{url('payments')}}">Payments</a></li>
                         </ul>
                     </li>
                     @else

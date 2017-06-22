@@ -206,7 +206,7 @@
                                                <td><strong>Ticket No : </strong></td><td class="tdticket"></td>
                                             </tr>
 
-                                            @if(Auth::user()->type != 'Events')
+                                            @if(Auth::user()->type != 'Events' && Auth::user()->type != 'Hotel')
                                             <tr>
                                                <td><strong>Vehicle : </strong></td><td class="tdvehicle"></td>
                                             </tr>
@@ -252,7 +252,7 @@
 
         <th style="color:#FFF">#</th>
         <th style="color:#FFF">Ticket No.</th>
-        @if(Auth::user()->type != 'Events')
+        @if(Auth::user()->type != 'Events' && Auth::user()->type != 'Hotel')
         <th style="color:#FFF">Vehicle</th>
         @elseif(Auth::user()->type == 'Events')
         <th style="color:#FFF">Event</th>
@@ -270,7 +270,7 @@
         <tr class="{{'del'.$payment->id}}">
           <td>{{$i}}</td>
           <td>{{$payment->ticketno}}</td>
-           @if(Auth::user()->type != 'Events' )
+           @if(Auth::user()->type != 'Events' && Auth::user()->type != 'Hotel')
           <td>{{App\Booking::getVehicle($payment->vehicle_id)->regno.' '.App\Booking::getVehicle($payment->vehicle_id)->vehiclename->name}}</td>
           @elseif(Auth::user()->type == 'Events')
           <td>{{App\Booking::getEvent($payment->event_id)->name}}</td>
@@ -287,8 +287,10 @@
                   </button>
           
                   <ul class="dropdown-menu" role="menu">
-                    @if(Auth::user()->type != 'Events')
+                    @if(Auth::user()->type != 'Events' && Auth::user()->type != 'Hotel')
                     <li><a class="view" data-toggle="modal" data-ticket="{{$payment->ticketno}}" data-vehicle="{{App\Booking::getVehicle($payment->vehicle_id)->regno.' '.App\Booking::getVehicle($payment->vehicle_id)->vehiclename->name}}" data-customer="{{$payment->firstname.' '.$payment->lastname}}" data-date="{{$payment->date}}" data-mode="{{$payment->mode_of_payment}}" data-amount="{{number_format($payment->amount,2)}}"  data-id="{{$payment->id}}" href="#modal-view">View</a></li>
+                    @elseif(Auth::user()->type == 'Hotel')
+                    <li><a class="view" data-toggle="modal" data-ticket="{{$payment->ticketno}}" data-customer="{{$payment->firstname.' '.$payment->lastname}}" data-date="{{$payment->date}}" data-mode="{{$payment->mode_of_payment}}" data-amount="{{number_format($payment->amount,2)}}"  data-id="{{$payment->id}}" href="#modal-view">View</a></li>
                     @else
                     <li><a class="view" data-toggle="modal" data-ticket="{{$payment->ticketno}}" data-event="{{App\Booking::getEvent($payment->event_id)->name}}" data-customer="{{$payment->firstname.' '.$payment->lastname}}" data-date="{{$payment->date}}" data-mode="{{$payment->mode_of_payment}}" data-amount="{{number_format($payment->amount,2)}}"  data-id="{{$payment->id}}" href="#modal-view">View</a></li>
                     @endif
@@ -343,7 +345,7 @@
      $(".modal-body .tdcustomer").html( customer );
      $(".modal-body .tddate").html( date );
      $(".modal-body .tdmode").html( mode );
-     $(".modal-body .tdamount").html( amount );
+     $(".modal-body .tdamount").html("{{$currency}} "+ amount );
      $(".modal-body .tdevent").html( event );
      /*$(".modal-body #id").val( id );
      $('#title').html('Update Currency');

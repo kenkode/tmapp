@@ -40,9 +40,7 @@ class SchedulesController extends Controller
           <td> $i </td>
           <td>".Schedule::getVehicle($schedule->vehicle_id)->regno.' '.Schedule::getVehicle($schedule->vehicle_id)->name."</td>
           <td>".Schedule::getDestination($schedule->origin_id)->name."</td>
-          <td>".Schedule::getDestination($schedule->destination_id)->name."</td>
-          <td>".$schedule->arrival."</td>
-          <td>".$schedule->departure."</td>";
+          <td>".Schedule::getDestination($schedule->destination_id)->name."</td>";
           
           $display .="<td>
 
@@ -93,8 +91,8 @@ class SchedulesController extends Controller
         $schedule->vehicle_id = $request->vid;
         $schedule->origin_id = $request->origin;
         $schedule->destination_id = $request->destination;
-        $schedule->arrival = $request->arrival;
-        $schedule->departure = $request->departure;
+        //$schedule->arrival = $request->arrival;
+        //$schedule->departure = $request->departure;
         $schedule->firstclass_apply = $request->vip;
         $schedule->economic_apply = 1;
         if(Auth::user()->type == 'Airline'){
@@ -113,8 +111,8 @@ class SchedulesController extends Controller
         $schedule->vehicle_id = $request->vid;
         $schedule->origin_id = $request->origin;
         $schedule->destination_id = $request->destination;
-        $schedule->arrival = $request->arrival;
-        $schedule->departure = $request->departure;
+        //$schedule->arrival = $request->arrival;
+        //$schedule->departure = $request->departure;
         $schedule->firstclass_apply = $request->vip;
         if(Auth::user()->type == 'Airline'){
         $schedule->business_apply = $request->business;

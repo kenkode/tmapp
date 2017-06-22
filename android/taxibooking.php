@@ -94,7 +94,7 @@ $ticketno = initials($row['name'],$id+$i);
 
 $message = "Hello ".$firstname[$i]." ".$lastname[$i].",<br> This is a confirmation that you have successfully booked ".$rowv['name']." on ".date('d-M-Y').".<br><br>Your booking details are:<br><table border='0'><tr><td><strong>Ticket number  :</strong></td><td>".$ticketno."</td></tr><tr><td><strong>First name :</strong></td><td>".$firstname[$i]."</td></tr><tr><td><strong>Last name :</strong></td><td>".$lastname[$i]."</td></tr><tr><td><strong>Phone number :</strong></td><td>".$phone[$i]."</td></tr><tr><td><strong>ID / Passport Number :</strong></td><td>".$idno[$i]."</td></tr><tr><td><strong>Amount :</strong></td><td>KES ".number_format($amount,2)."</td></tr><tr><td><strong>Payment Mode :</strong></td><td>".$paymentmode."</td></tr><tr><td><strong>Vehicle :</strong></td><td>".$rowv['regno'].' - '.$rowv['name']."</td></tr></table><br><br> For mor information contact us on...<a href='#'>upstridge.com</a>";
 
-$mail->setFrom('wangoken2@gmail.com', 'Upstridge');
+$mail->setFrom('info@upstridge.co.ke', 'Upstridge');
 $mail->addAddress($email[$i], $firstname[$i]." ".$lastname[$i]);
 $mail->Subject = "Booking Confirmation";
 $mail->msgHTML($message);

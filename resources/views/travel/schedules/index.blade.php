@@ -49,7 +49,7 @@
                                          </div>
                                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                         <h3 id="title" class="m-t-none m-b">Create Schedule</h3>
-                                             <input type="text" id="id" placeholder="Enter name" class="form-control">
+                                             <input type="hidden" id="id" placeholder="Enter name" class="form-control">
                                              
                                              <div class="form-group"><label>Name <span style="color:red">*</span></label> 
                                              <select id="vid" class="form-control">
@@ -81,7 +81,7 @@
                                              <p id="destination" style="color:red"></p>
                                              </div>
 
-                                             <div class="form-group"><label>Arrival Time <span style="color:red">*</span></label> 
+                                             <!-- <div class="form-group"><label>Arrival Time <span style="color:red">*</span></label> 
                                              <div class="right-inner-addon">
                                              <i class="glyphicon glyphicon-calendar"></i>
                                              <input type="text" class="form-control" name='arrival' id='datetimepicker' placeholder="Arrival Date">
@@ -97,7 +97,7 @@
                                              <input type="text" class="form-control" name='departure' id='dp' placeholder="Departure Date">
                                              </div>
                                              <p id="deperror" style="color:red"></p>
-                                             </div>
+                                             </div> -->
                                              
                                             <div class="form-group">
                                             <label>Applicable Payments<span style="color:red">*</span> 
@@ -171,13 +171,13 @@
                                                <td><strong>Destination : </strong></td><td class="tddestination"></td>
                                             </tr>
 
-                                            <tr>
+                                            <!-- <tr>
                                                <td><strong>Arrival : </strong></td><td class="tdarrival"></td>
                                             </tr>
 
                                             <tr>
                                                <td><strong>Departure : </strong></td><td class="tddeparture"></td>
-                                            </tr>
+                                            </tr> -->
 
                                             <tr>
                                                <td><strong>Applicable Fares : </strong></td><td class="tdfare"></td>
@@ -205,8 +205,8 @@
         <th style="color:#FFF">Vehicle</th>
         <th style="color:#FFF">Origin</th>
         <th style="color:#FFF">Destination</th>
-        <th style="color:#FFF">Arrival</th>
-        <th style="color:#FFF">Departure</th>
+        <!-- <th style="color:#FFF">Arrival</th>
+        <th style="color:#FFF">Departure</th> -->
         <th style="color:#FFF">Action</th>
 
       </thead>
@@ -218,8 +218,8 @@
           <td>{{App\Schedule::getVehicle($schedule->vehicle_id)->regno.' '.App\Schedule::getVehicle($schedule->vehicle_id)->vehiclename->name}}</td>
           <td>{{App\Schedule::getDestination($schedule->origin_id)->name}}</td>
           <td>{{App\Schedule::getDestination($schedule->destination_id)->name}}</td>
-          <td>{{$schedule->arrival}}</td>
-          <td>{{$schedule->departure}}</td>
+          <!-- <td>{{$schedule->arrival}}</td>
+          <td>{{$schedule->departure}}</td> -->
           <td>
 
                   <div class="btn-group">
@@ -413,12 +413,6 @@
      }else if($('#did').val() == ""){
         $('#destination').html("Please select destination!");
         return false;
-     }else if($('#datetimepicker').val() == ""){
-        $('#arrerror').html("Please insert vehicle arrival date and time!");
-        return false;
-     }else if($('#dp').val() == ""){
-        $('#deperror').html("Please insert vehicle departure date and time!");
-        return false;
      }else if(!($('.economic').is(':checked'))){
         $('#paymenterror').html("Please select economic fare!");
         return false;
@@ -437,8 +431,8 @@
         var vid = $('#vid').val();
         var origin = $("#oid").val();
         var destination = $('#did').val();
-        var arrival = $('#datetimepicker').val();
-        var departure = $('#dp').val();
+        //var arrival = $('#datetimepicker').val();
+        //var departure = $('#dp').val();
         var vip = v;
         var economic = $('.economic').val();
         var token = $("#form input[name=_token]").val();
@@ -448,8 +442,8 @@
         data.append("origin",origin);
         data.append("_token",token);
         data.append("destination",destination);
-        data.append("arrival",arrival);
-        data.append("departure",departure);
+        //data.append("arrival",arrival);
+        //data.append("departure",departure);
         data.append("vip",vip);
         data.append("economic",economic);
         //alert($('input[type=file]')[0].files[0]);
@@ -556,12 +550,6 @@
      }else if($('#did').val() == ""){
         $('#destination').html("Please select destination!");
         return false;
-     }else if($('#datetimepicker').val() == ""){
-        $('#arrerror').html("Please insert vehicle arrival date and time!");
-        return false;
-     }else if($('#dp').val() == ""){
-        $('#deperror').html("Please insert vehicle departure date and time!");
-        return false;
      }else if(!($('.economic').is(':checked'))){
         $('#paymenterror').html("Please select economic fare!");
         return false;
@@ -581,8 +569,8 @@
         var id = $('#id').val();
         var origin = $("#oid").val();
         var destination = $('#did').val();
-        var arrival = $('#datetimepicker').val();
-        var departure = $('#dp').val();
+        //var arrival = $('#datetimepicker').val();
+        //var departure = $('#dp').val();
         var vip = v;
         var economic = $('.economic').val();
         var token = $("#form input[name=_token]").val();
@@ -597,8 +585,8 @@
         data.append("origin",origin);
         data.append("_token",token);
         data.append("destination",destination);
-        data.append("arrival",arrival);
-        data.append("departure",departure);
+        //data.append("arrival",arrival);
+        //data.append("departure",departure);
         data.append("vip",vip);
         data.append("economic",economic);
         //data.append("logo",$('input[type=file]')[0].files[0].name);
@@ -696,23 +684,7 @@
      }
    });
   
-   $('#datetimepicker').on('change',function(){
-    if($(this).val() == ""){
-        $('#arrerror').html("Please insert arrival date and time!");
-        return false;
-     }else{
-      $('#arrerror').html("");
-     }
-   });
-
-   $('#dp').on('change',function(){
-    if($(this).val() == ""){
-        $('#deperror').html("Please insert departure date and time!");
-        return false;
-     }else{
-      $('#deperror').html("");
-     }
-   });
+   
 
    $('#oid').on('change', function() {
      if($(this).val() == ""){

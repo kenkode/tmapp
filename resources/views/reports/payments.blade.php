@@ -135,9 +135,16 @@ body {
        $i++; ?>
    
     @endforeach
+    @if(Auth::user()->type == 'Hotel')
+    <tr>
+      <td colspan="5" align="right"><strong>Total</strong></td><td align="right"><strong>{{number_format($total,2)}}</strong></td>
+    </tr>
+
+    @else
     <tr>
       <td colspan="6" align="right"><strong>Total</strong></td><td align="right"><strong>{{number_format($total,2)}}</strong></td>
     </tr>
+    @endif
       
     </table>
 
