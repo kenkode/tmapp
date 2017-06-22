@@ -104,7 +104,7 @@ if (!$mail->send()) {
     echo "An error occured during booking...please try again!";
 } else {
     echo mysqli_error($con);
-    $query = mysqli_query($con, "insert into bookings(vehicle_id, organization_id, firstname, lastname, email, phone, id_number, ticketno, origin, destination, travel_date, amount,  normal_amount, status, date, mode_of_payment, created_at, updated_at) values ('".$vehicle."','".$organization."','".$firstname[$i]."','".$lastname[$i]."','".$email[$i]."','".$phone[$i]."','".$idno[$i]."','".$ticketno."','".$origin."','".$destination."','".$departure."','".$amount."','".$economic."','approved',NOW(),'".$paymentmode."',NOW(),NOW())");
+    $query = mysqli_query($con, "insert into bookings(vehicle_id, organization_id, firstname, lastname, email, phone, id_number, ticketno, origin, destination, travel_date, amount,  normal_amount, status, date, mode_of_payment, type, created_at, updated_at) values ('".$vehicle."','".$organization."','".$firstname[$i]."','".$lastname[$i]."','".$email[$i]."','".$phone[$i]."','".$idno[$i]."','".$ticketno."','".$origin."','".$destination."','".$departure."','".$amount."','".$economic."','approved',NOW(),'".$paymentmode."','Taxi',NOW(),NOW())");
     
     if($query){
         echo "Booking Successful... Your booking Details have been sent to your email address";

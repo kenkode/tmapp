@@ -8,6 +8,7 @@
     $arrival = $_POST['arrival'];
     $departure = $_POST['departure'];  
     $vehicle = $_POST['vehicle'];
+    $type = $_POST['type'];
     $organization = $_POST['organization'];
     $firstname = explode(',', str_replace(array('[',']'),'',$_POST['firstname']));
     $lastname = explode(',', str_replace(array('[',']'),'',$_POST['lastname']));
@@ -109,7 +110,7 @@ if (!$mail->send()) {
     //echo "Mailer Error: " . $mail->ErrorInfo;
     echo "An error occured during booking...please try again!";
 } else {
-    $query = mysqli_query($con, "insert into bookings(vehicle_id, organization_id, firstname, lastname, email, phone, id_number, ticketno, origin, destination, travel_date, amount, vip_amount, normal_amount, children_amount, adult_number, children_number, status, date, mode_of_payment, seatno, created_at, updated_at) values ('".$vehicle."','".$organization."','".$firstname[$i]."','".$lastname[$i]."','".$email[$i]."','".$phone[$i]."','".$idno[$i]."','".$ticketno."','".$origin."','".$destination."','".$datetime."','".$amount[$i]."','".$vip[$i]."','".$normal[$i]."','".$children[$i]."','".$adult[$i]."','".$childrencount[$i]."','approved',NOW(),'".$paymentmode."','".$seat[$i]."',NOW(),NOW())");
+    $query = mysqli_query($con, "insert into bookings(vehicle_id, organization_id, firstname, lastname, email, phone, id_number, ticketno, origin, destination, travel_date, amount, vip_amount, normal_amount, children_amount, adult_number, children_number, status, date, mode_of_payment, seatno, type, created_at, updated_at) values ('".$vehicle."','".$organization."','".$firstname[$i]."','".$lastname[$i]."','".$email[$i]."','".$phone[$i]."','".$idno[$i]."','".$ticketno."','".$origin."','".$destination."','".$datetime."','".$amount[$i]."','".$vip[$i]."','".$normal[$i]."','".$children[$i]."','".$adult[$i]."','".$childrencount[$i]."','approved',NOW(),'".$paymentmode."','".$seat[$i]."','".$type."',NOW(),NOW())");
     
     if($query){
         echo "Booking Successful... Your booking Details have been sent to your email address";

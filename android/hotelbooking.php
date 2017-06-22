@@ -103,7 +103,7 @@ if (!$mail->send()) {
     echo "Mailer Error: " . $mail->ErrorInfo;
     //echo "An error occured during booking...please try again!";
 } else {
-    $query = mysqli_query($con, "insert into bookings(hotel_id, organization_id, firstname, lastname, email, phone, id_number, ticketno, travel_date, amount, type, branch_id, normal_amount, adult_number, children_number, status, date, mode_of_payment, created_at, updated_at) values ('".$hotelid."','".$organization."','".$firstname[$i]."','".$lastname[$i]."','".$email[$i]."','".$phone[$i]."','".$idno[$i]."','".$ticketno."','".$datetime."','".$price."','".$type."','".$branchid."','".$amount."','".$adult."','".$childrencount."','approved',NOW(),'".$paymentmode."',NOW(),NOW())");
+    $query = mysqli_query($con, "insert into bookings(hotel_id, organization_id, firstname, lastname, email, phone, id_number, ticketno, travel_date, amount, type, branch_id, normal_amount, adult_number, children_number, status, date, mode_of_payment,type, created_at, updated_at) values ('".$hotelid."','".$organization."','".$firstname[$i]."','".$lastname[$i]."','".$email[$i]."','".$phone[$i]."','".$idno[$i]."','".$ticketno."','".$datetime."','".$price."','".$type."','".$branchid."','".$amount."','".$adult."','".$childrencount."','approved',NOW(),'".$paymentmode."','Hotel',NOW(),NOW())");
     
     if($query){
         echo "Booking Successful... Your booking Details have been sent to your email address";

@@ -2,9 +2,10 @@
     include'db.php';
     error_reporting(E_ALL);
     ini_set('display_errors',1);
-    $destination = $_POST['destination'];
+    /*$destination = $_POST['destination'];
     $origin = $_POST['origin'];
-    $time = $_POST['time'];
+    $date = $_POST['date'];
+    $time = $_POST['time'];*/
 
     /*$destination = "Mombasa";
     $origin = "Nairobi";
@@ -13,12 +14,12 @@
     
 
 
-    /*$destination = "Mombasa";
+    $destination = "Mombasa";
     $origin = "Nairobi";
-    $date = "2017-05-12";
-    $time = "21:00";*/
-    //$newdate = strtotime($date.' '.$time);
-    //$datetime = date('Y-m-d H:i:s', $newdate);
+    $date = "2017-06-21";
+    $time = "21:00";
+    $newdate = strtotime($date.' '.$time);
+    $datetime = date('Y-m-d H:i:s', $newdate);
     
     $flag = array();
 
@@ -44,6 +45,8 @@
 			$flag['economic'] = $payment['economic'];
 		}
 	}
+    
+
 	$flag = array($flag);
 	//array_push($flag, $payflag);
 		print(json_encode($flag));
