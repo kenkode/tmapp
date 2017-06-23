@@ -211,6 +211,10 @@ body{
                             <li ><a href="<?php echo e(url('vehicles/activate')); ?>">Activate Airplane</a></li>
                             <?php endif; ?>
                             
+                            <?php if(Auth::user()->type == 'Travel' || Auth::user()->type == 'SGR' || Auth::user()->type == 'Airline'): ?>
+                            <li ><a href="<?php echo e(url('seatassignments')); ?>">Seat Assignments</a></li>
+                            <?php endif; ?>
+
                             <?php if(Auth::user()->type != 'Events'): ?>
                             <li ><a href="<?php echo e(url('destinations')); ?>">Destinations</a></li>
                             <li ><a href="<?php echo e(url('paymentoptions')); ?>">Payment Options</a></li>
@@ -254,6 +258,10 @@ body{
                             <li ><a href="<?php echo e(url('vehicles/activate')); ?>">Activate Train</a></li>
                             <?php elseif(Auth::user()->type == 'Airline'): ?>
                             <li ><a href="<?php echo e(url('vehicles/activate')); ?>">Activate Airplane</a></li>
+                            <?php endif; ?>
+
+                            <?php if(Auth::user()->type == 'Travel' || Auth::user()->type == 'SGR' || Auth::user()->type == 'Airline'): ?>
+                            <li ><a href="<?php echo e(url('seatassignments')); ?>">Seat Assignments</a></li>
                             <?php endif; ?>
                             
                             <?php if(Auth::user()->type != 'Events'): ?>

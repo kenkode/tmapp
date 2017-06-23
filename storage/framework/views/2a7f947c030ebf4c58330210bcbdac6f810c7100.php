@@ -1,11 +1,9 @@
-@extends('layouts.travel')
-
 <?php 
 $capacity = 0;
 ?>
 
 <style type="text/css">
-    @media screen and (min-width: 768px) {
+    @media  screen and (min-width: 768px) {
         .modal-dialog {
           width: 900px; /* New width for default modal */
         }
@@ -13,7 +11,7 @@ $capacity = 0;
           width: 450px; /* New width for small modal */
         }
     }
-    @media screen and (min-width: 992px) {
+    @media  screen and (min-width: 992px) {
         .modal-lg {
           width: 750px; /* New width for large modal */
         }
@@ -22,12 +20,13 @@ $capacity = 0;
     .modal { overflow: auto !important; } 
        
 </style>
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="row  border-bottom white-bg dashboard-header">
 <div class="pro-head">
             <h2>Seat Assignments</h2>
         </div>                                    <!-- <form id="form" action="" enctype="multipart/form-data">
-                                        {{ csrf_field() }}
+                                        <?php echo e(csrf_field()); ?>
+
                                         <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content animated fadeIn">                         
@@ -36,7 +35,7 @@ $capacity = 0;
                                                                      <div style="margin-top:5%;">
                                                                      <p id="sucessmessage">     Saving data
                                                                      </p>
-                                                                     <img src="{{url('/assets/images/ellipsis.svg')}}" alt="...." />
+                                                                     <img src="<?php echo e(url('/assets/images/ellipsis.svg')); ?>" alt="...." />
                                                                      </div>
                                                                  </div>
                                                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;
@@ -64,13 +63,14 @@ $capacity = 0;
                                        <div class="modal fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content animated fadeIn">
-                                        <form target="_blank" action="{{url('report/seatassignments')}}" method="post">     
+                                        <form target="_blank" action="<?php echo e(url('report/seatassignments')); ?>" method="post">     
                                         <div class="modal-body">
                                         
                                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                         <h3 id="title" class="m-t-none m-b">Select Report Type</h3>
                                             
-                                             {{ csrf_field() }}
+                                             <?php echo e(csrf_field()); ?>
+
                                              <div class="form-group"><label>Report Type <span style="color:red">*</span></label> 
                                             <select required="" id="type" name="type" class="form-control">
                                              <option value="">Select Report Type</option>
@@ -117,14 +117,15 @@ $capacity = 0;
 
 
                             <form id="form" action="" enctype="multipart/form-data">
-                                        {{ csrf_field() }}
+                                        <?php echo e(csrf_field()); ?>
+
 
                                         <div class="form-group"><label>Vehicle <span style="color:red">*</span></label> 
                                              <select id="vid" class="form-control">
                                              <option value="">Select Vehicle</option>
-                                             @foreach($vehicles as $vehicle)
-                                             <option value="{{ $vehicle->id }}"> {{ $vehicle->regno.'-'.$vehicle->vehiclename->name }}</option>
-                                             @endforeach
+                                             <?php $__currentLoopData = $vehicles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $vehicle): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
+                                             <option value="<?php echo e($vehicle->id); ?>"> <?php echo e($vehicle->regno.'-'.$vehicle->vehiclename->name); ?></option>
+                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
                                              </select>
                                              <p id="selname" style="color:red"></p>
                                              </div>
@@ -173,20 +174,22 @@ $capacity = 0;
         </div>
     </div>
 </div>
-@include('includes.footer')
+<?php echo $__env->make('includes.footer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <script type="text/javascript">
   var submit_url;
   var type_id;
   $(document).ready(function() { 
   
     $('#vid').change(function(){
-        $.get("{{ url('api/getCapcity')}}", 
+        $.get("<?php echo e(url('api/getCapcity')); ?>", 
         { option: $(this).val() }, 
         function(data) {
            $('.display').html(data);
            
         });
     });
+
+    
 
            $('body').on('change',('input[type="checkbox"]'), function() {
            $(this).siblings('input[type="checkbox"]').not(this).prop('checked', false);
@@ -197,7 +200,7 @@ $capacity = 0;
 
     function displaydata(){
        $.ajax({
-          url     : "{{URL::to('deposits/showrecord')}}",
+          url     : "<?php echo e(URL::to('deposits/showrecord')); ?>",
           type    : "GET",
           async   : false,       
           success : function(s){
@@ -246,7 +249,7 @@ $capacity = 0;
         data.append("_token",token);
         $.ajax({
           type: "POST",
-          url: "{{ url('deposits/update')}}",
+          url: "<?php echo e(url('deposits/update')); ?>",
           data: data,
           processData: false,
           contentType: false,
@@ -335,7 +338,7 @@ $capacity = 0;
                 if(confirm("Are you sure you want to delete this room type?")){
                     $.ajax({
                         type: "POST",
-                        url: "{{url('roomtype/delete')}}",
+                        url: "<?php echo e(url('roomtype/delete')); ?>",
                         data: {id:id,_token:token},
                         success: function(){                           
                             $(".del"+id).fadeOut('slow'); 
@@ -398,4 +401,6 @@ $capacity = 0;
             });       
     });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.travel', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

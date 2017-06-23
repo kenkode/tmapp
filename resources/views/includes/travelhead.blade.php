@@ -210,6 +210,10 @@ body{
                             <li ><a href="{{url('vehicles/activate')}}">Activate Airplane</a></li>
                             @endif
                             
+                            @if(Auth::user()->type == 'Travel' || Auth::user()->type == 'SGR' || Auth::user()->type == 'Airline')
+                            <li ><a href="{{url('seatassignments')}}">Seat Assignments</a></li>
+                            @endif
+
                             @if(Auth::user()->type != 'Events')
                             <li ><a href="{{url('destinations')}}">Destinations</a></li>
                             <li ><a href="{{url('paymentoptions')}}">Payment Options</a></li>
@@ -253,6 +257,10 @@ body{
                             <li ><a href="{{url('vehicles/activate')}}">Activate Train</a></li>
                             @elseif(Auth::user()->type == 'Airline')
                             <li ><a href="{{url('vehicles/activate')}}">Activate Airplane</a></li>
+                            @endif
+
+                            @if(Auth::user()->type == 'Travel' || Auth::user()->type == 'SGR' || Auth::user()->type == 'Airline')
+                            <li ><a href="{{url('seatassignments')}}">Seat Assignments</a></li>
                             @endif
                             
                             @if(Auth::user()->type != 'Events')

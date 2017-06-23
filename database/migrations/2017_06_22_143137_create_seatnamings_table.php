@@ -18,6 +18,7 @@ class CreateSeatnamingsTable extends Migration
             $table->integer('vehicle_id');
             $table->string('seatno');
             $table->string('type');
+            $table->integer('apply_to_all');
             $table->integer('organization_id');
             $table->timestamps();
         });

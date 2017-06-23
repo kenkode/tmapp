@@ -259,6 +259,13 @@ Route::post('schedules/update', 'SchedulesController@update');
 Route::post('schedules/delete', 'SchedulesController@delete');
 Route::post('report/schedules', 'ReportsController@schedules');
 
+Route::get('seatassignments', 'SeatNamingsController@index');
+Route::get('seatassignments/showrecord', 'SeatNamingsController@showrecord');
+Route::post('seatassignments/store', 'SeatNamingsController@store');
+Route::post('seatassignments/update', 'SeatNamingsController@update');
+Route::post('seatassignments/delete', 'SeatNamingsController@delete');
+Route::post('report/seatassignments', 'ReportsController@seatassignments');
+
 Route::get('paymentoptions', 'PaymentsController@index');
 Route::get('paymentoptions/showrecord', 'PaymentsController@showrecord');
 Route::post('paymentoptions/store', 'PaymentsController@store');
@@ -352,6 +359,29 @@ Route::post('hotelreservations/store', 'HotelReservationsController@store');
 Route::post('hotelreservations/update', 'HotelReservationsController@update');
 Route::post('hotelreservations/delete', 'HotelReservationsController@delete');
 
+Route::get('api/getCapcity', function(Illuminate\Http\Request $request){
+    $id = $request->option;
+    $vehicle = App\Vehicle::find($id);
+    $capacity = $vehicle->capacity;
+
+    $display = "";
+        
+        for($i=0;$i<$capacity;$i++){
+        $x = $i+1;
+        $display .="
+        <tr>
+            <td><span>Seat $x:</span></td>
+            <td>
+              <div>
+                 <input style='margin-right: 28px;' name='vip[]' type='checkbox' id='vip$x' class='group$x'  />
+                 <input type='checkbox' name='normal[]' id='normal$x' class='group$x' />
+              </div>
+            </td>
+            </tr>";
+          } 
+         
+        return $display;
+});
 
 Route::get('graphdata', function () {
    $arr = array();
