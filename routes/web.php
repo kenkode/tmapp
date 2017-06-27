@@ -369,10 +369,45 @@ Route::get('api/getCapcity', function(Illuminate\Http\Request $request){
     $display = "";
 
     if(count($seats) == 0){
+    if(Auth::user()->type == 'Travel'){
+    $display .="
+        <div class='form-group'>
+           <label>Apply to all vehicles
+           <input class='apply' name='apply' id='apply' type='checkbox'>
+           </label>
+        <p id='paymenterror' style='color:red'></p>
+        </div>";
+    }else if(Auth::user()->type == 'Airline'){
+    $display .="
+        <div class='form-group'>
+           <label>Apply to all planes
+           <input class='apply' name='apply' id='apply' type='checkbox'>
+           </label>
+        <p id='paymenterror' style='color:red'></p>
+        </div>";
+    }else{
     $display .="
         <div class='form-group'>
            <label>Apply to all trains
            <input class='apply' name='apply' id='apply' type='checkbox'>
+           </label>
+        <p id='paymenterror' style='color:red'></p>
+        </div>";
+    }  
+    }else{
+    if(Auth::user()->type == 'Travel'){
+    $display .="
+        <div class='form-group'>
+           <label>Apply to all vehicles
+           <input class='apply' name='apply' id='apply' type='checkbox' checked>
+           </label>
+        <p id='paymenterror' style='color:red'></p>
+        </div>";
+    }else if(Auth::user()->type == 'Airline'){
+    $display .="
+        <div class='form-group'>
+           <label>Apply to all planes
+           <input class='apply' name='apply' id='apply' type='checkbox' checked>
            </label>
         <p id='paymenterror' style='color:red'></p>
         </div>";
@@ -384,21 +419,43 @@ Route::get('api/getCapcity', function(Illuminate\Http\Request $request){
            </label>
         <p id='paymenterror' style='color:red'></p>
         </div>";
-    }   
+    } 
+    }  
 
+    if(Auth::user()->type == 'Airline'){
+    $display .="   
+        <input name='capacity' type='hidden' id='capacity' value='$capacity'  />
+        <tr>
+            <th width='100'>Seat #</th>
+            <th width='50'><span style='margin-right:20px; '>VIP</span><span style='margin-right:20px; '>Business</span>Economy</th>
+        </tr>";
+    }else{
     $display .="   
         <input name='capacity' type='hidden' id='capacity' value='$capacity'  />
         <tr>
             <th width='100'>Seat #</th>
             <th width='50'><span style='margin-right:20px; '>VIP</span>Normal</th>
-        </tr>";
-
+        </tr>"; 
+    }
         if(count($seats) == 0){
         
         for($i=0;$i<$capacity;$i++){
         $x = $i+1;
+        if(Auth::user()->type == 'Airline'){
         $display .="
         <tr>
+            <td><span>Seat $x:</span></td>
+            <td>
+              <div>
+                 <input style='margin-right: 28px;' name='vip[]' type='checkbox' id='vip$x' class='group$x inputVip'  />
+                 <input style='margin-right: 74px;' name='business[]' type='checkbox' id='business$x' class='group$x inputBusiness'  />
+                 <input type='checkbox' name='normal[]' id='normal$x' class='group$x inputNormal' />
+              </div>
+            </td>
+            </tr>";
+          }else{
+          $display .="
+          <tr>
             <td><span>Seat $x:</span></td>
             <td>
               <div>
@@ -406,7 +463,8 @@ Route::get('api/getCapcity', function(Illuminate\Http\Request $request){
                  <input type='checkbox' name='normal[]' id='normal$x' class='group$x inputNormal' />
               </div>
             </td>
-            </tr>";
+            </tr>"; 
+          }
           } 
 
           $display .="<button type='button' id='update' class='btn btn-primary'>Save changes</button>";
@@ -420,7 +478,33 @@ Route::get('api/getCapcity', function(Illuminate\Http\Request $request){
             <td>
               <div>";
 
+        if(Auth::user()->type == 'Airline'){
               if($seat->vip == 1){
+                $display .="
+                 <input style='margin-right: 28px;' name='vip[]' type='checkbox' id='vip$x' class='group$x inputVip' checked />";
+              }else{
+                $display .="
+                 <input style='margin-right: 28px;' name='vip[]' type='checkbox' id='vip$x' class='group$x inputVip'  />";
+              }
+
+              if($seat->business == 1){
+                $display .="
+                 <input style='margin-right: 74px;' name='business[]' type='checkbox' id='business$x' class='group$x inputBusiness' checked />";
+              }else{
+                $display .="
+                 <input style='margin-right: 74px;' name='business[]' type='checkbox' id='business$x' class='group$x inputBusiness'  />";
+              }
+
+              if($seat->economy == 1){
+                $display .="
+                 <input type='checkbox' name='normal[]' id='normal$x' class='group$x inputNormal' checked/>";
+              }else{
+                $display .="
+                 <input type='checkbox' name='normal[]' id='normal$x' class='group$x inputNormal' />";
+              }
+
+        }else{
+            if($seat->vip == 1){
                 $display .="
                  <input style='margin-right: 28px;' name='vip[]' type='checkbox' id='vip$x' class='group$x inputVip' checked />";
               }else{
@@ -435,6 +519,7 @@ Route::get('api/getCapcity', function(Illuminate\Http\Request $request){
                 $display .="
                  <input type='checkbox' name='normal[]' id='normal$x' class='group$x inputNormal' />";
               }
+        }
 
             $display .="
               </div>
