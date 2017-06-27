@@ -364,7 +364,36 @@ Route::get('api/getCapcity', function(Illuminate\Http\Request $request){
     $vehicle = App\Vehicle::find($id);
     $capacity = $vehicle->capacity;
 
+    $seats = App\Seatnaming::where('vehicle_id',$id)->get();
+
     $display = "";
+
+    if(count($seats) == 0){
+    $display .="
+        <div class='form-group'>
+           <label>Apply to all trains
+           <input class='apply' name='apply' id='apply' type='checkbox'>
+           </label>
+        <p id='paymenterror' style='color:red'></p>
+        </div>";
+    }else{
+    $display .="
+        <div class='form-group'>
+           <label>Apply to all trains
+           <input class='apply' name='apply' id='apply' type='checkbox' checked>
+           </label>
+        <p id='paymenterror' style='color:red'></p>
+        </div>";
+    }   
+
+    $display .="   
+        <input name='capacity' type='hidden' id='capacity' value='$capacity'  />
+        <tr>
+            <th width='100'>Seat #</th>
+            <th width='50'><span style='margin-right:20px; '>VIP</span>Normal</th>
+        </tr>";
+
+        if(count($seats) == 0){
         
         for($i=0;$i<$capacity;$i++){
         $x = $i+1;
@@ -373,14 +402,51 @@ Route::get('api/getCapcity', function(Illuminate\Http\Request $request){
             <td><span>Seat $x:</span></td>
             <td>
               <div>
-                 <input style='margin-right: 28px;' name='vip[]' type='checkbox' id='vip$x' class='group$x'  />
-                 <input type='checkbox' name='normal[]' id='normal$x' class='group$x' />
+                 <input style='margin-right: 28px;' name='vip[]' type='checkbox' id='vip$x' class='group$x inputVip'  />
+                 <input type='checkbox' name='normal[]' id='normal$x' class='group$x inputNormal' />
               </div>
             </td>
             </tr>";
           } 
-         
+
+          $display .="<button type='button' id='update' class='btn btn-primary'>Save changes</button>";
+
+        }else{
+        $x=1;
+        foreach ($seats as $seat) {
+        $display .="
+        <tr>
+            <td><span>Seat $x:</span></td>
+            <td>
+              <div>";
+
+              if($seat->vip == 1){
+                $display .="
+                 <input style='margin-right: 28px;' name='vip[]' type='checkbox' id='vip$x' class='group$x inputVip' checked />";
+              }else{
+                $display .="
+                 <input style='margin-right: 28px;' name='vip[]' type='checkbox' id='vip$x' class='group$x inputVip'  />";
+              }
+
+              if($seat->economy == 1){
+                $display .="
+                 <input type='checkbox' name='normal[]' id='normal$x' class='group$x inputNormal' checked/>";
+              }else{
+                $display .="
+                 <input type='checkbox' name='normal[]' id='normal$x' class='group$x inputNormal' />";
+              }
+
+            $display .="
+              </div>
+            </td>
+            </tr>";
+            $x++;
+          } 
+
+          $display .="<button type='button' id='update' class='btn btn-primary'>Save changes</button>";
+        }
         return $display;
+        
 });
 
 Route::get('graphdata', function () {

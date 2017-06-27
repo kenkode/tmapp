@@ -1,7 +1,3 @@
-<?php 
-$capacity = 0;
-?>
-
 <style type="text/css">
     @media  screen and (min-width: 768px) {
         .modal-dialog {
@@ -18,13 +14,19 @@ $capacity = 0;
     }  
 
     .modal { overflow: auto !important; } 
+    }
        
 </style>
 <?php $__env->startSection('content'); ?>
 <div class="row  border-bottom white-bg dashboard-header">
 <div class="pro-head">
             <h2>Seat Assignments</h2>
-        </div>                                    <!-- <form id="form" action="" enctype="multipart/form-data">
+        </div>    
+        <div id="loading" style="display:none;">
+                                         <div style="margin-top:5%;"><p style="color: green;font-size: 18px" id="sucessmessage">Saving data</p>
+                                         <img src="<?php echo e(url('/assets/images/ellipsis.svg')); ?>" alt="...." />
+                                         </div>
+                                         </div>                                <!-- <form id="form" action="" enctype="multipart/form-data">
                                         <?php echo e(csrf_field()); ?>
 
                                         <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-hidden="true">
@@ -120,9 +122,9 @@ $capacity = 0;
                                         <?php echo e(csrf_field()); ?>
 
 
-                                        <div class="form-group"><label>Vehicle <span style="color:red">*</span></label> 
+                                        <div class="form-group"><label>Train <span style="color:red">*</span></label> 
                                              <select id="vid" class="form-control">
-                                             <option value="">Select Vehicle</option>
+                                             <option value="">Select Train</option>
                                              <?php $__currentLoopData = $vehicles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $vehicle): $__env->incrementLoopIndices(); $loop = $__env->getFirstLoop(); ?>
                                              <option value="<?php echo e($vehicle->id); ?>"> <?php echo e($vehicle->regno.'-'.$vehicle->vehiclename->name); ?></option>
                                              <?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>
@@ -130,22 +132,10 @@ $capacity = 0;
                                              <p id="selname" style="color:red"></p>
                                              </div>
 
-                                          <div class="form-group">
-                                            <label>Apply to all
-                                            <input class="apply" value="1" name="apply" type="checkbox">
-                                            
-                                            </label>
-                                            <p id="paymenterror" style="color:red"></p>
-                                      </div>
+                                          
 
-                                    <table>
-                                    <tr>
-                                      <th width="100">Seat #</th>
-                                      <th width="50"><span style="margin-right:20px; ">VIP</span>Normal</th>
-                                      </tr>
-                                      <tbody class="display">
-                                      
-                                        </tbody>
+                                    <table class="display" style="margin-bottom: 40px !important">
+                                    
                                      </table>      
 
                             </form>
@@ -153,27 +143,7 @@ $capacity = 0;
                                          
                                 </div>
 
-                                <div id="tab-2" class="tab-pane">
-                                    
-                                </div>
-                                <div id="tab-3" class="tab-pane">
-                                    
-                                </div>
-                                <div id="tab-4" class="tab-pane">
-                                                                        
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-                <!--End Content Here-->                
-               </div>
-            </div>
-        </div>
-    </div>
-</div>
+                                
 <?php echo $__env->make('includes.footer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <script type="text/javascript">
   var submit_url;
@@ -181,15 +151,16 @@ $capacity = 0;
   $(document).ready(function() { 
   
     $('#vid').change(function(){
+      if($('#vid').val() > 0){
         $.get("<?php echo e(url('api/getCapcity')); ?>", 
         { option: $(this).val() }, 
         function(data) {
            $('.display').html(data);
-           
         });
+      }else{
+         $('.display').html("");
+      }
     });
-
-    
 
            $('body').on('change',('input[type="checkbox"]'), function() {
            $(this).siblings('input[type="checkbox"]').not(this).prop('checked', false);
@@ -217,45 +188,53 @@ $capacity = 0;
         var data= false;
         if (window.FormData) {
         data= new FormData();
-        }        
+        }    
 
-        var jan = $('#jan').val();
-        var feb = $('#feb').val();
-        var mar = $('#mar').val();
-        var apr = $('#apr').val();
-        var may = $('#may').val();
-        var jun = $('#jun').val();
-        var jul = $('#jul').val();
-        var aug = $('#aug').val();
-        var sep = $('#sep').val();
-        var oct = $('#oct').val();
-        var nov = $('#nov').val();
-        var dec = $('#dec').val();
+        var vip = $('.inputVip');
+        var normal = $('.inputNormal');
+        var apply = $('#apply').val();
+        var capacity = $('#capacity').val();
+        var vehicle = $('#vid').val();
+        var dataVip = new Array();
+        var dataNormal = new Array();
+        var v = 0;
+        var n = 0;
+        $.each(vip, function(){
+          //dataVip[$(this).attr('name')] = $(this).is(":checked");
+          if($(this).is(":checked") == true){
+            v=1;
+            n=0;
+          }else{
+            v=0;
+            n=1;
+          }
+          dataVip.push(v);
+          dataNormal.push(n);
+          //console.log($(this).is(":checked"));
+        });
+
+        /*console.log(dataVip.join(""));
+        console.log(dataNormal.join(""));*/
+        console.log($('#apply').val());
+
         var token = $("#form input[name=_token]").val();
         var urL = $('#form').attr('action');
 
-        data.append("jan",jan);
-        data.append("feb",feb);
-        data.append("mar",mar);
-        data.append("apr",apr);
-        data.append("may",may);
-        data.append("jun",jun);
-        data.append("jul",jul);
-        data.append("aug",aug);
-        data.append("sep",sep);
-        data.append("oct",oct);
-        data.append("nov",nov);
-        data.append("dec",dec);
+        data.append("vip",dataVip.join(""));
+        data.append("normal",dataNormal.join(""));
+        data.append("capacity",capacity);
+        data.append("apply",apply);
+        data.append("vehicle",vehicle);
         data.append("_token",token);
         $.ajax({
           type: "POST",
-          url: "<?php echo e(url('deposits/update')); ?>",
+          url: "<?php echo e(url('seatassignments/update')); ?>",
           data: data,
           processData: false,
           contentType: false,
           beforeSend: function() { $('#loading').show(); },
           success: function(response) {
-          //alert(response);return;          
+          //alert(response);       
           if(response != 1){
             $('#errors').html(response);
           }else if(response == 1){
@@ -264,8 +243,8 @@ $capacity = 0;
              $.notify({
                         // options
                         icon: 'glyphicon glyphicon-ok',
-                        title: 'Advanced Payment Settings',
-                        message: ' successfully updated....',
+                        title: 'Seats ',
+                        message: ' successfully assigned....',
                         url: '',
                         target: '_blank'
                     },{
